@@ -1,0 +1,42 @@
+CREATE DATABASE EXE2;
+USE EXE2;
+
+
+CREATE TABLE Users (
+    user_id INT(11) AUTO_INCREMENT PRIMARY KEY,
+    user_name VARCHAR(25) NOT NULL,
+    user_email VARCHAR(55) NOT NULL,
+    user_pass VARCHAR(255) NOT NULL,
+    updated_at DATETIME,
+    created_at DATETIME
+);
+
+
+CREATE TABLE Products (
+    product_id INT(11) AUTO_INCREMENT PRIMARY KEY,
+    product_name VARCHAR(255) NOT NULL,
+    product_price DOUBLE NOT NULL,
+    product_description TEXT NOT NULL,
+    updated_at DATETIME,
+    created_at DATETIME
+);
+
+
+CREATE TABLE Orders (
+    order_id INT(11) AUTO_INCREMENT PRIMARY KEY,
+    user_id INT(11) NOT NULL,
+    updated_at DATETIME,
+    created_at DATETIME,
+    FOREIGN KEY (user_id) REFERENCES Users(user_id)
+);
+
+
+CREATE TABLE Order_Details (
+    order_detail_id INT(11) AUTO_INCREMENT PRIMARY KEY,
+    order_id INT(11) NOT NULL,
+    product_id INT(11) NOT NULL,
+    updated_at DATETIME,
+    created_at DATETIME,
+    FOREIGN KEY (order_id) REFERENCES Orders(order_id),
+    FOREIGN KEY (product_id) REFERENCES Products(product_id)
+);
