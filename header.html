@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookshop</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 20px;
+            background-color: white;
+            border-bottom: 1px solid #ddd;
+        }
+        .logo {
+            display: flex;
+            width: 250px;
+            height: 70px;
+            padding: 0 20px;
+        }
+        .logo span {
+            margin-left: 5px;
+        }
+        .search-box {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            padding: 5px 10px;
+        }
+        .search-box input {
+            border: none;
+            outline: none;
+            padding: 5px;
+            width: 300px;
+        }
+        .search-box i {
+            color: gray;
+        }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            margin: 0 20px;
+        }
+        .nav-links a {
+            margin-left: 20px;
+            text-decoration: none;
+            color: black;
+            font-size: 14px;
+        }
+        .flag {
+            width: 40px;
+            margin-left: 15px;
+        }
+        .cart {
+            font-size: 2rem;
+            margin-left: 15px;
+            position: relative;
+            color: #ffee00;
+            margin-right: 30px;
+        }
+        .cart a{
+           font-size: 2rem;
+            margin-left: 15px;
+            position: relative;
+            color: #ffee00;
+         
+        }
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: red;
+            color: white;
+            font-size: 12px;
+            width: 15px;
+            height: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+         }
+    </style>
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+</head>
+<body>
+    <nav class="navbar">
+       <a class="logo" href="#">
+           <img src="rsz_logo.png" alt="">
+        </a>
+        <div class="search-box">
+            <input type="text"  placeholder="Search books, authors, ISBNs" >
+            <i class="fas fa-search"></i>
+        </div>
+        <div class="nav-links">
+            <a href="#"><b>Choose a Bookstore</b></a>
+            <a href="#"><b>Sign In</b></a>
+            <a href="#"><b>Sign Up</b></a>
+             <img class="flag" src="https://upload.wikimedia.org/wikipedia/commons/2/21/Flag_of_Vietnam.svg" alt="vietnam flag">
+            <div class="cart">
+               <a href="#"> <i class="fas fa-shopping-bag"></i></a>
+                <span class="cart-badge">3</span>
+            </div>
+        </div>
+    </nav>
+</body>
+</html>
