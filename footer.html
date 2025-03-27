@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Footer Design</title>
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .footer {
+            position: absolute;
+            width: 100%;
+            bottom: 0;
+            background-color: #2A1B3D;      
+            color: #fff;
+            padding: 40px 20px;
+        }
+
+       
+        .footer-container {
+            display: flex;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+        }
+
+        .footer-column {
+            flex: 1;
+            min-width: 200px;
+            margin-bottom: 20px;
+        }
+
+        .footer-column h4 {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .footer-column p {
+            font-size: 14px;
+            color: #ccc;
+        }
+
+        .logo {
+            margin-top: 20px;
+        }
+        .logo img {
+            max-width: 150px;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-column ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .footer-column ul li a:hover {
+            text-decoration: underline;
+            color: #ddd;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .social-icons a img {
+            background-color: #fff;
+            border-radius: 20%;
+            width: 30px;
+            height: 30px;
+            transition: transform 0.3s ease;
+        }
+        .social-icons a .face {
+            background-color: #fff;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            transition: transform 0.3s ease;
+        }
+
+        .social-icons a img:hover {
+            transform: scale(1.2);
+        }
+        .payment-methods {
+            text-align: center;
+        }
+        .payment-methods img {
+            width: 40px;           
+        }
+
+        .b-corp{
+            margin-top: 20px;
+        }
+        .b-corp img {
+            max-width: 100px;
+        }
+
+
+        .footer-bottom {
+            border-top: 1px solid #444;
+            padding-top: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #ccc;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-bottom p {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .footer-container {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .footer-column {
+                margin-bottom: 30px;
+            }
+
+            .social-icons {
+                justify-content: center;
+            }
+        }
+    </style>
+
+    <body>
+        <footer class="footer">
+            <div class="footer-container">
+
+                <div class="footer-column">
+                    <h4>BookShop</h4>
+                    <p style="color: yellow;">★★★★★</p>
+                    <p>TrustScore 5 | 0 reviews</p>
+                    <div class="logo">
+                        <img src="./images/logo.png" alt="Logo" />
+                    </div>
+                </div>
+
+
+                <div class="footer-column">
+                    <ul>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Support / Help</a></li>
+                        <li><a href="#">Ebook FAQ</a></li>
+                        <li><a href="#">Become an Affiliate</a></li>
+                        <li><a href="#">Gift Cards</a></li>
+                        <li><a href="#">Bookshop.io for Authors</a></li>
+                        <li><a href="#">Bookshop.io for Bookstores</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Returns and Refund Policy</a></li>
+                    </ul>
+                </div>
+
+
+                <div class="footer-column">
+                    <h4 style="text-align: center;">Follow us</h4>
+                    <div class="social-icons">
+                        <a href="#"><img src="./images/twitter.png" alt="Twitter" /></a>
+                        <a href="#" ><img src="./images/facebook.png" alt="Facebook" class="face"/></a>
+                        <a href="#"><img src="./images/instagram.png" alt="Instagram" /></a>
+                        <a href="#"><img src="./images/tiktok.png" alt="TikTok" /></a>
+                    </div>
+                    <div class="payment-methods">
+                        <p style="margin-bottom: 2px;">Payments Accepted</p>
+                        <img src="./images/visa.png" alt="Visa" />
+                        <img src="./images/mastercard.png" alt="MasterCard" />
+                        <img src="./images/discover.png" alt="discoverCard" />
+                    </div>
+                    <!-- <div class="b-corp">
+                        <img src="" alt="Corporation" />
+                    </div> -->
+                </div>
+            </div>
+
+            <!-- Dòng dưới cùng -->
+            <div class="footer-bottom">
+                <p>&copy; 2025 TDC</p>
+                <div class="footer-links">
+                    <a href="#">Terms of Use</a>
+                    <a href="#">Digital Terms of Use</a>
+                    <a href="#">Privacy Notice</a>
+                    <a href="#">Accessibility Notice</a>
+                </div>
+            </div>
+        </footer>
+    </body>
+
+    </html>
+</body>
+
+</html>
