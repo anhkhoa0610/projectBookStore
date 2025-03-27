@@ -1,0 +1,60 @@
+
+ul {
+    display: flex;
+    justify-content: center;
+    margin: auto;
+}
+.nav-item {
+    margin: 0 15px;
+}
+
+a{
+    margin-right: 15px;
+    text-decoration: none;
+    font-size: 25px;
+}
+
+
+form {
+    width: 500px;
+    margin: 20px auto;
+
+    padding: 20px;
+    border: 1px solid black;
+    border-radius: 15px;
+}
+
+.view-info {
+    width: 500px;
+    margin: 50px auto;
+    border: 1px solid black;
+    border-radius: 15px;
+    padding: 15px;
+}
+
+.info {
+    font-weight: bold;
+
+}
+
+.title {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+footer {
+    display: flex;
+    justify-content: center;
+}
+
+.footer-control {
+    font-weight: bolder;
+    font-size: 2rem;
+
+}
+
+.-table {
+    width: 600px;
+    margin: 20px auto;
+}
