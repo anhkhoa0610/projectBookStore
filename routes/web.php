@@ -37,7 +37,7 @@ Route::post('login', [CrudUserController::class, 'authUser'])->name('user.authUs
 Route::get('create', [CrudUserController::class, 'createUser'])->name('user.createUser');
 Route::post('create', [CrudUserController::class, 'postUser'])->name('user.postUser');
 
-Route::get('read', [CrudUserController::class, 'readUser'])->name('user.readUser');
+Route::get('view', [CrudUserController::class, 'readUser'])->name('user.readUser');
 
 Route::get('delete', [CrudUserController::class, 'deleteUser'])->name('user.deleteUser');
 
@@ -51,6 +51,10 @@ Route::get('signout', [CrudUserController::class, 'signOut'])->name('signout');
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/', function () {
+    return view('dashboard');
+})->name('dashboard');
 
 // Route::get('/login', function () {
 //     return view('crud.login');

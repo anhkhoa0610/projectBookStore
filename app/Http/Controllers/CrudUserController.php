@@ -57,7 +57,6 @@ class CrudUserController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'phone' => 'required',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6',
         ]);
@@ -65,8 +64,9 @@ class CrudUserController extends Controller
         $data = $request->all();
         $check = User::create([
             'name' => $data['name'],
-            'phone' => $data['phone'],
             'email' => $data['email'],
+            'phone' => $data['phone'],
+            'address' => $data['address'],
             'password' => Hash::make($data['password'])
         ]);
 
@@ -80,7 +80,7 @@ class CrudUserController extends Controller
         $user_id = $request->get('id');
         $user = User::find($user_id);
 
-        return view('crud_user.read', ['messi' => $user]);
+        return view('crud_user.view', ['user' => $user]);
     }
 
     /**
@@ -113,16 +113,16 @@ class CrudUserController extends Controller
 
         $request->validate([
             'name' => 'required',
-            'phone' => 'required',
             'email' => 'required|email|unique:users,id,'.$input['id'],
             'password' => 'required|min:6',
         ]);
 
        $user = User::find($input['id']);
        $user->name = $input['name'];
-       $user->phone = $input['phone'];
        $user->email = $input['email'];
-       $user->password = $input['password'];
+       $user->phone = $input['phone'];
+       $user->address = $input['address'];
+       $user->password = Hash::make($input['password']);
        $user->save();
 
         return redirect("list")->withSuccess('You have signed-in');
