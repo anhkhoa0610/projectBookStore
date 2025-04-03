@@ -6,6 +6,11 @@
         font-size: 1rem;
     }
 
+    .-table {
+        margin: 25px auto;
+        width: fit-content;
+    }
+
     thead tr th {
         text-align: center;
         width: fit-content;

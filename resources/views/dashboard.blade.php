@@ -66,10 +66,6 @@
 
     }
 
-    .-table {
-        width: 600px;
-        margin: 20px auto;
-    }
 </style>
 
 <body>

@@ -11,18 +11,8 @@
         <span class="text-danger">{{ $errors->first('name') }}</span>
         @endif
     </div>
-    <div class="mb-3">
-        <label for="pwd" class="form-label">Password:</label>
-        <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="password">
-        @if ($errors->has('password'))
-        <span class="text-danger">{{ $errors->first('password') }}</span>
-        @endif
-    </div>
-    <div class="mb-3">
-        <label for="repwd" class="form-label">Retype Password:</label>
-        <input type="password" class="form-control" id="repwd" placeholder="Retype password" name="repswd">
-        <span id="password-error" class="text-danger" style="display: none;">Passwords do not match.</span>
-    </div>
+
+    
 
     <div class="mb-3 mt-3">
         <label for="phone" class="form-label">Phone:</label>
@@ -47,6 +37,21 @@
         <span class="text-danger">{{ $errors->first('email') }}</span>
         @endif
     </div>
+
+    <div class="mb-3">
+        <label for="pwd" class="form-label">Password:</label>
+        <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="password">
+        @if ($errors->has('password'))
+        <span class="text-danger">{{ $errors->first('password') }}</span>
+        @endif
+    </div>
+    
+    <div class="mb-3">
+        <label for="repwd" class="form-label">Retype Password:</label>
+        <input type="password" class="form-control" id="repwd" placeholder="Retype password" name="repswd">
+        <span id="password-error" class="text-danger" style="display: none;">Passwords do not match.</span>
+    </div>
+    
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 
