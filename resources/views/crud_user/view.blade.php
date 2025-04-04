@@ -12,14 +12,14 @@
             <div class="col-md-6">
                 <p>Username : </p>
                 <p>Email: </p>
-                <p>Phone: </p>
-                <p>Address: </p>
+                <!-- <p>Phone: </p>
+                <p>Address: </p> -->
             </div>
             <div class="col-md-6">
                 <p>{{$user->name}}</p>
                 <p>{{$user->email}}</p>
-                <p>{{ $user->phone }}</p>
-                <p>{{ $user->address }}</p>
+                <!-- <p>{{ $user->phone }}</p>
+                <p>{{ $user->address }}</p> -->
             </div>
         </div>
     </div>

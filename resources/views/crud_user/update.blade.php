@@ -12,18 +12,44 @@
         @endif
     </div>
     
-    <div class="mb-3 mt-3">
+    <!-- <div class="mb-3 mt-3">
         <label for="phone" class="form-label">Phone:</label>
         <input type="text" class="form-control" id="phone" placeholder="Enter email" name="phone" value="{{ $user->phone }}">
         @if ($errors->has('phone'))
         <span class="text-danger">{{ $errors->first('phone') }}</span>
         @endif
     </div>
+
     <div class="mb-3 mt-3">
         <label for="address" class="form-label">Address:</label>
         <input type="text" class="form-control" id="address" placeholder="Enter email" name="address" value="{{ $user->address }}">
         @if ($errors->has('address'))
         <span class="text-danger">{{ $errors->first('address') }}</span>
+        @endif
+    </div> -->
+
+    
+    <div class="mb-3">
+        <label for="email" class="form-label">Email:</label>
+        <input type="email" class="form-control" id="email" placeholder="Enter email" name="email" value="{{ $user->email }}">
+        @if ($errors->has('email'))
+        <span class="text-danger">{{ $errors->first('email') }}</span>
+        @endif
+    </div>
+
+    <div class="mb-3">
+        <label for="age" class="form-label">Age:</label>
+        <input type="number" class="form-control" id="age" placeholder="Enter age" name="age" value="{{ $user->age }}">
+        @if ($errors->has('age'))
+        <span class="text-danger">{{ $errors->first('age') }}</span>
+        @endif
+    </div>
+
+    <div class="mb-3">
+        <label for="chuoi1" class="form-label">Chuoi1:</label>
+        <input type="text" class="form-control" id="chuoi1" placeholder="Enter chuoi1" name="chuoi1" value="{{ $user->chuoi1 }}">
+        @if ($errors->has('chuoi1'))
+        <span class="text-danger">{{ $errors->first('chuoi1') }}</span>
         @endif
     </div>
 
@@ -39,13 +65,7 @@
         <input type="password" class="form-control" id="repwd" placeholder="Retype password" name="repswd">
         <span id="password-error" class="text-danger" style="display: none;">Passwords do not match.</span>
     </div>
-    <div class="mb-3">
-        <label for="email" class="form-label">Email:</label>
-        <input type="email" class="form-control" id="email" placeholder="Enter email" name="email" value="{{ $user->email }}">
-        @if ($errors->has('email'))
-        <span class="text-danger">{{ $errors->first('email') }}</span>
-        @endif
-    </div>
+    
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 

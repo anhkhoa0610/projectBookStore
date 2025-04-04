@@ -65,8 +65,10 @@ class CrudUserController extends Controller
         $check = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'phone' => $data['phone'],
-            'address' => $data['address'],
+            // 'phone' => $data['phone'],
+            // 'address' => $data['address'],
+            'age' => $data['age'], //age
+            'chuoi1' => $data['chuoi1'], //chuoi
             'password' => Hash::make($data['password'])
         ]);
 
@@ -76,7 +78,8 @@ class CrudUserController extends Controller
     /**
      * View user detail page
      */
-    public function readUser(Request $request) {
+    public function readUser(Request $request)
+    {
         $user_id = $request->get('id');
         $user = User::find($user_id);
 
@@ -86,7 +89,8 @@ class CrudUserController extends Controller
     /**
      * Delete user by id
      */
-    public function deleteUser(Request $request) {
+    public function deleteUser(Request $request)
+    {
         $user_id = $request->get('id');
         $user = User::destroy($user_id);
 
@@ -113,17 +117,19 @@ class CrudUserController extends Controller
 
         $request->validate([
             'name' => 'required',
-            'email' => 'required|email|unique:users,id,'.$input['id'],
+            'email' => 'required|email|unique:users,id,' . $input['id'],
             'password' => 'required|min:6',
         ]);
 
-       $user = User::find($input['id']);
-       $user->name = $input['name'];
-       $user->email = $input['email'];
-       $user->phone = $input['phone'];
-       $user->address = $input['address'];
-       $user->password = Hash::make($input['password']);
-       $user->save();
+        $user = User::find($input['id']);
+        $user->name = $input['name'];
+        $user->email = $input['email'];
+        // $user->phone = $input['phone'];
+        // $user->address = $input['address'];
+        $user->age = $input['age']; //age
+        $user->chuoi1 = $input['chuoi1']; //github
+        $user->password = Hash::make($input['password']);
+        $user->save();
 
         return redirect("list")->withSuccess('You have signed-in');
     }
@@ -133,7 +139,7 @@ class CrudUserController extends Controller
      */
     public function listUser()
     {
-        if(Auth::check()){
+        if (Auth::check()) {
             $users = User::all();
             return view('crud_user.list', ['users' => $users]);
         }
@@ -144,7 +150,8 @@ class CrudUserController extends Controller
     /**
      * Sign out
      */
-    public function signOut() {
+    public function signOut()
+    {
         Session::flush();
         Auth::logout();
 

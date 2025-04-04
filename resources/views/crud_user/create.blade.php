@@ -14,7 +14,7 @@
 
     
 
-    <div class="mb-3 mt-3">
+    <!-- <div class="mb-3 mt-3">
         <label for="phone" class="form-label">Phone:</label>
         <input type="text" class="form-control" id="phone" placeholder="Enter phone" name="phone">
         @if ($errors->has('phone'))
@@ -27,7 +27,7 @@
         @if ($errors->has('address'))
         <span class="text-danger">{{ $errors->first('address') }}</span>
         @endif
-    </div>
+    </div> -->
 
 
     <div class="mb-3">
@@ -35,6 +35,22 @@
         <input type="email" class="form-control" id="mail" placeholder="Enter email" name="email">
         @if ($errors->has('email'))
         <span class="text-danger">{{ $errors->first('email') }}</span>
+        @endif
+    </div>
+
+    <div class="mb-3"> 
+        <label for="age" class="form-label">Age</label>
+        <input type="number" class="form-control" id="age" placeholder="Enter age" name="age">
+        @if ($errors->has('age'))
+        <span class="text-danger">{{ $errors->first('age') }}</span>
+        @endif
+    </div>
+
+    <div class="mb-3">
+        <label for="chuoi1" class="form-label">Chuoi</label>
+        <input type="text" class="form-control" id="chuoi1" placeholder="Enter chuoi1" name="chuoi1">
+        @if ($errors->has('chuoi1'))
+        <span class="text-danger">{{ $errors->first('chuoi1') }}</span>
         @endif
     </div>
 
