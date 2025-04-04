@@ -14,20 +14,6 @@
 
     
 
-    <!-- <div class="mb-3 mt-3">
-        <label for="phone" class="form-label">Phone:</label>
-        <input type="text" class="form-control" id="phone" placeholder="Enter phone" name="phone">
-        @if ($errors->has('phone'))
-        <span class="text-danger">{{ $errors->first('phone') }}</span>
-        @endif
-    </div>
-    <div class="mb-3 mt-3">
-        <label for="address" class="form-label">Address:</label>
-        <input type="text" class="form-control" id="address" placeholder="Enter address" name="address">
-        @if ($errors->has('address'))
-        <span class="text-danger">{{ $errors->first('address') }}</span>
-        @endif
-    </div> -->
 
 
     <div class="mb-3">
