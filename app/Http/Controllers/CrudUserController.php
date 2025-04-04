@@ -67,8 +67,6 @@ class CrudUserController extends Controller
             'email' => $data['email'],
             // 'phone' => $data['phone'],
             // 'address' => $data['address'],
-            'age' => $data['age'], //age
-            'chuoi1' => $data['chuoi1'], //chuoi
             'password' => Hash::make($data['password'])
         ]);
 
@@ -126,8 +124,6 @@ class CrudUserController extends Controller
         $user->email = $input['email'];
         // $user->phone = $input['phone'];
         // $user->address = $input['address'];
-        $user->age = $input['age']; //age
-        $user->chuoi1 = $input['chuoi1']; //github
         $user->password = Hash::make($input['password']);
         $user->save();
 

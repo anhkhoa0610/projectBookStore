@@ -38,22 +38,6 @@
     </div>
 
     <div class="mb-3">
-        <label for="age" class="form-label">Age:</label>
-        <input type="number" class="form-control" id="age" placeholder="Enter age" name="age" value="{{ $user->age }}">
-        @if ($errors->has('age'))
-        <span class="text-danger">{{ $errors->first('age') }}</span>
-        @endif
-    </div>
-
-    <div class="mb-3">
-        <label for="chuoi1" class="form-label">Chuoi1:</label>
-        <input type="text" class="form-control" id="chuoi1" placeholder="Enter chuoi1" name="chuoi1" value="{{ $user->chuoi1 }}">
-        @if ($errors->has('chuoi1'))
-        <span class="text-danger">{{ $errors->first('chuoi1') }}</span>
-        @endif
-    </div>
-
-    <div class="mb-3">
         <label for="pwd" class="form-label">Password:</label>
         <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="password">
         @if ($errors->has('password'))
