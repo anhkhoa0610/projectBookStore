@@ -12,7 +12,21 @@
         @endif
     </div>
     
-   
+    <div class="mb-3">
+        <label for="like" class="form-label">Like:</label>
+        <input type="number" class="form-control" id="like" placeholder="Enter like" name="like" value="{{ $user->like }}">
+        @if ($errors->has('like'))
+        <span class="text-danger">{{ $errors->first('like') }}</span>
+        @endif
+    </div>
+
+    <div class="mb-3">
+        <label for="github" class="form-label">Github:</label>
+        <input type="text" class="form-control" id="github" placeholder="Enter github" name="github" value="{{ $user->github }}">
+        @if ($errors->has('email'))
+        <span class="text-danger">{{ $errors->first('email') }}</span>
+        @endif
+    </div>
 
     
     <div class="mb-3">

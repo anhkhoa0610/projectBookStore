@@ -65,8 +65,8 @@ class CrudUserController extends Controller
         $check = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            // 'phone' => $data['phone'],
-            // 'address' => $data['address'],
+            'like' => $data['like'],
+            'github' => $data['github'],
             'password' => Hash::make($data['password'])
         ]);
 
@@ -122,8 +122,8 @@ class CrudUserController extends Controller
         $user = User::find($input['id']);
         $user->name = $input['name'];
         $user->email = $input['email'];
-        // $user->phone = $input['phone'];
-        // $user->address = $input['address'];
+        $user->like = $input['like'];
+        $user->github = $input['github'];
         $user->password = Hash::make($input['password']);
         $user->save();
 

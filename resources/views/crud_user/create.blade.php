@@ -12,13 +12,27 @@
         @endif
     </div>
 
-    
+    <div class="mb-3">
+        <label for="like" class="form-label">Like</label>
+        <input type="number" class="form-control" id="like" placeholder="Enter like" name="like">
+        @if ($errors->has('like'))
+        <span class="text-danger">{{ $errors->first('like') }}</span>
+        @endif
+    </div>
+
+    <div class="mb-3">
+        <label for="mail" class="form-label">Email</label>
+        <input type="text" class="form-control" id="mail" placeholder="Enter email" name="email">
+        @if ($errors->has('email'))
+        <span class="text-danger">{{ $errors->first('email') }}</span>
+        @endif
+    </div>
 
 
 
     <div class="mb-3">
-        <label for="mail" class="form-label">Email</label>
-        <input type="email" class="form-control" id="mail" placeholder="Enter email" name="email">
+        <label for="github" class="form-label">Github</label>
+        <input type="text" class="form-control" id="github" placeholder="Enter github" name="github">
         @if ($errors->has('email'))
         <span class="text-danger">{{ $errors->first('email') }}</span>
         @endif
