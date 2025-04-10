@@ -2,7 +2,7 @@
 @section('content')
 
 <div class="title mt-2">Register Screen</div>
-<form action="{{ route('user.postUser') }}" method="POST" onsubmit="return validatePasswords()">
+<form action="{{ route('user.postUser') }}" method="POST" onsubmit="return validatePasswords()" enctype="multipart/form-data">
     @csrf
     <div class="mb-3 mt-3">
         <label for="user" class="form-label">Username:</label>
@@ -10,6 +10,11 @@
         @if ($errors->has('name'))
         <span class="text-danger">{{ $errors->first('name') }}</span>
         @endif
+    </div>
+
+    <div class="mb-3">
+        <label for="picture" class="form-label">Profile Picture:</label>
+        <input type="file" class="form-control" id="picture" name="picture" accept="image/*">
     </div>
 
     <div class="mb-3">

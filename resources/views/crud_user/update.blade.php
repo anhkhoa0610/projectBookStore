@@ -1,7 +1,7 @@
 @extends('dashboard')
 @section('content')
 <div class="title mt-2">Update Screen</div>
-<form action="{{ route('user.postUpdateUser') }}" method="POST" onsubmit="return validatePasswords()">
+<form action="{{ route('user.postUpdateUser') }}" method="POST" onsubmit="return validatePasswords()" enctype="multipart/form-data">
     @csrf
     <input name="id" type="hidden" value="{{$user->id}}">
     <div class="mb-3 mt-3">
@@ -36,6 +36,19 @@
         <span class="text-danger">{{ $errors->first('email') }}</span>
         @endif
     </div>
+
+    <div class="mb-3">
+    <label for="profile_picture" class="form-label">Profile Picture:</label>
+    <input type="file" class="form-control" id="profile_picture" name="picture">
+    @if ($user->profile_picture)
+        <div class="mt-2">
+            <img src="{{ asset('uploads/' . $user->picture) }}" alt="Profile Picture" width="100">
+        </div>
+    @endif
+    @if ($errors->has('picture'))
+        <span class="text-danger">{{ $errors->first('picture') }}</span>
+    @endif
+</div>
 
     <div class="mb-3">
         <label for="pwd" class="form-label">Password:</label>

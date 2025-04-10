@@ -23,6 +23,7 @@ class User extends Authenticatable
         'like',
         'github',
         'password',
+        'picture', // Add the 'picture' attribute to fillable
     ];
 
     /**

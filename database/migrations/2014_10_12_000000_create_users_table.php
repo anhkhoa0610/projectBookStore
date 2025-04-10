@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('like')->nullable();
             $table->string('github')->nullable();
             $table->timestamp('email_verified_at')->nullable();
+            $table->string('picture')->nullable(); // Add a nullable 'picture' column
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
