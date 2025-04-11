@@ -22,7 +22,7 @@
                         <a class="nav-link" href="{{ route('login') }}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('user.createUser') }}">Create user</a>
+                        <a class="nav-link" href="{{ route('categories.createCategory') }}">Create user</a>
                     </li>
                     @else
                     <li class="nav-item">

@@ -15,7 +15,7 @@
             <div class="card">
                 <div class="card-header">
                     <h4>User List
-                        <a href="{{ route('user.createUser') }}" class="btn btn-primary float-end">Add Category</a>
+                        <a href="{{ route('categories.createCategory') }}" class="btn btn-primary float-end">Add Category</a>
                     </h4>
                 </div>
                 <div class="card-body">
@@ -24,26 +24,22 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Name</th>
-                                <th>Email</th>
-                                <th>Age</th>
-                                <th>Like</th>
-                                <th>Action</th>
+                                <th>desc</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($users as $user)
+                            @foreach($categories as $category)
                             <tr>
-                                <th>{{ $user->id }}</th>
-                                <th>{{ $user->name }}</th>
-                                <th>{{ $user->email }}</th>
-                                <th>{{ $user->age }}</th>
-                                <th>{{ $user->like }}</th>
+                                <th>{{ $category->category_id }}</th>
+                                <th>{{ $category->category_name }}</th>
+                                <th>{{ $category->category_desc}}</th>
+                             
 
                                
                                 <td>
-                                    <a href="{{ route('user.updateUser', ['id' => $user->id]) }}" class="btn btn-success">Edit</a>
-                                    <a  href="{{ route('user.readUser', ['id' => $user->id]) }}" class="btn btn-info">Show</a>
-                                    <a  href="{{ route('user.deleteUser', ['id' => $user->id]) }}" class="btn btn-danger">Delete</a>
+                                    <a href="{{ route('categories.updateCategory', ['category_id' => $category->category_id]) }}" class="btn btn-success">Edit</a>
+                                    <a  href="{{ route('categories.readCategory', ['category_id' => $category->category_id]) }}" class="btn btn-info">Show</a>
+                                    <a  href="{{ route('categories.deleteCategory', ['category_id' => $category->category_id]) }}" class="btn btn-danger">Delete</a>
                                 </td>
                             </tr>
                             @endforeach
