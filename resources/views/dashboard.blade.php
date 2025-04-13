@@ -250,7 +250,6 @@
                         </li>
                         <li>
                             <a href="{{ route('publisher.list') }}">
-                            <a href="#">
                                 Quản Lý Nhà Xuất Bản
                             </a>
                         </li>
