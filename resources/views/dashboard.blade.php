@@ -214,11 +214,7 @@
                             </a>
                         </li>
                         <li>
-<<<<<<< HEAD
-                            <a href="#">
-=======
                             <a href="{{ route('categories.list') }}">
->>>>>>> CRUD_Category
                                 Quản Lý Danh Mục
                             </a>
                         </li>
@@ -228,11 +224,7 @@
                             </a>
                         </li>
                         <li>
-<<<<<<< HEAD
                             <a href="{{ route('book.list') }}">
-=======
-                            <a href="#">
->>>>>>> CRUD_Category
                                 Quản Lý Sản Phẩm
                             </a>
                         </li>
@@ -257,11 +249,7 @@
                             </a>
                         </li>
                         <li>
-<<<<<<< HEAD
                             <a href="{{ route('publisher.list') }}">
-=======
-                            <a href="#">
->>>>>>> CRUD_Category
                                 Quản Lý Nhà Xuất Bản
                             </a>
                         </li>

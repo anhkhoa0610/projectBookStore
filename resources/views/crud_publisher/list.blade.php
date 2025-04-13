@@ -14,7 +14,7 @@
 
             <div class="card">
                 <div class="card-header">
-                    <h4>Book List
+                    <h4>Publisher List
                         <a href="{{ route('publisher.createPublisher') }}" class="btn btn-primary float-end">Add Publisher</a>
                     </h4>
                 </div>
