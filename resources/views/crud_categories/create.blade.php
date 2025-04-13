@@ -7,7 +7,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4>ADD new categories.
+                        <h4>Add New Category
                             <a href="{{ route('categories.list') }}" class="btn btn-danger float-end">Back</a>
                         </h4>
                     </div>

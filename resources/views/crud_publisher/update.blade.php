@@ -7,7 +7,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <h4>Update Book
+                    <h4>Update Publisher
                         <a href="{{ route('publisher.list') }}" class="btn btn-danger float-end">Back</a>
                     </h4>
                 </div>
