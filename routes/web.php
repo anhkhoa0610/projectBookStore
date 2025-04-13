@@ -57,11 +57,6 @@ Route::get('listPublisher', [CrudPublisherController::class, 'listPublisher'])->
 
 Route::get('signout', [CrudPublisherController::class, 'signOut'])->name('signout');
 
-Route::get('dashboard', [CrudUserController::class, 'dashboard']);
-
-Route::get('login', [CrudUserController::class, 'login'])->name('login');
-Route::post('login', [CrudUserController::class, 'authUser'])->name('user.authUser');
-
 // Route::get('create', [CrudUserController::class, 'createUser'])->name('user.createUser');
 // Route::post('create', [CrudUserController::class, 'postUser'])->name('user.postUser');
 
@@ -83,7 +78,6 @@ Route::post('update', [CrudCategoriesController::class, 'postUpdateCategory'])->
 // Route::get('list', [CrudUserController::class, 'listUser'])->name('user.list');
 Route::get('list', [CrudCategoriesController::class, 'listCategories'])->name('categories.list');
 
-Route::get('signout', [CrudUserController::class, 'signOut'])->name('signout');
 
 Route::get('/', function () {
     return view('dashboard');

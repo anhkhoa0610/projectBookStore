@@ -14,7 +14,7 @@
 
             <div class="card">
                 <div class="card-header">
-                    <h4>User List
+                    <h4>categories List
                         <a href="{{ route('categories.createCategory') }}" class="btn btn-primary float-end">Add Category</a>
                     </h4>
                 </div>

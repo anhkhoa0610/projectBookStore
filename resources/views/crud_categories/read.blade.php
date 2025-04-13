@@ -11,7 +11,7 @@
 
             <div class="card">
                 <div class="card-header">
-                    <h4>Read User
+                    <h4>View category
                     <a href="{{ route('categories.list') }}" class="btn btn-danger float-end">Back</a>
                     </h4>
                 </div>
