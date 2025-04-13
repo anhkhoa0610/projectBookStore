@@ -27,7 +27,7 @@
                                 <th>Email</th>
                                 <th>Age</th>
                                 <th>Like</th>
-                                <th>Action</th>
+                                <th style="max-with:70px;" >Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -40,7 +40,7 @@
                                 <th>{{ $user->like }}</th>
 
                                
-                                <td>
+                                <td style="display:flex, gap:5px, max-with:70px;" >
                                     <a href="{{ route('user.updateUser', ['id' => $user->id]) }}" class="btn btn-success">Edit</a>
                                     <a  href="{{ route('user.readUser', ['id' => $user->id]) }}" class="btn btn-info">Show</a>
                                     <a  href="{{ route('user.deleteUser', ['id' => $user->id]) }}" class="btn btn-danger">Delete</a>

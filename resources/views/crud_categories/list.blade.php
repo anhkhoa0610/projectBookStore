@@ -25,6 +25,7 @@
                                 <th>ID</th>
                                 <th>Name</th>
                                 <th>desc</th>
+                                <th style="max-with:70px;" >Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -36,7 +37,7 @@
                              
 
                                
-                                <td>
+                                <td td style="display:flex, gap:5px, max-with:70px;" >
                                     <a href="{{ route('categories.updateCategory', ['category_id' => $category->category_id]) }}" class="btn btn-success">Edit</a>
                                     <a  href="{{ route('categories.readCategory', ['category_id' => $category->category_id]) }}" class="btn btn-info">Show</a>
                                     <a  href="{{ route('categories.deleteCategory', ['category_id' => $category->category_id]) }}" class="btn btn-danger">Delete</a>
