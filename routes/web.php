@@ -14,7 +14,7 @@ use App\Http\Controllers\CrudBookController;
 |
 */
 
-Route::get('dashboard', [CrudBookController::class, 'dashboard'])->name('dashboard');
+Route::get('dashboard', [CrudBookController::class, 'dashboard']);
 
 Route::get('login', [CrudBookController::class, 'login'])->name('login');
 Route::post('login', [CrudBookController::class, 'authUser'])->name('user.authUser');
@@ -34,5 +34,5 @@ Route::get('listBook', [CrudBookController::class, 'listBook'])->name('book.list
 Route::get('signout', [CrudBookController::class, 'signOut'])->name('signout');
 
 Route::get('/', function () {
-    return redirect()->route('dashboard');
-});
+    return view('dashboard');
+})->name('dashboard');

@@ -83,7 +83,7 @@ class CrudBookController extends Controller
             'volume_sold' => $data['volume_sold'],
         ]);
 
-        return redirect("list")->with('status', 'Registration successful');
+        return redirect("listBook")->with('status', 'Registration successful');
     }
 
     /**
@@ -105,7 +105,7 @@ class CrudBookController extends Controller
         $book_id = $request->get('book_id');
         $book = Books::destroy($book_id);
 
-        return redirect("list")->with('status', 'Delete successfully');
+        return redirect("listBook")->with('status', 'Delete successfully');
     }
 
     /**
@@ -160,7 +160,7 @@ class CrudBookController extends Controller
         $book->volume_sold = $input['volume_sold'];
         $book->save();
 
-        return redirect("list")->with('status', 'Update successfully');
+        return redirect("listBook")->with('status', 'Update successfully');
     }
 
     /**
@@ -173,8 +173,8 @@ class CrudBookController extends Controller
         //     return view('crud_book.list', ['books' => $books]);
         // }
 
-        $books = Books::all();
-        return view('crud_book.list', ['books' => $books]);
+        $books = Books::paginate(2); // Paginate with 2 items per page
+    return view('crud_book.list', ['books' => $books]);
         // return redirect("login")->withSuccess('You are not allowed to access');
     }
 
@@ -188,4 +188,6 @@ class CrudBookController extends Controller
 
         return Redirect('login');
     }
+
+    
 }

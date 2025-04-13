@@ -173,6 +173,26 @@
         margin: 0px;
         padding: 0px;
     }
+
+    .content-container {
+        overflow-x: auto; /* Enable horizontal scrolling if content overflows */
+        overflow-y: auto;
+        zoom: 1; /* Default zoom level */
+        -webkit-transform: scale(1); /* Ensure scaling works in WebKit browsers */
+        -webkit-transform-origin: 0 0; /* Set scaling origin */
+    }
+
+    @media (max-width: 768px) {
+        .content-container {
+            padding: 10px; /* Add padding for smaller screens */
+        }
+    }
+
+    @media (min-width: 768px) {
+        .content-container {
+            padding: 20px; /* Add padding for larger screens */
+        }
+    }
 </style>
 
 <body>
@@ -204,7 +224,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#">
+                            <a href="{{ route('book.list') }}">
                                 Quản Lý Sản Phẩm
                             </a>
                         </li>
@@ -238,8 +258,8 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-9 mt-5">
-        @yield('content')
+        <div class="col-md-9 mt-5 content-container">
+            @yield('content')
         </div>
     </div>
     
