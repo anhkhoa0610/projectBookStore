@@ -33,6 +33,8 @@ Route::get('list', [CrudUserController::class, 'listUser'])->name('user.list');
 
 Route::get('signout', [CrudUserController::class, 'signOut'])->name('signout');
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// hiển thi danh sách người dùng khi vao link http://127.0.0.1:8000
+Route::get('/', [CrudUserController::class, 'listUser'])->name('user.list');
+// Route::get('/', function () {
+//     return view('welcome');
+// });
