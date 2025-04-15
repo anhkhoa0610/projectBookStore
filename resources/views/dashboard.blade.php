@@ -239,7 +239,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#">
+                            <a href="{{ route('repo.list') }}">
                                 </i> Quản Lý Kho
                             </a>
                         </li>
