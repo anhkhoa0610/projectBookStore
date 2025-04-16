@@ -60,23 +60,23 @@ Route::get('signout', [CrudPublisherController::class, 'signOut'])->name('signou
 // Route::get('create', [CrudRepoController::class, 'createUser'])->name('user.createUser');
 // Route::post('create', [CrudRepoController::class, 'postUser'])->name('user.postUser');
 
-Route::get('create', [CrudCategoriesController::class, 'createCategory'])->name('categories.createCategory');
-Route::post('create', [CrudCategoriesController::class, 'postCategory'])->name('categories.postCategory');
+Route::get('createCate', [CrudCategoriesController::class, 'createCategory'])->name('categories.createCategory');
+Route::post('createCate', [CrudCategoriesController::class, 'postCategory'])->name('categories.postCategory');
 
 // Route::get('read', [CrudRepoController::class, 'readUser'])->name('user.readUser');
-Route::get('read', [CrudCategoriesController::class, 'readCategory'])->name('categories.readCategory');
+Route::get('readCate', [CrudCategoriesController::class, 'readCategory'])->name('categories.readCategory');
 
 // Route::get('delete', [CrudRepoController::class, 'deleteUser'])->name('user.deleteUser');
-Route::get('delete', [CrudCategoriesController::class, 'deleteCategory'])->name('categories.deleteCategory');
+Route::get('deleteCate', [CrudCategoriesController::class, 'deleteCategory'])->name('categories.deleteCategory');
 
 // Route::post('update', [CrudRepoController::class, 'postUpdateUser'])->name('user.postUpdateUser');
 // Route::get('update', [CrudRepoController::class, 'updateUser'])->name('user.updateUser');
 
-Route::get('update', [CrudCategoriesController::class, 'updateCategory'])->name('categories.updateCategory');
-Route::post('update', [CrudCategoriesController::class, 'postUpdateCategory'])->name('categories.postUpdateCategory');
+Route::get('updateCate', [CrudCategoriesController::class, 'updateCategory'])->name('categories.updateCategory');
+Route::post('updateCate', [CrudCategoriesController::class, 'postUpdateCategory'])->name('categories.postUpdateCategory');
 
 // Route::get('list', [CrudRepoController::class, 'listUser'])->name('user.list');
-Route::get('list', [CrudCategoriesController::class, 'listCategories'])->name('categories.list');
+Route::get('listCate', [CrudCategoriesController::class, 'listCategories'])->name('categories.list');
 
 
 Route::get('/', function () {
@@ -100,21 +100,6 @@ Route::post('updateRepo', [CrudRepoController::class, 'postUpdateRepo'])->name('
 
 Route::get('listRepo', [CrudRepoController::class, 'listRepo'])->name('repo.list');
 
-Route::get('signout', [CrudRepoController::class, 'signOut'])->name('signout');
-
-Route::get('create', [CrudRepoController::class, 'createUser'])->name('user.createUser');
-Route::post('create', [CrudRepoController::class, 'postUser'])->name('user.postUser');
-
-Route::get('read', [CrudRepoController::class, 'readUser'])->name('user.readUser');
-
-Route::get('delete', [CrudRepoController::class, 'deleteUser'])->name('user.deleteUser');
-
-Route::get('update', [CrudRepoController::class, 'updateUser'])->name('user.updateUser');
-Route::post('update', [CrudRepoController::class, 'postUpdateUser'])->name('user.postUpdateUser');
-
-Route::get('list', [CrudRepoController::class, 'listUser'])->name('user.list');
-
-Route::get('signout', [CrudRepoController::class, 'signOut'])->name('signout');
 
 Route::get('/couponscreate', [CrudCouponController::class, 'createCoupon'])->name('coupon.create');
 Route::post('/couponscreate', [CrudCouponController::class, 'postCoupon'])->name('coupon.store');
