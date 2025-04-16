@@ -193,6 +193,14 @@
             padding: 20px; /* Add padding for larger screens */
         }
     }
+
+    .brand-logo {
+    height: 150px;
+    object-fit: cover;
+}
+    .brand {
+        padding: 15px;
+    }
 </style>
 
 <body>
@@ -202,7 +210,9 @@
             <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 
             <div class="nav-side-menu">
-                <div class="brand">Quản Lý</div>
+                <div class="brand">
+                    <img class="brand-logo" src="{{ asset('images/logo.png') }}" alt="">
+                </div>
                 <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
 
                 <div class="menu-list">
