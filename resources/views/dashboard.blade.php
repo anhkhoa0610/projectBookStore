@@ -176,34 +176,6 @@
 </style>
 
 <body>
-    <nav class="navbar navbar-light navbar-expand-lg mb-5" style="background-color: #e3f2fd;">
-        <div class="container">
-
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    @guest
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('user.createUser') }}">Create user</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('coupon.create') }}">Create coupon</a>
-                        </li>
-                    @else
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('signout') }}">Logout</a>
-                        </li>
-
-                    @endguest
-                </ul>
-            </div>
-        </div>
-    </nav>
     <div class="container">
         <div class="row">
             <div class="col-md-3">
@@ -268,12 +240,12 @@
                 </div>
             </div>
             <div class="col-md-9">
-
+                @yield('content')
             </div>
         </div>
     </div>
-    </div>
-    @yield('content')
+   
+
 </body>
 
 </html>
