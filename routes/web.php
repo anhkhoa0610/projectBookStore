@@ -5,7 +5,7 @@ use App\Http\Controllers\CrudBookController;
 use App\Http\Controllers\CrudPublisherController;
 use App\Http\Controllers\CrudCategoriesController;
 
-use App\Http\Controllers\CrudUserController;
+use App\Http\Controllers\CrudRepoController;
 use App\Http\Controllers\CrudCouponController;
 
 /*
@@ -57,25 +57,25 @@ Route::get('listPublisher', [CrudPublisherController::class, 'listPublisher'])->
 Route::get('signout', [CrudPublisherController::class, 'signOut'])->name('signout');
 
 
-// Route::get('create', [CrudUserController::class, 'createUser'])->name('user.createUser');
-// Route::post('create', [CrudUserController::class, 'postUser'])->name('user.postUser');
+// Route::get('create', [CrudRepoController::class, 'createUser'])->name('user.createUser');
+// Route::post('create', [CrudRepoController::class, 'postUser'])->name('user.postUser');
 
 Route::get('create', [CrudCategoriesController::class, 'createCategory'])->name('categories.createCategory');
 Route::post('create', [CrudCategoriesController::class, 'postCategory'])->name('categories.postCategory');
 
-// Route::get('read', [CrudUserController::class, 'readUser'])->name('user.readUser');
+// Route::get('read', [CrudRepoController::class, 'readUser'])->name('user.readUser');
 Route::get('read', [CrudCategoriesController::class, 'readCategory'])->name('categories.readCategory');
 
-// Route::get('delete', [CrudUserController::class, 'deleteUser'])->name('user.deleteUser');
+// Route::get('delete', [CrudRepoController::class, 'deleteUser'])->name('user.deleteUser');
 Route::get('delete', [CrudCategoriesController::class, 'deleteCategory'])->name('categories.deleteCategory');
 
-// Route::post('update', [CrudUserController::class, 'postUpdateUser'])->name('user.postUpdateUser');
-// Route::get('update', [CrudUserController::class, 'updateUser'])->name('user.updateUser');
+// Route::post('update', [CrudRepoController::class, 'postUpdateUser'])->name('user.postUpdateUser');
+// Route::get('update', [CrudRepoController::class, 'updateUser'])->name('user.updateUser');
 
 Route::get('update', [CrudCategoriesController::class, 'updateCategory'])->name('categories.updateCategory');
 Route::post('update', [CrudCategoriesController::class, 'postUpdateCategory'])->name('categories.postUpdateCategory');
 
-// Route::get('list', [CrudUserController::class, 'listUser'])->name('user.list');
+// Route::get('list', [CrudRepoController::class, 'listUser'])->name('user.list');
 Route::get('list', [CrudCategoriesController::class, 'listCategories'])->name('categories.list');
 
 
@@ -84,38 +84,37 @@ Route::get('/', function () {
 });
 
 
-Route::get('dashboard', [CrudUserController::class, 'dashboard']);
 
-Route::get('login', [CrudUserController::class, 'login'])->name('login');
-Route::post('login', [CrudUserController::class, 'authUser'])->name('user.authUser');
+Route::get('login', [CrudRepoController::class, 'login'])->name('login');
+Route::post('login', [CrudRepoController::class, 'authUser'])->name('user.authUser');
 
-Route::get('createRepo', [CrudUserController::class, 'createRepo'])->name('repo.createRepo');
-Route::post('createRepo', [CrudUserController::class, 'postRepo'])->name('repo.postRepo');
+Route::get('createRepo', [CrudRepoController::class, 'createRepo'])->name('repo.createRepo');
+Route::post('createRepo', [CrudRepoController::class, 'postRepo'])->name('repo.postRepo');
 
-Route::get('readRepo', [CrudUserController::class, 'readRepo'])->name('repo.readRepo');
+Route::get('readRepo', [CrudRepoController::class, 'readRepo'])->name('repo.readRepo');
 
-Route::get('deleteRepo', [CrudUserController::class, 'deleteRepo'])->name('repo.deleteRepo');
+Route::get('deleteRepo', [CrudRepoController::class, 'deleteRepo'])->name('repo.deleteRepo');
 
-Route::get('updateRepo', [CrudUserController::class, 'updateRepo'])->name('repo.updateRepo');
-Route::post('updateRepo', [CrudUserController::class, 'postUpdateRepo'])->name('repo.postUpdateRepo');
+Route::get('updateRepo', [CrudRepoController::class, 'updateRepo'])->name('repo.updateRepo');
+Route::post('updateRepo', [CrudRepoController::class, 'postUpdateRepo'])->name('repo.postUpdateRepo');
 
-Route::get('listRepo', [CrudUserController::class, 'listRepo'])->name('repo.list');
+Route::get('listRepo', [CrudRepoController::class, 'listRepo'])->name('repo.list');
 
-Route::get('signout', [CrudUserController::class, 'signOut'])->name('signout');
+Route::get('signout', [CrudRepoController::class, 'signOut'])->name('signout');
 
-Route::get('create', [CrudUserController::class, 'createUser'])->name('user.createUser');
-Route::post('create', [CrudUserController::class, 'postUser'])->name('user.postUser');
+Route::get('create', [CrudRepoController::class, 'createUser'])->name('user.createUser');
+Route::post('create', [CrudRepoController::class, 'postUser'])->name('user.postUser');
 
-Route::get('read', [CrudUserController::class, 'readUser'])->name('user.readUser');
+Route::get('read', [CrudRepoController::class, 'readUser'])->name('user.readUser');
 
-Route::get('delete', [CrudUserController::class, 'deleteUser'])->name('user.deleteUser');
+Route::get('delete', [CrudRepoController::class, 'deleteUser'])->name('user.deleteUser');
 
-Route::get('update', [CrudUserController::class, 'updateUser'])->name('user.updateUser');
-Route::post('update', [CrudUserController::class, 'postUpdateUser'])->name('user.postUpdateUser');
+Route::get('update', [CrudRepoController::class, 'updateUser'])->name('user.updateUser');
+Route::post('update', [CrudRepoController::class, 'postUpdateUser'])->name('user.postUpdateUser');
 
-Route::get('list', [CrudUserController::class, 'listUser'])->name('user.list');
+Route::get('list', [CrudRepoController::class, 'listUser'])->name('user.list');
 
-Route::get('signout', [CrudUserController::class, 'signOut'])->name('signout');
+Route::get('signout', [CrudRepoController::class, 'signOut'])->name('signout');
 
 Route::get('/couponscreate', [CrudCouponController::class, 'createCoupon'])->name('coupon.create');
 Route::post('/couponscreate', [CrudCouponController::class, 'postCoupon'])->name('coupon.store');
