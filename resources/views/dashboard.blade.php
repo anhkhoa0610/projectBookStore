@@ -244,7 +244,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#">
+                            <a href="{{ route('coupon.list') }}">
                                 Quản Lý Voucher
                             </a>
                         </li>

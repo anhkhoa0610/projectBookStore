@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 /**
  * CRUD User controller
  */
-class CrudUserController extends Controller
+class CrudRepoController extends Controller
 {
 
     /**
