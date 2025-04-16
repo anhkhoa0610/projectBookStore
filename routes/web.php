@@ -6,6 +6,7 @@ use App\Http\Controllers\CrudPublisherController;
 use App\Http\Controllers\CrudCategoriesController;
 
 use App\Http\Controllers\CrudUserController;
+use App\Http\Controllers\CrudCouponController;
 
 /*
 |--------------------------------------------------------------------------
@@ -101,5 +102,31 @@ Route::post('updateRepo', [CrudUserController::class, 'postUpdateRepo'])->name('
 Route::get('listRepo', [CrudUserController::class, 'listRepo'])->name('repo.list');
 
 Route::get('signout', [CrudUserController::class, 'signOut'])->name('signout');
+
+Route::get('create', [CrudUserController::class, 'createUser'])->name('user.createUser');
+Route::post('create', [CrudUserController::class, 'postUser'])->name('user.postUser');
+
+Route::get('read', [CrudUserController::class, 'readUser'])->name('user.readUser');
+
+Route::get('delete', [CrudUserController::class, 'deleteUser'])->name('user.deleteUser');
+
+Route::get('update', [CrudUserController::class, 'updateUser'])->name('user.updateUser');
+Route::post('update', [CrudUserController::class, 'postUpdateUser'])->name('user.postUpdateUser');
+
+Route::get('list', [CrudUserController::class, 'listUser'])->name('user.list');
+
+Route::get('signout', [CrudUserController::class, 'signOut'])->name('signout');
+
+Route::get('/couponscreate', [CrudCouponController::class, 'createCoupon'])->name('coupon.create');
+Route::post('/couponscreate', [CrudCouponController::class, 'postCoupon'])->name('coupon.store');
+
+Route::get('/couponslist', [CrudCouponController::class, 'listCoupon'])->name('coupon.list');
+
+Route::get('/coupons/{id}/edit', [CrudCouponController::class, 'editCoupon'])->name('coupon.edit');
+Route::put('/coupons/{id}', [CrudCouponController::class, 'updateCoupon'])->name('coupon.update');
+
+Route::delete('/coupons/{id}', [CrudCouponController::class, 'deleteCoupon'])->name('coupon.delete');
+
+Route::get('/coupons/{id}', [CrudCouponController::class, 'readCoupon'])->name('coupon.read');
 
 
