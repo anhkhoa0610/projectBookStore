@@ -4,9 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CrudBookController;
 use App\Http\Controllers\CrudPublisherController;
 use App\Http\Controllers\CrudCategoriesController;
-
 use App\Http\Controllers\CrudRepoController;
 use App\Http\Controllers\CrudCouponController;
+use App\Http\Controllers\CrudOrdersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -114,3 +114,16 @@ Route::delete('/coupons/{id}', [CrudCouponController::class, 'deleteCoupon'])->n
 Route::get('/coupons/{id}', [CrudCouponController::class, 'readCoupon'])->name('coupon.read');
 
 
+/// Routers for CRUD orders
+///
+Route::get('createOrder', [CrudOrdersController::class, 'createOrder'])->name('orders.createOrder');
+Route::post('createOrder', [CrudOrdersController::class, 'postOrder'])->name('orders.postOrder');
+
+Route::get('readOrder', [CrudOrdersController::class, 'readOrder'])->name('orders.readOrder');
+
+Route::get('deleteOrder', [CrudOrdersController::class, 'deleteOrder'])->name('orders.deleteOrder');
+
+Route::get('updateOrder', [CrudOrdersController::class, 'updateOrder'])->name('orders.updateOrder');
+Route::post('updateOrder', [CrudOrdersController::class, 'postUpdateOrder'])->name('orders.postUpdateOrder');
+
+Route::get('listOrder', [CrudOrdersController::class, 'listOrders'])->name('orders.list');
