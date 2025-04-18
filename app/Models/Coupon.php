@@ -9,12 +9,13 @@ class Coupon extends Model
 {
     use HasFactory;
 
-        /**
+    /**
      * The table associated with the model.
      *
      * @var string
      */
     protected $table = 'coupons';
+    protected $primaryKey = 'id';
 
     /**
      * The attributes that are mass assignable.

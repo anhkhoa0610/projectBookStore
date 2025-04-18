@@ -7,7 +7,7 @@ use App\Http\Controllers\CrudCategoriesController;
 
 use App\Http\Controllers\CrudRepoController;
 use App\Http\Controllers\CrudCouponController;
-
+use App\Http\Controllers\CrudAuthorController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -113,4 +113,11 @@ Route::delete('/coupons/{id}', [CrudCouponController::class, 'deleteCoupon'])->n
 
 Route::get('/coupons/{id}', [CrudCouponController::class, 'readCoupon'])->name('coupon.read');
 
-
+//Author Routes
+Route::get('/authorslist', [CrudAuthorController::class, 'listAuthor'])->name('authors.list');
+Route::get('/authorscreate', [CrudAuthorController::class, 'createAuthor'])->name('authors.create');
+Route::post('/authors', [CrudAuthorController::class, 'postAuthor'])->name('authors.store');
+Route::get('/authors/{id}/edit', [CrudAuthorController::class, 'editAuthor'])->name('authors.edit');
+Route::put('/authors/{id}', [CrudAuthorController::class, 'updateAuthor'])->name('authors.update');
+Route::delete('/authors/{id}', [CrudAuthorController::class, 'deleteAuthor'])->name('authors.delete');
+Route::get('/authors/{id}', [CrudAuthorController::class, 'readAuthor'])->name('authors.read');
