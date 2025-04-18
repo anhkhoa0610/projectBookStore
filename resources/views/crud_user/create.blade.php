@@ -12,7 +12,7 @@
         @endif
     </div>
 
-    <div class="mb-3">
+    <!-- <div class="mb-3">
         <label for="picture" class="form-label">Profile Picture:</label>
         <input type="file" class="form-control" id="picture" name="picture" accept="image/*">
     </div>
@@ -23,7 +23,7 @@
         @if ($errors->has('like'))
         <span class="text-danger">{{ $errors->first('like') }}</span>
         @endif
-    </div>
+    </div> -->
 
     <div class="mb-3">
         <label for="mail" class="form-label">Email</label>
@@ -35,13 +35,13 @@
 
 
 
-    <div class="mb-3">
+    <!-- <div class="mb-3">
         <label for="github" class="form-label">Github</label>
         <input type="text" class="form-control" id="github" placeholder="Enter github" name="github">
         @if ($errors->has('email'))
         <span class="text-danger">{{ $errors->first('email') }}</span>
         @endif
-    </div>
+    </div> -->
 
 
     <div class="mb-3">

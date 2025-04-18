@@ -1,27 +1,47 @@
 @extends('dashboard')
 @section('content')
 
-<style>
-    a {
-        font-size: 1rem;
-    }
+    <style>
+        a {
+            font-size: 1rem;
+        }
 
-    .-table {
-        margin: 25px auto;
-        width: fit-content;
-    }
+        .-table {
+            margin: 25px auto;
+            width: fit-content;
+        }
 
-    thead tr th {
-        text-align: center;
-        width: fit-content;
-    }
+        thead tr th {
+            text-align: center;
+            width: fit-content;
+        }
 
-    tbody tr th {
-        width: fit-content;
-        white-space: nowrap;
-        
-    }
-</style>
+        tbody tr th {
+            width: fit-content;
+            white-space: nowrap;
+
+        }
+
+        .paging-bar {
+            width: fit-content;
+            margin: 15px auto;
+        }
+
+        .pagination {
+            margin-left: 15px;
+            margin-top: -15px;
+            padding: 0;
+        }
+
+        .pagination li {
+            margin: 0;
+        }
+
+        .pagination li a,
+        .pagination li span {
+            margin: 0;
+        }
+    </style>
 
 
     <div class="title mt-2">Danh sách user</div>
@@ -32,8 +52,7 @@
                     <th>ID</th>
                     <th>Username</th>
                     <th>Email</th>
-                    <th>Picture</th>
-                
+                    <th>Role</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -44,12 +63,16 @@
                         <th>{{ $user->id }}</th>
                         <th>{{ $user->name }}</th>
                         <th>{{ $user->email }}</th>
-                        <th><img src="{{ asset('uploads/' . $user->picture) }}" alt="Profile Picture" width="100"></th>
-                        <!-- <th>{{ $user->phone }}</th>
-                        <th>{{ $user->address }}</th> -->
                         <th>
-                            <a href="{{ route('user.readUser', ['id' => $user->id]) }}">View</a>|&nbsp;  
-                            <a href="{{ route('user.updateUser', ['id' => $user->id]) }}">Edit</a>|&nbsp;  
+                            @foreach($user->roles as $role)
+                                <a href="{{ route('user.role', ['id' => $role->id]) }}">
+                                    {{ $role->name . '-' }}
+                                </a>
+                            @endforeach
+                        </th>
+                        <th>
+                            <a href="{{ route('user.readUser', ['id' => $user->id]) }}">View</a>|&nbsp;
+                            <a href="{{ route('user.updateUser', ['id' => $user->id]) }}">Edit</a>|&nbsp;
                             <a href="{{ route('user.deleteUser', ['id' => $user->id]) }}">Delete</a>&nbsp;
                         </th>
                     </tr>
@@ -57,5 +80,9 @@
             </tbody>
             </tbody>
         </table>
+    </div>
+    <div class="paging-bar">
+        {{ $users->links() }}
+
     </div>
 @endsection

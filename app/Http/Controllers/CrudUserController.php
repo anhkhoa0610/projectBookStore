@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
  */
 class CrudUserController extends Controller
 {
-
+    const MAX_RECORDS = 10;
     /**
      * Login page
      */
@@ -59,28 +59,15 @@ class CrudUserController extends Controller
             'name' => 'required',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6',
-            'picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate the picture
         ]);
 
         $data = $request->all();
-
-        if ($request->hasFile('picture')) {
-            $file = $request->file('picture');
-            $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('uploads'), $filename); // Save the file to the 'public/uploads' directory
-            $data['picture'] = $filename; // Save the filename in the $data array
-        } else {
-            $data['picture'] = null; // Set picture to null if no file was uploaded
-        }
-
-        
-        User::create([
+        $check = User::create([
             'name' => $data['name'],
+//            'phone' => $data['phone'],
+//            'address' => $data['address'],
             'email' => $data['email'],
-            'like' => $data['like'],
-            'github' => $data['github'],
-            'password' => Hash::make($data['password']),
-            'picture' => $data['picture'], // Save the filename or null if no file was uploaded
+            'password' => Hash::make($data['password'])
         ]);
 
         return redirect("login");
@@ -89,19 +76,17 @@ class CrudUserController extends Controller
     /**
      * View user detail page
      */
-    public function readUser(Request $request)
-    {
+    public function readUser(Request $request) {
         $user_id = $request->get('id');
         $user = User::find($user_id);
 
-        return view('crud_user.view', ['user' => $user]);
+        return view('crud_user.read', ['user' => $user]);
     }
 
     /**
      * Delete user by id
      */
-    public function deleteUser(Request $request)
-    {
+    public function deleteUser(Request $request) {
         $user_id = $request->get('id');
         $user = User::destroy($user_id);
 
@@ -128,33 +113,15 @@ class CrudUserController extends Controller
 
         $request->validate([
             'name' => 'required',
-            'email' => 'required|email|unique:users,id,' . $input['id'],
+            'email' => 'required|email|unique:users,id,'.$input['id'],
             'password' => 'required|min:6',
-            'picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate the profile picture
-
         ]);
 
-        $user = User::find($input['id']);
-        $user->name = $input['name'];
-        $user->email = $input['email'];
-        $user->like = $input['like'];
-        $user->github = $input['github'];
-        $user->password = Hash::make($input['password']);
-
-        if ($request->hasFile('picture')) {
-            // Delete the old profile picture if it exists
-            if ($user->picture && file_exists(public_path('uploads/' . $user->picture))) {
-                unlink(public_path('uploads/' . $user->picture));
-            }
-
-            // Save the new profile picture
-            $file = $request->file('picture');
-            $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('uploads'), $filename); // Save to 'public/storage' directory
-            $user->picture = $filename; // Update the user's profile picture
-        }
-
-        $user->save();
+       $user = User::find($input['id']);
+       $user->name = $input['name'];
+       $user->email = $input['email'];
+       $user->password = Hash::make($input['password']);
+       $user->save();
 
         return redirect("list")->withSuccess('You have signed-in');
     }
@@ -164,8 +131,10 @@ class CrudUserController extends Controller
      */
     public function listUser()
     {
-        if (Auth::check()) {
-            $users = User::all();
+
+        if(Auth::check()){
+            $users = User::paginate(10);
+
             return view('crud_user.list', ['users' => $users]);
         }
 
@@ -175,8 +144,7 @@ class CrudUserController extends Controller
     /**
      * Sign out
      */
-    public function signOut()
-    {
+    public function signOut() {
         Session::flush();
         Auth::logout();
 
