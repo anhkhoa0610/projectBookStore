@@ -18,9 +18,11 @@ class RoleController extends Controller
         $role_id = $request->get('id');
         $role = Role::find($role_id);
 
+        
+
        $data = [
            'role' => $role,
-           'users' => $role->users
+           'users' => $role->users,
        ];
 
         return view('role.view', $data);
