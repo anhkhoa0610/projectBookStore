@@ -229,7 +229,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#">
+                            <a href="{{ route('authors.list') }}">
                                 Quản Lý Tác Giả
                             </a>
                         </li>
