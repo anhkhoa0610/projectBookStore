@@ -18,11 +18,11 @@ class UserRoleSeeder extends Seeder
         for ($i = 1; $i < self::MAX_RECORDS; $i++) {
             DB::table('user_role')->insert([
                 [
-                        'user_id' => $i,
-                        'role_id' => rand(1,4),
-                        'created_at' => now(),
-                        'updated_at' => now(),
-            ],
+                    'user_id' => $i,
+                    'role_id' => rand(1, 4),
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ],
             ]);
         }
 
