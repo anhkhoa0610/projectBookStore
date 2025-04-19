@@ -20,7 +20,6 @@
         tbody tr th {
             width: fit-content;
             white-space: nowrap;
-
         }
 
         .paging-bar {
@@ -42,10 +41,32 @@
         .pagination li span {
             margin: 0;
         }
+
+        .search-bar {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .search-bar input {
+            width: 300px;
+            padding: 5px;
+        }
+
+        .search-bar button {
+            padding: 5px 10px;
+        }
     </style>
 
-
     <div class="title mt-2">Danh sách user</div>
+
+    <!-- Search Bar -->
+    <div class="search-bar">
+        <form action="{{ route('user.list') }}" method="GET">
+            <input type="text" name="search" placeholder="Search by username or email" value="{{ request('search') }}">
+            <button type="submit" class="btn btn-primary mb-1">Search</button>
+        </form>
+    </div>
+
     <div class="-table">
         <table class="table table-bordered">
             <thead>
@@ -57,7 +78,6 @@
                     <th>Action</th>
                 </tr>
             </thead>
-            <tbody>
             <tbody>
                 @foreach($users as $user)
                     <tr>
@@ -78,7 +98,6 @@
                         </th>
                     </tr>
                 @endforeach
-            </tbody>
             </tbody>
         </table>
     </div>

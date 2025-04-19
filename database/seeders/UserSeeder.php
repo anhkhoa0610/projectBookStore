@@ -14,20 +14,9 @@ class UserSeeder extends Seeder
      * Run the database seeds.
      */
     public function run(): void
-    {
-        DB::table('users')->insert([
-            [
-                'name' => 'admin',
-                'email' => 'admin@gmail.com',
-                'email_verified_at' => now(),
-                'password' => Hash::make('123456'),
-                'remember_token' => Str::random(10),
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]
-        ]);
+    {   
 
-        for($i = 2; $i < self::MAX_RECORDS; $i++) {
+        for($i = 1; $i < self::MAX_RECORDS; $i++) {
             DB::table('users')->insert([
                 [
                     'name' => 'user' .$i,
