@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Coupon;
 
 class CrudOrdersDetailsController extends Controller
 {
@@ -48,6 +49,7 @@ class CrudOrdersDetailsController extends Controller
     {
         $order_id = $request->get('order_id');
         $dataBooks = Books::all();
+      
         return view('crud_orders_Details.create', ['order_id' => $order_id], ['dataBooks' => $dataBooks]);
     }
 
@@ -61,6 +63,7 @@ class CrudOrdersDetailsController extends Controller
         //     'email' => 'required|email|unique:users',
         //     'password' => 'required|min:6',
         // ]);
+      
 
         $data = $request->all();
         $book = Books::find($data['book_id']);
@@ -71,6 +74,8 @@ class CrudOrdersDetailsController extends Controller
             'quantity' => $data['quantity'],
             'price' => $data['price'],
         ]);
+
+         CrudOrdersController::upDatePrice($data['order_id']);
 
         return redirect("listOrderDetailsByIdOrder?order_id=".$data['order_id'])->with('status', 'Registration successful');
     }
@@ -92,7 +97,9 @@ class CrudOrdersDetailsController extends Controller
     {
         $order_detail_id = $request->get('order_detail_id');
         $orderDetails = OrdersDetails::find($order_detail_id);
+        CrudOrdersController::upDatePrice($orderDetails->order_id);
         OrdersDetails::destroy($order_detail_id);
+       
         return redirect("listOrderDetailsByIdOrder?order_id=".$orderDetails->order_id)->with('status', 'Delete successfully');
     }
 
@@ -121,15 +128,16 @@ class CrudOrdersDetailsController extends Controller
         //     'like' => 'required',
         //     'age' => 'required',
         // ]);
-        $book = Books::find($input['book_id']);
-        $input['price'] = $book->price * $input['quantity'];
         $orderDetails = OrdersDetails::find($input['order_detail_id']);
+
+        $price = Books::find($input['book_id']);
+        $input['price'] = $price->price * $input['quantity'];
         $orderDetails->order_id = $input['order_id'];
         $orderDetails->book_id = $input['book_id'];
         $orderDetails->quantity = $input['quantity'];
         $orderDetails->price = $input['price'];
         $orderDetails->save();
-
+        CrudOrdersController::upDatePrice($orderDetails->order_id);
         return redirect("listOrderDetailsByIdOrder?order_id=".$orderDetails->order_id)->with('status', 'Update successfully');
     }
 

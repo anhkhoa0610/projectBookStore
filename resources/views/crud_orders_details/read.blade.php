@@ -31,7 +31,9 @@
                                 <th>{{ $orderDetails->order_id}}</th>
                                 <th>{{ $orderDetails->book_id}}</th>
                                 <th>{{ $orderDetails->quantity}}</th>
-                                <th>{{ $orderDetails->price}}</th>
+                                <th>
+                                {{ number_format($orderDetails->price/ 1000, 3)}} đ
+                                </th>
 
                             </tr>
                         </tbody>

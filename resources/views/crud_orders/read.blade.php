@@ -37,7 +37,8 @@
                                     <th>{{ $order->tracking_number}}</th>
                                     <th>{{ $order->carrier}}</th>
                                     <th>{{ $order->coupon_id}}</th>
-                                    <th>{{ $order->total_price}}</th>
+                                    <th>{{ number_format($order->total_price/1000,3)}}đ</th>
+
                                 </tr>
 
                             </tbody>

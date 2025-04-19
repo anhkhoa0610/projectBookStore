@@ -43,7 +43,7 @@
                                 <th>{{ $order->tracking_number}}</th>
                                 <th>{{ $order->carrier}}</th>
                                 <th>{{ $order->coupon_id}}</th>
-                                <th>{{ $order->total_price}}</th>
+                                <th>{{ number_format($order->total_price/1000,3)}} đ</th>
 
                                 <td class="d-flex gap-2"  >
                                     <a   href="{{ route('orders.updateOrder', ['order_id' => $order->order_id]) }}" class="btn btn-success" style="height:30%" >Edit</a>

@@ -38,7 +38,9 @@
                                 <th>{{ $orderDetails->order_id}}</th>
                                 <th>{{ $orderDetails->book_id}}</th>
                                 <th>{{ $orderDetails->quantity}}</th>
-                                <th>{{ $orderDetails->price}}</th>
+                                <th>
+                                {{ number_format($orderDetails->price/ 1000, 3)}} đ
+                                </th>
 
                                 <td class="d-flex gap-3"  >
                                     <a href="{{ route('orders.updateOrderDetails', ['order_detail_id' => $orderDetails->order_detail_id]) }}" class="btn btn-success">Edit</a>

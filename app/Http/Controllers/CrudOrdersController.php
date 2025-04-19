@@ -7,7 +7,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use App\Models\Coupon;
+use App\Models\OrdersDetails;
 class CrudOrdersController extends Controller
 {
      /**
@@ -44,7 +45,8 @@ class CrudOrdersController extends Controller
      */
     public function createOrder()
     {
-        return view('crud_orders.create');
+        $dataCoupons = Coupon::all();
+        return view('crud_orders.create',['dataCoupons'=>$dataCoupons]);
     }
 
     /**
@@ -59,6 +61,8 @@ class CrudOrdersController extends Controller
         // ]);
 
         $data = $request->all();
+        $total_price = 0;
+     
         Orders::create([
             'user_id' => $data['user_id'],
             'order_date' => $data['order_date'],
@@ -66,7 +70,7 @@ class CrudOrdersController extends Controller
             'tracking_number' => $data['tracking_number'],
             'carrier' => $data['carrier'],
             'coupon_id' => $data['coupon_id'],
-            'total_price' => $data['total_price'],
+            'total_price' => $total_price,
         ]);
 
         return redirect("listOrder")->with('status','Registration successful');
@@ -96,9 +100,30 @@ class CrudOrdersController extends Controller
      */
     public function updateOrder(Request $request)
     {
+        $dataCoupons = Coupon::all();
+
         $order_id = $request->get('order_id');
         $order = Orders::find($order_id);
-        return view('crud_orders.update', ['order' => $order]);
+        return view('crud_orders.update', ['order' => $order],['dataCoupons'=>$dataCoupons]);
+    }
+    public static function upDatePrice( $order_id){
+        $order = Orders::find($order_id);
+        $odersDetails = OrdersDetails::where('order_id',$order_id)->get();
+        $total_price = 0;
+        foreach($odersDetails as $orderDetail){
+            $total_price += $orderDetail->price;
+        }
+        if(isset($order->coupon_id)){
+            $coupon = Coupon::find($order->coupon_id);
+            $order->total_price = $total_price - ($total_price * $coupon->discount_amount / 100);
+            $order->save();
+            return;
+        }
+        else{
+            $order->total_price = $total_price;
+            $order->save();
+            return;
+        }
     }
 
     /**
@@ -108,6 +133,7 @@ class CrudOrdersController extends Controller
     {
         $input = $request->all();
 
+
         // $request->validate([
         //     'name' => 'required',
         //     'email' => 'required|email|unique:users,id,'.$input['id'],
@@ -116,6 +142,7 @@ class CrudOrdersController extends Controller
         //     'age' => 'required',
         // ]);
 
+
        $order = Orders::find($input['order_id']);
        $order->user_id = $input['user_id'];
        $order->order_date = $input['order_date'];
@@ -123,7 +150,7 @@ class CrudOrdersController extends Controller
        $order->	tracking_number	 = $input['tracking_number'];
        $order->	carrier	 = $input['carrier'];
        $order->	coupon_id= $input['coupon_id'];
-       $order->	total_price	= $input['total_price'];
+       CrudOrdersController::upDatePrice($order->order_id);
        $order->save();
 
         return redirect("listOrder")->with('status','Update successfully');
