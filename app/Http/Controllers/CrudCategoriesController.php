@@ -69,7 +69,7 @@ class CrudCategoriesController extends Controller
             'category_desc' => $data['category_desc'],
         ]);
 
-        return redirect("list")->with('status','Registration successful');
+        return redirect("listCate")->with('status','Registration successful');
     }
 
     /**
@@ -89,7 +89,7 @@ class CrudCategoriesController extends Controller
         $category_id = $request->get('category_id');
         $category = Category::destroy($category_id);
 
-        return redirect("list")->with('status','Delete successfully');
+        return redirect("listCate")->with('status','Delete successfully');
     }
 
     /**
@@ -122,7 +122,7 @@ class CrudCategoriesController extends Controller
        $category->category_desc = $input['category_desc'];
        $category->save();
 
-        return redirect("list")->with('status','Update successfully');
+        return redirect("listCate")->with('status','Update successfully');
     }
 
     /**
