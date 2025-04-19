@@ -84,6 +84,5 @@
     </div>
     <div class="paging-bar">
         {{ $users->links() }}
-
     </div>
 @endsection
