@@ -150,8 +150,8 @@ class CrudOrdersController extends Controller
        $order->	tracking_number	 = $input['tracking_number'];
        $order->	carrier	 = $input['carrier'];
        $order->	coupon_id= $input['coupon_id'];
-       CrudOrdersController::upDatePrice($order->order_id);
        $order->save();
+       CrudOrdersController::upDatePrice($order->order_id);
 
         return redirect("listOrder")->with('status','Update successfully');
     }
