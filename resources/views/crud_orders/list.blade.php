@@ -49,7 +49,7 @@
                                     <a   href="{{ route('orders.updateOrder', ['order_id' => $order->order_id]) }}" class="btn btn-success" style="height:30%" >Edit</a>
                                     <a  href="{{ route('orders.readOrder', ['order_id' => $order->order_id]) }}" class="btn btn-info" style="height:30%" >Show</a>
                                     <a  href="{{ route('orders.deleteOrder', ['order_id' => $order->order_id]) }}" class="btn btn-danger" style="height:30%" >Delete</a>
-                                    <a  href="{{ route('oders.listOrderDetailsById', ['order_id' => $order->order_id]) }}" class="btn btn-info " style="" >details</a>
+                                    <a  href="{{ route('orders.listOrderDetailsById', ['order_id' => $order->order_id]) }}" class="btn btn-info " style="" >details</a>
                                 </td>
                             </tr>
                             @endforeach

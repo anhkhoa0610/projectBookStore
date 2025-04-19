@@ -11,7 +11,7 @@
                 <div class="card">
                     <div class="card-header">
                         <h4>OrderDetails view
-                        <a href="{{ route('oders.listOrderDetailsById')}}?order_id={{  $orderDetails->order_id }}" class="btn btn-danger float-end">Back</a>
+                        <a href="{{ route('orders.listOrderDetailsById')}}?order_id={{  $orderDetails->order_id }}" class="btn btn-danger float-end">Back</a>
                         </h4>
                     </div>
                     <div class="card-body">
