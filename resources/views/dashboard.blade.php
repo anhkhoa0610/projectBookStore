@@ -239,7 +239,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#">
+                            <a href="{{ route('orders.list') }}">
                                 Quản Lý Đơn Hàng
                             </a>
                         </li>
@@ -263,7 +263,7 @@
                                 Quản Lý Nhà Xuất Bản
                             </a>
                         </li>
-
+                    
                     </ul>
                 </div>
             </div>

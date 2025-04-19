@@ -4,10 +4,12 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CrudBookController;
 use App\Http\Controllers\CrudPublisherController;
 use App\Http\Controllers\CrudCategoriesController;
-
 use App\Http\Controllers\CrudRepoController;
 use App\Http\Controllers\CrudCouponController;
 use App\Http\Controllers\CrudAuthorController;
+use App\Http\Controllers\CrudOrdersController;
+use App\Http\Controllers\CrudOrdersDetailsController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -121,3 +123,34 @@ Route::get('/authors/{id}/edit', [CrudAuthorController::class, 'editAuthor'])->n
 Route::put('/authors/{id}', [CrudAuthorController::class, 'updateAuthor'])->name('authors.update');
 Route::delete('/authors/{id}', [CrudAuthorController::class, 'deleteAuthor'])->name('authors.delete');
 Route::get('/authors/{id}', [CrudAuthorController::class, 'readAuthor'])->name('authors.read');
+
+/// Routers for CRUD orders
+///
+Route::get('createOrder', [CrudOrdersController::class, 'createOrder'])->name('orders.createOrder');
+Route::post('createOrder', [CrudOrdersController::class, 'postOrder'])->name('orders.postOrder');
+
+Route::get('readOrder', [CrudOrdersController::class, 'readOrder'])->name('orders.readOrder');
+
+Route::get('deleteOrder', [CrudOrdersController::class, 'deleteOrder'])->name('orders.deleteOrder');
+
+Route::get('updateOrder', [CrudOrdersController::class, 'updateOrder'])->name('orders.updateOrder');
+Route::post('updateOrder', [CrudOrdersController::class, 'postUpdateOrder'])->name('orders.postUpdateOrder');
+
+Route::get('listOrder', [CrudOrdersController::class, 'listOrders'])->name('orders.list');
+
+/// Routers for CRUD ordersDetails
+///
+Route::get('createOrderDetails', [CrudOrdersDetailsController::class, 'createOrderDetails'])->name('orders.createOrderDetails');
+
+Route::post('createOrderDetails', [CrudOrdersDetailsController::class, 'postOrderDetails'])->name('orders.postOrderDetails');
+
+Route::get('readOrderDetails', [CrudOrdersDetailsController::class, 'readOrderDetails'])->name('orders.readOrderDetails');
+
+Route::get('deleteOrderDetails', [CrudOrdersDetailsController::class, 'deleteOrderDetails'])->name('orders.deleteOrderDetails');
+
+Route::get('updateOrderDetails', [CrudOrdersDetailsController::class, 'updateOrderDetails'])->name('orders.updateOrderDetails');
+
+Route::post('updateOrderDetails', [CrudOrdersDetailsController::class, 'postUpdateOrderDetails'])->name('orders.postUpdateOrderDetails');
+
+Route::get('listOrderDetails', [CrudOrdersController::class, 'listOrderDetails'])->name('orders.listOrderDetails');
+Route::get('listOrderDetailsByIdOrder', [CrudOrdersDetailsController::class, 'listOrderDetailsById'])->name('orders.listOrderDetailsById');
