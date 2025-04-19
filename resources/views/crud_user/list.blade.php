@@ -9,6 +9,7 @@
         .-table {
             margin: 25px auto;
             width: fit-content;
+            text-align: center;
         }
 
         thead tr th {
