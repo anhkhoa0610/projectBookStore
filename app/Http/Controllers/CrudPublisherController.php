@@ -134,16 +134,16 @@ class CrudPublisherController extends Controller
     /**
      * List of users
      */
-    public function listPublisher()
+    public function listPublisher(Request $request)
     {
-        // if (Auth::check()) {
-        //     $books = Books::all();
-        //     return view('crud_book.list', ['books' => $books]);
-        // }
+        $search = $request->input('search');
 
-        $publishers = Publisher::paginate(2); // Paginate with 2 items per page
-    return view('crud_publisher.list', ['publishers' => $publishers]);
-        // return redirect("login")->withSuccess('You are not allowed to access');
+        $publishers = Publisher::when($search, function ($query, $search) {
+            $query->where('publisher_name', 'like', "%{$search}%")
+                  ->orWhere('contact_info', 'like', "%{$search}%");
+        })->paginate(10)->appends(['search' => $search]); // Append search query to pagination links
+
+        return view('crud_publisher.list', compact('publishers'));
     }
 
     /**
