@@ -140,9 +140,10 @@ class CrudUserController extends Controller
             $users = User::with('roles')
                 ->when($search, function ($query, $search) {
                     $query->where('name', 'like', "%{$search}%")
-                        ->orWhere('email', 'like', "%{$search}%");
+                          ->orWhere('email', 'like', "%{$search}%");
                 })
-                ->paginate(10);
+                ->paginate(10)
+                ->appends(['search' => $search]); // Append the search query to pagination links
 
             return view('crud_user.list', compact('users'));
         }
