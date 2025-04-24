@@ -166,16 +166,22 @@ class CrudBookController extends Controller
     /**
      * List of users
      */
-    public function listBook()
-    {
-        // if (Auth::check()) {
-        //     $books = Books::all();
-        //     return view('crud_book.list', ['books' => $books]);
-        // }
+    
 
-        $books = Books::paginate(2); // Paginate with 2 items per page
-    return view('crud_book.list', ['books' => $books]);
-        // return redirect("login")->withSuccess('You are not allowed to access');
+    /**
+     * List of books with search functionality
+     */
+    public function listBook(Request $request)
+    {
+        $search = $request->input('search');
+
+        $books = Books::when($search, function ($query, $search) {
+            $query->where('title', 'like', "%{$search}%")
+                  ->orWhere('author_id', 'like', "%{$search}%")
+                  ->orWhere('category_id', 'like', "%{$search}%");
+        })->paginate(10)->appends(['search' => $search]); // Append search query to pagination links
+
+        return view('crud_book.list', compact('books'));
     }
 
     /**
