@@ -14,9 +14,9 @@ class OrderSeeder extends Seeder
     {
         for ($i = 1; $i <= 100; $i++) {
             DB::table('orders')->insert([
-                'user_id' => rand(1, 100), // Assuming you have 5 users
-                'total_amount' => rand(100, 1000), // Random total amount between 100 and 1000
-                'address' => 'Address ' . $i, // Random address
+                'user_id' => rand(1, 100), 
+                'total_amount' => rand(100, 1000), 
+                'address' => 'Address ' . $i, 
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);

@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('order_details', function (Blueprint $table) {
-            $table->id(); // Primary key
-            $table->integer('order_id'); // Foreign key for orders
-            $table->integer('product_id'); // Foreign key for products
-            $table->integer('quantity'); // Quantity of the product
-            $table->text('notes'); // Price of the product
+            $table->id(); 
+            $table->integer('order_id'); 
+            $table->integer('product_id'); 
+            $table->integer('quantity'); 
+            $table->text('notes'); 
             $table->timestamps();
 
             // Foreign key constraints

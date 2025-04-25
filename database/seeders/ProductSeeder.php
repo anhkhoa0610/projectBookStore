@@ -16,10 +16,10 @@ class ProductSeeder extends Seeder
         for ($i = 1; $i <= 50; $i++) {
             DB::table('products')->insert([
                 'name' => 'Product ' . $i,
-                'image' => null, // You can add logic for image paths if needed
-                'price' => rand(100, 1000), // Random price between 100 and 1000
-                'quantity' => rand(1, 50), // Random quantity between 1 and 50
-                'description' => Str::random(10), // Random description
+                'image' => null, 
+                'price' => rand(100, 1000),
+                'quantity' => rand(1, 50), 
+                'description' => Str::random(10), 
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);

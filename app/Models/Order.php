@@ -22,13 +22,10 @@ class Order extends Model
         'address',
     ];
 
-    public function users()
-    {
-        return $this->hasMany(User::class, 'id', 'id');
-    }
+
 
     public function products(): BelongsToMany
     {
-        return $this->belongsToMany(Product::class, 'order_details');
+        return $this->belongsToMany(Product::class, 'order_details', 'order_id', 'product_id');
     }
 }

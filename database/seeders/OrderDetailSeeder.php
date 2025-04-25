@@ -14,10 +14,10 @@ class OrderDetailSeeder extends Seeder
     {
         for ($i = 1; $i <= 300; $i++) {
             DB::table('order_details')->insert([
-                'order_id' => rand(1, 100), // Assuming you have 100 orders
-                'product_id' => rand(1, 50), // Assuming you have 50 products
-                'quantity' => rand(1, 10), // Random quantity between 1 and 10
-                'notes' => Str::random(10), // Random price between 50 and 500
+                'order_id' => rand(1, 100), 
+                'product_id' => rand(1, 50),
+                'quantity' => rand(1, 10),
+                'notes' => Str::random(10), 
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);

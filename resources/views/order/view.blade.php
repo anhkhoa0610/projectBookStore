@@ -19,18 +19,21 @@
     </style>
     <main class="login-form">
         <div class="container">
+        <h3>Order Information</h3>
             <div class="row justify-content-center">
                 <table>
                     <thead>
                         <tr>
                             <th>ID</th>
                             <th>Address</th>
+                            <th>Total Amount</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <th>{{$order->id}}</th>
                             <th>{{$order->address}}</th>
+                            <th>{{$order->total_amount}}</th>
                         </tr>
                     </tbody>
                 </table>

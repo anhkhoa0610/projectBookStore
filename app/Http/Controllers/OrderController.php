@@ -14,7 +14,7 @@ class OrderController extends Controller
 
        $data = [
            'order' => $order,
-           'products' => $order->products, // Fetch related products
+           'products' => $order->products, 
        ];
 
         return view('order.view', $data);

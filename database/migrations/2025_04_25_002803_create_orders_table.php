@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('orders', function (Blueprint $table) {
-            $table->id(); // Primary key
-            $table->integer('user_id'); // Foreign key for users
-            $table->text('address')->unique(); // Quantity of the product
-            $table->decimal('total_amount', 10, 2); // Total price of the order
+            $table->id(); 
+            $table->integer('user_id'); 
+            $table->text('address'); 
+            $table->decimal('total_amount', 10, 2); 
             $table->timestamps();
 
            
