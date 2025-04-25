@@ -74,7 +74,6 @@
                     <th>ID</th>
                     <th>Username</th>
                     <th>Email</th>
-                    <th>Order</th>
                     <th>Role</th>
                     <th>Action</th>
                 </tr>
@@ -85,13 +84,6 @@
                         <th>{{ $user->id }}</th>
                         <th>{{ $user->name }}</th>
                         <th>{{ $user->email }}</th>
-                        <th>
-                        @foreach($user->orders as $order)
-                                <a href="{{ route('user.order', ['id' => $order->id]) }}">
-                                    {{ $order->address }}
-                                </a>
-                            @endforeach
-                        </th>
                         <th>
                             @foreach($user->roles as $role)
                                 <a href="{{ route('user.role', ['id' => $role->id]) }}">

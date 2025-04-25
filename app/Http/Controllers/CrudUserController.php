@@ -133,19 +133,9 @@ class CrudUserController extends Controller
      */
     public function listUser(Request $request)
     {
-
         if (Auth::check()) {
-            $search = $request->input('search');
-
-            $users = User::with('roles')
-                ->when($search, function ($query, $search) {
-                    $query->where('name', 'like', "%{$search}%")
-                          ->orWhere('email', 'like', "%{$search}%");
-                })
-                ->paginate(10)
-                ->appends(['search' => $search]); // Append the search query to pagination links
-
-            return view('crud_user.list', compact('users'));
+            $users = User::with('orders', 'roles')->paginate(self::MAX_RECORDS); // Eager-load orders and roles
+            return view('crud_user.list', ['users' => $users]);
         }
 
         return redirect("login")->withSuccess('You are not allowed to access');

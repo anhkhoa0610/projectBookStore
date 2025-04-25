@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\CrudUserController;
 
@@ -53,6 +53,11 @@ Route::get('/', function () {
 });
 
 Route::get('role', [RoleController::class, 'role'])->name('user.role');
+
+Route::get('order', [OrderController::class, 'order'])->name('user.order');
+
+
+
 
 Route::get('/', function () {
     return view('dashboard');
