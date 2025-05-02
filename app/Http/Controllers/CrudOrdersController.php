@@ -156,18 +156,22 @@ class CrudOrdersController extends Controller
         return redirect("listOrder")->with('status','Update successfully');
     }
 
-    /**
-     * List of users
+
+
+      /**
+     * List of orders with search functionality
      */
-    public function listOrders()
+    public function listOrders(Request $request)
     {
-        // if(Auth::check()){
-        //     $users = User::all();
-        //     return view('crud_user.list', ['users' => $users]);
-        // }
-        $orders = Orders::all();
-        return view('crud_orders.list', ['orders' => $orders]);
-        // return redirect("login")->withSuccess('You are not allowed to access');
+        $search = $request->input('search');
+
+        $orders = Orders::when($search, function ($query, $search) {
+            $query->where('status', 'like', "%{$search}%")
+                  ->orWhere('tracking_number', 'like', "%{$search}%")
+                  ->orWhere('carrier', 'like', "%{$search}%");
+        })->paginate(10)->appends(['search' => $search]); // Append search query to pagination links
+
+        return view('crud_orders.list', compact('orders'));
     }
 
     /**
