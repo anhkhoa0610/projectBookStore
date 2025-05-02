@@ -152,5 +152,4 @@ Route::get('updateOrderDetails', [CrudOrdersDetailsController::class, 'updateOrd
 
 Route::post('updateOrderDetails', [CrudOrdersDetailsController::class, 'postUpdateOrderDetails'])->name('orders.postUpdateOrderDetails');
 
-Route::get('listOrderDetails', [CrudOrdersController::class, 'listOrderDetails'])->name('orders.listOrderDetails');
-Route::get('listOrderDetailsByIdOrder', [CrudOrdersDetailsController::class, 'listOrderDetailsById'])->name('orders.listOrderDetailsById');
+Route::get('listOrderDetailsByOrderId', [CrudOrdersDetailsController::class, 'listOrderDetailsByOrderId'])->name('orders.listOrderDetailsByOrderId');

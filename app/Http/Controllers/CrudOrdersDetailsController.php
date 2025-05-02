@@ -167,6 +167,19 @@ class CrudOrdersDetailsController extends Controller
     }
 
 
+    public function listOrderDetailsByOrderId(Request $request)
+    {
+        $search = $request->input('search');
+        $order_id = $request->get('order_id');
+        $ordersDetails = OrdersDetails::where('order_id', $order_id)->when($search, function ($query, $search) {
+            $query->where('order_id', 'like', "%{$search}%")
+                  ->orWhere('book_id', 'like', "%{$search}%")
+                  ->orWhere('price', 'like', "%{$search}%");
+        })->paginate(3)->appends(['search' => $search, 'order_id' => $order_id]); // Append search query to pagination links
+
+        return view('crud_orders_details.list', compact('ordersDetails'));
+    }
+
     /**
      * Sign out
      */

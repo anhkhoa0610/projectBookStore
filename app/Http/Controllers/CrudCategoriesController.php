@@ -128,15 +128,22 @@ class CrudCategoriesController extends Controller
     /**
      * List of users
      */
-    public function listCategories()
+  
+
+     /**
+     * List of books with search functionality
+     */
+    public function listCategories(Request $request)
     {
-        // if(Auth::check()){
-        //     $users = User::all();
-        //     return view('crud_user.list', ['users' => $users]);
-        // }
-        $categories = Category::all();
-        return view('crud_categories.list', ['categories' => $categories]);
-        // return redirect("login")->withSuccess('You are not allowed to access');
+        $search = $request->input('search');
+
+        $categories = Category::when($search, function ($query, $search) {
+            $query->where('category_id', 'like', "%{$search}%")
+                  ->orWhere('category_name', 'like', "%{$search}%")
+                  ->orWhere('category_desc', 'like', "%{$search}%");
+        })->paginate(10)->appends(['search' => $search]); // Append search query to pagination links
+
+        return view('crud_categories.list', compact('categories'));
     }
 
     /**
