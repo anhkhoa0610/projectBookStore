@@ -10,9 +10,16 @@ class CrudCouponController extends Controller
     /**
      * Display a listing of coupons.
      */
-    public function listCoupon()
+    public function listCoupon(Request $request)
     {
-        $coupons = Coupon::all();
+        $search = $request->input('search');
+
+        $coupons = Coupon::when($search, function ($query, $search) {
+            $query->where('coupon_code', 'like', "%{$search}%")
+                  ->orWhere('discount_amount', 'like', "%{$search}%")
+                  ->orWhere('valid_from', 'like', "%{$search}%")
+                  ->orWhere('valid_to', 'like', "%{$search}%");
+        })->paginate(10)->appends(['search' => $search]);
         return view('crud_coupon.list', ['coupons' => $coupons]);
     }
 
