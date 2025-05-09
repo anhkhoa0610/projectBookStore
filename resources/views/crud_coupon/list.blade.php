@@ -12,12 +12,51 @@
                 </h4>
             </div>
             <div class="card-body">
-                @if (session('status'))
-                    <div class="alert alert-success">
-                        {{ session('status') }}
+
+                <!-- Search Bar -->
+                <form action="{{ route('coupon.list') }}" method="GET" class="mb-3">
+                    <div class="input-group">
+                        <input type="text" name="search" class="form-control"
+                            placeholder="Search by Coupon Code, Discount Amount, Valid From, Valid To..." value="{{ request('search') }}">
+                        <button type="submit" class="btn btn-primary">Search</button>
                     </div>
-                @endif
-                <table class="table table-bordered">
+                </form>
+
+                <style>
+                    .description-cell,
+                    .summary-cell {
+                        max-width: 200px;
+                        /* Set maximum width */
+                        max-height: 100px;
+                        /* Set maximum height */
+                        overflow: auto;
+                        /* Enable scrolling for overflow */
+                        white-space: pre-wrap;
+                        /* Preserve whitespace and wrap text */
+                        word-wrap: break-word;
+                        /* Break long words */
+                    }
+
+                    .action-cell {
+                        display: flex;
+                        flex-direction: column;
+                        /* Display icons in a row */
+                        justify-content: center;
+                        /* Center align the icons */
+                        gap: 10px;
+                        /* Add gap between icons */
+                    }
+
+                    .action-cell a {
+                        display: inline-flex;
+                        align-items: center;
+                        justify-content: center;
+                        text-decoration: none;
+                        /* Remove underline from links */
+                    }
+                </style>
+
+                <table class="table table-stiped table-bordered text-center">
                     <thead>
                         <tr>
                             <th>ID</th>
