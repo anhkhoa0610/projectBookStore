@@ -13,11 +13,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-<<<<<<< HEAD
-            BookSeeder::class,PublisherSeeder::class,RepoSeeder::class,
-=======
             BookSeeder::class,PublisherSeeder::class,OrderDetailSeeder::class,OrderSeeder::class,CategoriesSeeder::class
->>>>>>> Search_for_cate_and_oder
         ]);
     }
 }
