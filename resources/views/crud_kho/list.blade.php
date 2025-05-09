@@ -17,6 +17,14 @@
         </h4>
     </div>
     <div class="card-body">
+
+        <form action="{{ route('repo.list') }}" method="GET" class="mb-3">
+            <div class="input-group">
+                <input type="text" name="search" class="form-control"
+                    placeholder="Search by book name" value="{{ request('search') }}">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </form>
         <table class="table table-stiped table-bordered text-center">
             <thead>
                 <tr>
@@ -45,7 +53,7 @@
                     </td>
                 </tr>
                 @endforeach
-                
+
             </tbody>
         </table>
         {{$repos->links()}}
