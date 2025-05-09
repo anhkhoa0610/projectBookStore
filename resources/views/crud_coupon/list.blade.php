@@ -17,7 +17,8 @@
                 <form action="{{ route('coupon.list') }}" method="GET" class="mb-3">
                     <div class="input-group">
                         <input type="text" name="search" class="form-control"
-                            placeholder="Search by Coupon Code, Discount Amount, Valid From, Valid To..." value="{{ request('search') }}">
+                            placeholder="Search by Coupon Code, Discount Amount, Valid From, Valid To..."
+                            value="{{ request('search') }}">
                         <button type="submit" class="btn btn-primary">Search</button>
                     </div>
                 </form>
@@ -90,6 +91,10 @@
                         @endforeach
                     </tbody>
                 </table>
+
+                <div class="d-flex justify-content-center">
+                    {{ $coupons->links() }}
+                </div>
             </div>
 
         </div>

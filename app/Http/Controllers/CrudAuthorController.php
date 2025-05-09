@@ -10,9 +10,13 @@ class CrudAuthorController extends Controller
     /**
      * Display a listing of authors.
      */
-    public function listAuthor()
+    public function listAuthor(request $request)
     {
-        $authors = Author::all();
+        $search = $request->input('search');
+
+        $authors = Author::when($search, function ($query, $search) {
+            $query->where('author_name', 'like', "%{$search}%");
+        })->paginate(10)->appends(['search' => $search]);
         return view('crud_author.list', compact('authors'));
     }
 
