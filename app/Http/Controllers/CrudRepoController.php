@@ -135,11 +135,14 @@ class CrudRepoController extends Controller
      */
     public function listRepo()
     {
-        
-            $repos = Repo::paginate(2);
-            return view('crud_kho.list', ['repos' => $repos]);
-        
+            $search = $request->input('search');
 
+            $repos = Repo::when($search, function ($query, $search) {
+                $query->where('bookName', 'like', "%{$search}%");
+        
+            })->paginate(10)->appends(['search' => $search]); // Append search query to pagination links
+    
+            return view('crud_kho.list', ['repos' => $repos]);
         
     }
 
