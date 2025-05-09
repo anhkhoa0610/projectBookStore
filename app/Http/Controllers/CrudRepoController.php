@@ -133,7 +133,7 @@ class CrudRepoController extends Controller
     /**
      * List of users
      */
-    public function listRepo()
+    public function listRepo(Request $request)
     {
             $search = $request->input('search');
 
