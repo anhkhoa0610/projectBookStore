@@ -246,7 +246,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#">
+                            <a href="{{ route('reviews.list') }}">
                                 </i> Quản Lý Review
                             </a>
                         </li>

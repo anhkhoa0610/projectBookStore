@@ -17,8 +17,7 @@ class CrudUserController extends Controller
     {
         $query = User::query();
 
-        // Search functionality
-        if ($request->has('search')) {
+         if ($request->has('search')) {
             $search = $request->search;
             $query->where(function($q) use ($search) {
                 $q->where('full_name', 'like', "%{$search}%")

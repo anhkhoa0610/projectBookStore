@@ -10,7 +10,7 @@ use App\Http\Controllers\CrudCouponController;
 use App\Http\Controllers\CrudAuthorController;
 use App\Http\Controllers\CrudOrdersController;
 use App\Http\Controllers\CrudOrdersDetailsController;
-
+use App\Http\Controllers\CrudReviewController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -163,18 +163,36 @@ Route::prefix('users')->controller(CrudUserController::class)->group(function ()
     Route::get('update', 'updateUser')->name('user.updateUser');
     Route::post('update', 'postUpdateUser')->name('user.postUpdateUser');
     Route::patch('{id}/toggle-status', 'toggleStatus')->name('user.toggleStatus');
-    // Route::delete('{id}', 'destroy')->name('user.destroy');
-// Route::delete('/users/{id}', [CrudUserController::class, 'destroy'])->name('user.destroy');
-// routes/web.php
 Route::delete('/user/{id}', [CrudUserController::class, 'destroy'])->name('user.destroy');
 });
 
- Route::controller(CrudUserController::class)->group(function () {
-    Route::get('/login', 'login')->name('login');
-    Route::post('/login', 'authUser')->name('auth.login');
-    Route::post('/logout', 'signOut')->name('logout');
-});
+//  Route::controller(CrudUserController::class)->group(function () {
+//     Route::get('/login', 'login')->name('login');
+//     Route::post('/login', 'authUser')->name('auth.login');
+//     Route::post('/logout', 'signOut')->name('logout');
+// });
 
- Route::get('/', function () {
-    return redirect()->route('user.list');
+//  Route::get('/', function () {
+//     return redirect()->route('user.list');
+// });
+
+
+// Route::prefix('reviews')->group(function() {
+//      Route::get('/', [CrudReviewController::class, 'index'])->name('reviews.list');
+//      Route::get('/createUser', [CrudReviewController::class, 'create'])->name('reviews.create');
+//     Route::post('/storeUser', [CrudReviewController::class, 'store'])->name('reviews.store');
+//     Route::get('/{id}', [CrudReviewController::class, 'show'])->name('reviews.show');
+//     Route::get('/{id}/edit', [CrudReviewController::class, 'edit'])->name('reviews.edit');
+//     Route::put('/{id}', [CrudReviewController::class, 'update'])->name('reviews.update');
+//     Route::delete('/{id}', [CrudReviewController::class, 'destroy'])->name('reviews.destroy');
+// });
+
+Route::prefix('reviews')->group(function() {
+    Route::get('/', [CrudReviewController::class, 'index'])->name('reviews.list');
+    Route::get('/create', [CrudReviewController::class, 'create'])->name('reviews.create');
+    Route::post('/store', [CrudReviewController::class, 'store'])->name('reviews.store');
+    Route::get('/{id}', [CrudReviewController::class, 'show'])->name('reviews.show');
+    Route::get('/{id}/edit', [CrudReviewController::class, 'edit'])->name('reviews.edit');
+    Route::put('/{id}', [CrudReviewController::class, 'update'])->name('reviews.update');
+    Route::delete('/{id}', [CrudReviewController::class, 'destroy'])->name('reviews.destroy');
 });

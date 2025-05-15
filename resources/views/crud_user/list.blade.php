@@ -35,7 +35,7 @@
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h4>User List</h4>
                     <a href="{{ route('user.createUser') }}" class="btn btn-primary">
-                        <i class="fas fa-user-plus"></i> Add User
+                        <i class="fas fa-user-plus"></i>  
                     </a>
                 </div>
 
