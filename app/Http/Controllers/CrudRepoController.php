@@ -30,7 +30,7 @@ class CrudRepoController extends Controller
         $request->validate([
             'email' => 'required',
             'password' => 'required',
-            
+
         ]);
 
         $credentials = $request->only('email', 'password');
@@ -61,7 +61,7 @@ class CrudRepoController extends Controller
             'warehouseLocation' => 'required',
             'quantityAvailable' => 'required',
             'lastUpdated' => 'required',
-            
+
         ]);
 
         $data = $request->all();
@@ -139,11 +139,11 @@ class CrudRepoController extends Controller
 
             $repos = Repo::when($search, function ($query, $search) {
                 $query->where('bookName', 'like', "%{$search}%");
-        
+
             })->paginate(10)->appends(['search' => $search]); // Append search query to pagination links
-    
+
             return view('crud_kho.list', ['repos' => $repos]);
-        
+
     }
 
     /**
@@ -152,7 +152,6 @@ class CrudRepoController extends Controller
     public function signOut() {
         Session::flush();
         Auth::logout();
-
         return Redirect('login');
     }
 }

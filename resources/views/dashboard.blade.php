@@ -2,11 +2,12 @@
 <html>
 
 <head>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Laravel 10.48.0 - CRUD book Example</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
+    <!-- <link href="{{ asset('css/styles.css') }}" rel="stylesheet"> -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-    <script type="text/javascript" src="{{ asset('js/scripts.js') }}"></script>
+    <!-- <script type="text/javascript" src="{{ asset('js/scripts.js') }}"></script> -->
     <style>
 
     </style>
@@ -44,7 +45,7 @@
         margin: 0px;
         line-height: 35px;
         cursor: pointer;
-        /*    
+        /*
     .collapsed{
        .arrow:before{
                  font-family: FontAwesome;
@@ -220,7 +221,7 @@
 
                     <ul id="menu-content" class="menu-content collapse out">
                         <li>
-                            <a href="#">
+                            <a href="{{ route('user.list') }}">
                                 Quản Lý User
                             </a>
                         </li>
@@ -264,7 +265,7 @@
                                 Quản Lý Nhà Xuất Bản
                             </a>
                         </li>
-                    
+
                     </ul>
                 </div>
             </div>
@@ -273,7 +274,7 @@
             @yield('content')
         </div>
     </div>
-    
+
 </body>
 
 </html>

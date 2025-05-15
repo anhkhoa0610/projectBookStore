@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CrudUserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CrudBookController;
 use App\Http\Controllers\CrudPublisherController;
@@ -153,3 +154,27 @@ Route::get('updateOrderDetails', [CrudOrdersDetailsController::class, 'updateOrd
 Route::post('updateOrderDetails', [CrudOrdersDetailsController::class, 'postUpdateOrderDetails'])->name('orders.postUpdateOrderDetails');
 
 Route::get('listOrderDetailsByOrderId', [CrudOrdersDetailsController::class, 'listOrderDetailsByOrderId'])->name('orders.listOrderDetailsByOrderId');
+
+Route::prefix('users')->controller(CrudUserController::class)->group(function () {
+    Route::get('/', 'listUser')->name('user.list');
+    Route::get('create', 'createUser')->name('user.createUser');
+    Route::post('create', 'postUser')->name('user.postUser');
+    Route::get('read', 'readUser')->name('user.readUser');
+    Route::get('update', 'updateUser')->name('user.updateUser');
+    Route::post('update', 'postUpdateUser')->name('user.postUpdateUser');
+    Route::patch('{id}/toggle-status', 'toggleStatus')->name('user.toggleStatus');
+    // Route::delete('{id}', 'destroy')->name('user.destroy');
+// Route::delete('/users/{id}', [CrudUserController::class, 'destroy'])->name('user.destroy');
+// routes/web.php
+Route::delete('/user/{id}', [CrudUserController::class, 'destroy'])->name('user.destroy');
+});
+
+ Route::controller(CrudUserController::class)->group(function () {
+    Route::get('/login', 'login')->name('login');
+    Route::post('/login', 'authUser')->name('auth.login');
+    Route::post('/logout', 'signOut')->name('logout');
+});
+
+ Route::get('/', function () {
+    return redirect()->route('user.list');
+});

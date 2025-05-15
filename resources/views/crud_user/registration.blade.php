@@ -12,7 +12,7 @@
                             <form action="{{ route('user.postUser') }}" method="POST">
                                 @csrf
                                 <h2 class="fw-bold mb-2 text-uppercase" style="color: black;">Registration</h2>
-                    
+
                                 <div class="form-group mb-3">
                                     <input type="text" placeholder="Name" id="name" class="form-control" name="name"
                                            required autofocus>
@@ -34,7 +34,7 @@
                                         <span class="text-danger">{{ $errors->first('password') }}</span>
                                     @endif
                                 </div>
-                               
+
                                 <div class="form-group mb-3">
                                     <input type="text" placeholder="Age" id="age" class="form-control" name="age"
                                            required autofocus>
