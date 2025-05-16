@@ -16,8 +16,7 @@
     <div class="row">
         <div class="col-md-12">
 
-            {{-- Flash Messages --}}
-            @if(session('status'))
+             @if(session('status'))
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                     {{ session('status') }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -73,8 +72,7 @@
                         </div>
                     </div>
 
-                    {{-- User Table --}}
-                    <div class="table-responsive">
+                     <div class="table-responsive">
                         <table class="table table-bordered table-hover">
                             <thead class="table-light">
                                 <tr>
@@ -118,48 +116,12 @@
                                                 <a href="{{ route('user.updateUser', ['id' => $user->id]) }}" class="btn btn-sm btn-success" title="Edit">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
-                                                <!-- <button class="btn btn-sm btn-danger"
+                                                <button class="btn btn-sm btn-danger"
                                                         onclick="return confirmDelete('{{ $user->full_name }}', '{{ route('user.destroy', $user->id) }}')">
                                                     <i class="fas fa-trash"></i>
-                                                </button> -->
-                                                <button class="btn btn-sm btn-danger delete-btn"
-                                                    data-user-id="{{ $user->id }}"
-                                                    data-user-name="{{ $user->full_name }}"
-                                                    onclick="return confirmDelete('{{ $user->full_name }}', '{{ route('user.destroy', ['id' => $user->id]) }}')">
-                                                    <i class="fas fa-trash"></i>
                                                 </button>
+                                           
 
-@push('scripts')
-<script>
-    function confirmDelete(userName, deleteUrl) {
-        if (confirm('Bạn có chắc muốn xóa user "' + userName + '" không?')) {
-            // Tạo form ẩn để gửi request DELETE
-            let form = document.createElement('form');
-            form.method = 'POST';
-            form.action = deleteUrl;
-
-            // CSRF token
-            let csrf = document.createElement('input');
-            csrf.type = 'hidden';
-            csrf.name = '_token';
-            csrf.value = '{{ csrf_token() }}';
-            form.appendChild(csrf);
-
-            // Method spoofing
-            let method = document.createElement('input');
-            method.type = 'hidden';
-            method.name = '_method';
-            method.value = 'DELETE';
-            form.appendChild(method);
-
-            // Tạo form và gửi
-            document.body.appendChild(form);
-            form.submit();
-        }
-        return false; // Ngăn chặn hành động mặc định
-    }
-</script>
-@endpush
 
                                             </div>
                                         </td>
@@ -185,7 +147,7 @@
 </div>
 @endsection
 
-<!-- @push('scripts')
+@push('scripts')
 <script>
     function confirmDelete(userName, deleteUrl) {
         if (confirm(`Bạn có chắc muốn xóa user "${userName}" không?`)) {
@@ -211,7 +173,7 @@
         return false;
     }
 </script>
-@endpush -->
+@endpush
   @stack('scripts')
 @push('styles')
 <style>
@@ -227,7 +189,6 @@
 </style>
 @endpush
 
-{{-- Bootstrap JS (only include if not already loaded globally) --}}
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
