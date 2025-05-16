@@ -16,8 +16,7 @@
     <div class="row">
         <div class="col-md-12">
 
-            {{-- Flash Messages --}}
-            @if(session('status'))
+             @if(session('status'))
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                     {{ session('status') }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -73,8 +72,7 @@
                         </div>
                     </div>
 
-                    {{-- User Table --}}
-                    <div class="table-responsive">
+                     <div class="table-responsive">
                         <table class="table table-bordered table-hover">
                             <thead class="table-light">
                                 <tr>
@@ -191,7 +189,6 @@
 </style>
 @endpush
 
-{{-- Bootstrap JS (only include if not already loaded globally) --}}
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
