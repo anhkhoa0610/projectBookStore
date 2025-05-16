@@ -112,13 +112,16 @@
                                         </td>
                                         <td>
                                             <div class="btn-group">
-                                                <a href="{{ route('user.readUser', $user->id) }}" class="btn btn-sm btn-info" title="View">
+                                                <a href="{{ route('user.readUser', ['id' => $user->id]) }}" class="btn btn-sm btn-info" title="View">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
-                                                <a href="{{ route('user.updateUser', $user->id) }}" class="btn btn-sm btn-success" title="Edit">
+                                                <a href="{{ route('user.updateUser', ['id' => $user->id]) }}" class="btn btn-sm btn-success" title="Edit">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
-                                            
+                                                <!-- <button class="btn btn-sm btn-danger"
+                                                        onclick="return confirmDelete('{{ $user->full_name }}', '{{ route('user.destroy', $user->id) }}')">
+                                                    <i class="fas fa-trash"></i>
+                                                </button> -->
                                                 <button class="btn btn-sm btn-danger delete-btn"
                                                     data-user-id="{{ $user->id }}"
                                                     data-user-name="{{ $user->full_name }}"
@@ -126,34 +129,37 @@
                                                     <i class="fas fa-trash"></i>
                                                 </button>
 
-                                                @push('scripts')
-                                                <script>
-                                                    function confirmDelete(userName, deleteUrl) {
-                                                        if (confirm('Bạn có chắc muốn xóa user "' + userName + '" không?')) {
-                                                            let form = document.createElement('form');
-                                                            form.method = 'POST';
-                                                            form.action = deleteUrl;
+@push('scripts')
+<script>
+    function confirmDelete(userName, deleteUrl) {
+        if (confirm('Bạn có chắc muốn xóa user "' + userName + '" không?')) {
+            // Tạo form ẩn để gửi request DELETE
+            let form = document.createElement('form');
+            form.method = 'POST';
+            form.action = deleteUrl;
 
-                                                            // CSRF token
-                                                            let csrf = document.createElement('input');
-                                                            csrf.type = 'hidden';
-                                                            csrf.name = '_token';
-                                                            csrf.value = '{{ csrf_token() }}';
-                                                            form.appendChild(csrf);
+            // CSRF token
+            let csrf = document.createElement('input');
+            csrf.type = 'hidden';
+            csrf.name = '_token';
+            csrf.value = '{{ csrf_token() }}';
+            form.appendChild(csrf);
 
-                                                            let method = document.createElement('input');
-                                                            method.type = 'hidden';
-                                                            method.name = '_method';
-                                                            method.value = 'DELETE';
-                                                            form.appendChild(method);
+            // Method spoofing
+            let method = document.createElement('input');
+            method.type = 'hidden';
+            method.name = '_method';
+            method.value = 'DELETE';
+            form.appendChild(method);
 
-                                                            document.body.appendChild(form);
-                                                            form.submit();
-                                                        }
-                                                        return false;  
-                                                    }
-                                                </script>
-                                                @endpush
+            // Tạo form và gửi
+            document.body.appendChild(form);
+            form.submit();
+        }
+        return false; // Ngăn chặn hành động mặc định
+    }
+</script>
+@endpush
 
                                             </div>
                                         </td>
@@ -179,7 +185,34 @@
 </div>
 @endsection
 
-@stack('scripts')
+<!-- @push('scripts')
+<script>
+    function confirmDelete(userName, deleteUrl) {
+        if (confirm(`Bạn có chắc muốn xóa user "${userName}" không?`)) {
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = deleteUrl;
+
+            const csrf = document.createElement('input');
+            csrf.type = 'hidden';
+            csrf.name = '_token';
+            csrf.value = '{{ csrf_token() }}';
+            form.appendChild(csrf);
+
+            const method = document.createElement('input');
+            method.type = 'hidden';
+            method.name = '_method';
+            method.value = 'DELETE';
+            form.appendChild(method);
+
+            document.body.appendChild(form);
+            form.submit();
+        }
+        return false;
+    }
+</script>
+@endpush -->
+  @stack('scripts')
 @push('styles')
 <style>
     .table th, .table td {
