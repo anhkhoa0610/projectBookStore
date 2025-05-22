@@ -19,18 +19,18 @@ class UserSeeder extends Seeder
         // Khởi tạo Faker để tạo dữ liệu giả
         $faker = Faker::create();
 
-        // Tạo tài khoản admin cố định
-        DB::table('users')->insert([
-            'full_name' => 'Admin User',
-            'email' => 'admin@gmail.com',
-            'password' => Hash::make('password123'),
-            'phone' => '1234567890',
-            'address' => '123 Admin Street',
-            'dob' => '1990-01-01',
-            'role' => 'admin',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+        // // Tạo tài khoản admin cố định
+        // DB::table('users')->insert([
+        //     'full_name' => 'Admin User',
+        //     'email' => 'admin@gmail.com',
+        //     'password' => Hash::make('password123'),
+        //     'phone' => '1234567890',
+        //     'address' => '123 Admin Street',
+        //     'dob' => '1990-01-01',
+        //     'role' => 'admin',
+        //     'created_at' => now(),
+        //     'updated_at' => now(),
+        // ]);
 
         // Tạo mảng chứa 50 user ngẫu nhiên
         $users = [];
