@@ -39,8 +39,7 @@
                 </div>
 
                 <div class="card-body">
-                    {{-- Search & Filter --}}
-                    <div class="row mb-3">
+                     <div class="row mb-3">
                         <div class="col-md-4">
                             <form action="{{ route('user.list') }}" method="GET">
                                 <div class="input-group">
@@ -135,9 +134,11 @@
                         </table>
                     </div>
 
-                    {{-- Pagination --}}
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>{{ $users->links() }}</div>
+                   <div class="d-flex justify-content-center align-items-center flex-column">
+                        <div class="mb-3 text-muted">
+                           Total search results: {{ $users->total() }} users
+                        </div>
+                        {{ $users->appends(request()->query())->links() }}
                     </div>
                 </div>
             </div>
