@@ -4,6 +4,19 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
+                     @if(session('success'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+
+            @if(session('error'))
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{ session('error') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
                     <div class="card-header">
                         <div class="d-flex justify-content-between align-items-center">
                             <h4>List Review</h4>
@@ -21,23 +34,17 @@
                     </div>
 
                     <div class="card-body">
-                        @if (session('success'))
-                            <div class="alert alert-success">
-                                {{ session('success') }}
-                            </div>
-                        @endif
-
                         <div class="table-responsive">
                             <table class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Người dùng</th>
-                                        <th>Tựa sách</th>
-                                        <th>Đánh giá</th>
-                                        <th>Bình luận</th>
-                                        <th>Ngày đánh giá</th>
-                                        <th>Thao tác</th>
+                                        <th>Full name</th>
+                                        <th>Title</th>
+                                        <th>Rating</th>
+                                        <th>Comment</th>
+                                        <th>Date review</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -79,15 +86,18 @@
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="6" class="text-center">Không có dữ liệu</td>
+                                            <td colspan="6" class="text-center">No reviews found</td>
                                         </tr>
                                     @endforelse
                                 </tbody>
                             </table>
                         </div>
 
-                        <div class="d-flex justify-content-center">
-                            {{ $reviews->links() }}
+                       <div class="d-flex justify-content-center align-items-center flex-column">
+                            <div class="mb-3 text-muted">
+                                Total search results: {{ $reviews->total() }} reviews    
+                            </div>
+                            {{ $reviews->appends(request()->query())->links() }}
                         </div>
                     </div>
                 </div>
