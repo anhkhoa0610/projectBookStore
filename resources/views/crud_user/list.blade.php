@@ -39,8 +39,7 @@
                 </div>
 
                 <div class="card-body">
-                    {{-- Search & Filter --}}
-                    <div class="row mb-3">
+                     <div class="row mb-3">
                         <div class="col-md-4">
                             <form action="{{ route('user.list') }}" method="GET">
                                 <div class="input-group">
@@ -72,8 +71,7 @@
                         </div>
                     </div>
 
-                    {{-- User Table --}}
-                    <div class="table-responsive">
+                     <div class="table-responsive">
                         <table class="table table-bordered table-hover">
                             <thead class="table-light">
                                 <tr>
@@ -117,42 +115,12 @@
                                                 <a href="{{ route('user.updateUser', ['id' => $user->id]) }}" class="btn btn-sm btn-success" title="Edit">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
-                                            
-                                                <button class="btn btn-sm btn-danger delete-btn"
-                                                    data-user-id="{{ $user->id }}"
-                                                    data-user-name="{{ $user->full_name }}"
-                                                    onclick="return confirmDelete('{{ $user->full_name }}', '{{ route('user.destroy', ['id' => $user->id]) }}')">
+                                                <button class="btn btn-sm btn-danger"
+                                                        onclick="return confirmDelete('{{ $user->full_name }}', '{{ route('user.destroy', $user->id) }}')">
                                                     <i class="fas fa-trash"></i>
                                                 </button>
+                                           
 
-                                                @push('scripts')
-                                                <script>
-                                                    function confirmDelete(userName, deleteUrl) {
-                                                        if (confirm('Bạn có chắc muốn xóa user "' + userName + '" không?')) {
-                                                            let form = document.createElement('form');
-                                                            form.method = 'POST';
-                                                            form.action = deleteUrl;
-
-                                                            // CSRF token
-                                                            let csrf = document.createElement('input');
-                                                            csrf.type = 'hidden';
-                                                            csrf.name = '_token';
-                                                            csrf.value = '{{ csrf_token() }}';
-                                                            form.appendChild(csrf);
-
-                                                            let method = document.createElement('input');
-                                                            method.type = 'hidden';
-                                                            method.name = '_method';
-                                                            method.value = 'DELETE';
-                                                            form.appendChild(method);
-
-                                                            document.body.appendChild(form);
-                                                            form.submit();
-                                                        }
-                                                        return false;  
-                                                    }
-                                                </script>
-                                                @endpush
 
                                             </div>
                                         </td>
@@ -166,9 +134,17 @@
                         </table>
                     </div>
 
+<<<<<<< HEAD
                     {{-- Pagination --}}
                         <div class="d-flex justify-content-center">
                         <div>{{ $users->links() }}</div>
+=======
+                   <div class="d-flex justify-content-center align-items-center flex-column">
+                        <div class="mb-3 text-muted">
+                           Total search results: {{ $users->total() }} users
+                        </div>
+                        {{ $users->appends(request()->query())->links() }}
+>>>>>>> crud_user
                     </div>
                 </div>
             </div>
@@ -178,7 +154,34 @@
 </div>
 @endsection
 
-@stack('scripts')
+@push('scripts')
+<script>
+    function confirmDelete(userName, deleteUrl) {
+        if (confirm(`Bạn có chắc muốn xóa user "${userName}" không?`)) {
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = deleteUrl;
+
+            const csrf = document.createElement('input');
+            csrf.type = 'hidden';
+            csrf.name = '_token';
+            csrf.value = '{{ csrf_token() }}';
+            form.appendChild(csrf);
+
+            const method = document.createElement('input');
+            method.type = 'hidden';
+            method.name = '_method';
+            method.value = 'DELETE';
+            form.appendChild(method);
+
+            document.body.appendChild(form);
+            form.submit();
+        }
+        return false;
+    }
+</script>
+@endpush
+  @stack('scripts')
 @push('styles')
 <style>
     .table th, .table td {
@@ -193,7 +196,6 @@
 </style>
 @endpush
 
-{{-- Bootstrap JS (only include if not already loaded globally) --}}
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
