@@ -10,12 +10,12 @@
                     <div class="card-body">
                         <div class="mb-3">
                             <h5>Người dùng</h5>
-                            <p>{{ $review->user->name }}</p>
+                            <p>{{ $review->user->full_name }}</p>
                         </div>
 
                         <div class="mb-3">
                             <h5>Tựa sách</h5>
-                            <p>{{ $review->book->title }}</p>
+                        <p>{{ optional($review->book)->title ?? 'N/A' }}</p>
                         </div>
 
                         <div class="mb-3">

@@ -15,8 +15,6 @@ return new class extends Migration
             $table->id();
             $table->integer('user_id'); 
             $table->integer('book_id');
-            // $table->string('name');
-            // $table->string('title');
             $table->integer('rating')->default(5); // Rating từ 1-5 sao
             $table->text('comment')->nullable();
             $table->date('date_review');

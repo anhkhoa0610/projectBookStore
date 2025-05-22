@@ -16,8 +16,7 @@
     <div class="row">
         <div class="col-md-12">
 
-            {{-- Flash Messages --}}
-            @if(session('status'))
+             @if(session('status'))
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                     {{ session('status') }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -112,10 +111,10 @@
                                         </td>
                                         <td>
                                             <div class="btn-group">
-                                                <a href="{{ route('user.readUser', $user->id) }}" class="btn btn-sm btn-info" title="View">
+                                                <a href="{{ route('user.readUser', ['id' => $user->id]) }}" class="btn btn-sm btn-info" title="View">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
-                                                <a href="{{ route('user.updateUser', $user->id) }}" class="btn btn-sm btn-success" title="Edit">
+                                                <a href="{{ route('user.updateUser', ['id' => $user->id]) }}" class="btn btn-sm btn-success" title="Edit">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
                                             
@@ -168,7 +167,7 @@
                     </div>
 
                     {{-- Pagination --}}
-                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex justify-content-center">
                         <div>{{ $users->links() }}</div>
                     </div>
                 </div>

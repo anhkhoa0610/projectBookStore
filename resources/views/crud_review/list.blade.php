@@ -35,6 +35,7 @@
                                         <th>Người dùng</th>
                                         <th>Tựa sách</th>
                                         <th>Đánh giá</th>
+                                        <th>Bình luận</th>
                                         <th>Ngày đánh giá</th>
                                         <th>Thao tác</th>
                                     </tr>
@@ -57,6 +58,7 @@
                                                     @endfor
                                                 </div>
                                             </td>
+                                            <td>{{ $review->comment }} </td>
                                             <td>{{ $review->date_review }}</td>
                                             <td>
                                                 <div class="d-flex gap-2">
@@ -84,7 +86,7 @@
                             </table>
                         </div>
 
-                        <div class="mt-4">
+                        <div class="d-flex justify-content-center">
                             {{ $reviews->links() }}
                         </div>
                     </div>

@@ -27,7 +27,7 @@
                                     <option value="">Chọn người dùng</option>
                                     @foreach($users as $user)
                                         <option value="{{ $user->id }}" {{ old('user_id') == $user->id ? 'selected' : '' }}>
-                                            {{ $user->name }}
+                                            {{ $user->full_name }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -38,9 +38,10 @@
                                 <select class="form-control" id="book_id" name="book_id" required>
                                     <option value="">Chọn sách</option>
                                     @foreach($books as $book)
-                                        <option value="{{ $book->id }}" {{ old('book_id') == $book->id ? 'selected' : '' }}>
+                                        <!-- <option value="{{ $book->id }}" {{ old('book_id') == $book->id ? 'selected' : '' }}>
                                             {{ $book->title }}
-                                        </option>
+                                        </option> -->
+                                        <option value="{{ $book->book_id }}">{{ $book->title }}</option>
                                     @endforeach
                                 </select>
                             </div>

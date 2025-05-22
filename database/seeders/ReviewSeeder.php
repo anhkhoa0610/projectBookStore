@@ -17,7 +17,7 @@ class ReviewSeeder extends Seeder
 
         for ($i = 0; $i <= 50; $i++) {
             DB::table('reviews')->insert([
-                'user_id' => $faker->numberBetween(1, 20),  
+                'user_id' => $faker->numberBetween(1, 50),  
                 'book_id' => $faker->numberBetween(1, 100),  
                 'rating' => $faker->numberBetween(1, 5),  
                 'comment' => $faker->sentence($nbWords = 10),  
