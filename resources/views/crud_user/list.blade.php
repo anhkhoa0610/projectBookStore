@@ -136,7 +136,7 @@
                     </div>
 
                     {{-- Pagination --}}
-                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex justify-content-center">
                         <div>{{ $users->links() }}</div>
                     </div>
                 </div>
