@@ -134,18 +134,12 @@
                         </table>
                     </div>
 
-<<<<<<< HEAD
-                    {{-- Pagination --}}
-                        <div class="d-flex justify-content-center">
-                        <div>{{ $users->links() }}</div>
-=======
                    <div class="d-flex justify-content-center align-items-center flex-column">
                         <div class="mb-3 text-muted">
                            Total search results: {{ $users->total() }} users
                         </div>
                         {{ $users->appends(request()->query())->links() }}
->>>>>>> crud_user
-                    </div>
+                     </div>
                 </div>
             </div>
 
