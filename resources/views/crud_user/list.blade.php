@@ -34,10 +34,9 @@
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h4>User List</h4>
                     <a href="{{ route('user.createUser') }}" class="btn btn-primary">
-                        <i class="fas fa-user-plus"></i>  
+                        <i class="fas fa-user-plus"></i>
                     </a>
-                </div>
-
+                </div> 
                 <div class="card-body">
                      <div class="row mb-3">
                         <div class="col-md-4">
