@@ -17,15 +17,18 @@
                         <div class="mb-3">
                             <label for="name" class="form-label">Publisher name</label>
                             <input type="text" id="name" name="publisher_name" class="form-control" required>
+                            @error('publisher_name')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="mb-3">
                             <label for="contact" class="form-label">Contact Info</label>
                             <input type="text" id="contact" name="contact_info" class="form-control" required>
-                        </div>
-
-
-                        
+                            @error('contact_info')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>                   
                         <div class="mb-3">
                             <button type="submit" class="btn btn-primary">Create Publisher</button>
                         </div>

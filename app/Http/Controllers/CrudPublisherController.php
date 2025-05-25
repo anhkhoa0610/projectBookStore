@@ -61,6 +61,10 @@ class CrudPublisherController extends Controller
         //     'email' => 'required|email|unique:users',
         //     'password' => 'required|min:6',
         // ]);
+        $request->validate([
+            'publisher_name' => 'required|string|max:10',
+            'contact_info' => 'required|string|max:255',
+        ]);
 
         $data = $request->all();
 
@@ -111,7 +115,12 @@ class CrudPublisherController extends Controller
      */
     public function postUpdatePublisher(Request $request)
     {
+        $request->validate([
+            'publisher_name' => 'required|string|max:10',
+            'contact_info' => 'required|string|max:255',
+        ]);
         $input = $request->all();
+
 
         // $request->validate([
         //     'name' => 'required',
