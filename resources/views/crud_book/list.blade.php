@@ -31,7 +31,7 @@
 
                         <style>
                             .description-cell,
-                            .summary-cell {
+                            .summary-cell, .title-cell {
                                 max-width: 200px;
                                 /* Set maximum width */
                                 max-height: 100px;
@@ -81,7 +81,7 @@
                             <tbody>
                                 @foreach($books as $book)
                                     <tr>
-                                        <th>{{ $book->title }}</th>
+                                        <th class="title-cell">{{ $book->title }}</th>
                                         <th>{{ $book->author_id }}</th>
                                         <th>{{ $book->category_id }}</th>
                                         <th>{{ $book->publisher_id }}</th>

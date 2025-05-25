@@ -62,6 +62,15 @@ class CrudBookController extends Controller
         //     'password' => 'required|min:6',
         // ]);
 
+        $request->validate([
+            'title' => 'required|string|max:100',
+            'summary' => 'required|string|max:500',
+            'description' => 'required|string|max:255',
+            'price' => 'required|numeric|min:0|max:999999999',
+            'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,svg|max:2048', // Validate cover image
+            // ...other validation rules...
+        ]);
+
         $data = $request->all();
 
         if ($request->hasFile('cover_image')) {
@@ -69,6 +78,8 @@ class CrudBookController extends Controller
             $filename = time() . '_' . $file->getClientOriginalName();
             $file->move(public_path('uploads'), $filename); // Save the file to 'public/uploads'
             $data['cover_image'] = $filename; // Save the filename in the database
+        } else {
+            $data['cover_image'] = null; // <-- Add this line
         }
 
         Books::create([
@@ -134,20 +145,33 @@ class CrudBookController extends Controller
         //     'age' => 'required',
         // ]);
 
+
+
         $book = Books::find($input['book_id']);
+
+        $request->validate([
+            'title' => 'required|string|max:100',
+            'summary' => 'required|string|max:500',
+            'description' => 'required|string|max:255',
+            'price' => 'required|numeric|min:0|max:999999999',
+            'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,svg|max:2048', // Validate cover image
+            // ...other validation rules...
+        ]);
 
         if ($request->hasFile('cover_image')) {
             // Delete the old cover image if it exists
             if ($book->cover_image && file_exists(public_path('uploads/' . $book->cover_image))) {
                 unlink(public_path('uploads/' . $book->cover_image));
             }
-    
+
             // Save the new cover image
             $file = $request->file('cover_image');
             $filename = time() . '_' . $file->getClientOriginalName();
             $file->move(public_path('uploads'), $filename);
             $input['cover_image'] = $filename;
         }
+
+
 
         $book->title = $input['title'];
         $book->summary = $input['summary'];
@@ -166,7 +190,7 @@ class CrudBookController extends Controller
     /**
      * List of users
      */
-    
+
 
     /**
      * List of books with search functionality
@@ -177,8 +201,8 @@ class CrudBookController extends Controller
 
         $books = Books::when($search, function ($query, $search) {
             $query->where('title', 'like', "%{$search}%")
-                  ->orWhere('author_id', 'like', "%{$search}%")
-                  ->orWhere('category_id', 'like', "%{$search}%");
+                ->orWhere('author_id', 'like', "%{$search}%")
+                ->orWhere('category_id', 'like', "%{$search}%");
         })->paginate(10)->appends(['search' => $search]); // Append search query to pagination links
 
         return view('crud_book.list', compact('books'));
@@ -195,5 +219,5 @@ class CrudBookController extends Controller
         return Redirect('login');
     }
 
-    
+
 }

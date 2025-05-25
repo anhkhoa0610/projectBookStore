@@ -14,13 +14,28 @@
                 <div class="card-body">
                     <form action="{{ route('book.postUpdateBook', ['book_id' => $book->book_id]) }}" method="POST" enctype="multipart/form-data">
                         @csrf
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul class="mb-0">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                         <div class="mb-3">
                             <label for="title" class="form-label">Title</label>
                             <input type="text" name="title" class="form-control" value="{{ $book->title }}" required>
+                            @error('title')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="mb-3">
                             <label for="summary" class="form-label">Summary</label>
                             <textarea name="summary" class="form-control" rows="3" required>{{ $book->summary }}</textarea>
+                            @error('summary')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="mb-3">
                             <label for="author_id" class="form-label">Author ID</label>
@@ -37,10 +52,16 @@
                         <div class="mb-3">
                             <label for="description" class="form-label">Description</label>
                             <textarea name="description" class="form-control" rows="5" required>{{ $book->description }}</textarea>
+                            @error('description')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="mb-3">
                             <label for="price" class="form-label">Price</label>
                             <input type="number" step="0.01" name="price" class="form-control" value="{{ $book->price }}" required>
+                            @error('price')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="mb-3">
                             <label for="cover_image" class="form-label">Cover Image</label>
@@ -50,10 +71,16 @@
                                     <img src="{{ asset('uploads/' . $book->cover_image) }}" alt="Cover Image" width="100">
                                 </div>
                             @endif
+                            @error('cover_image')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="mb-3">
                             <label for="volume_sold" class="form-label">Volume Sold</label>
                             <input type="number" name="volume_sold" class="form-control" value="{{ $book->volume_sold }}" required>
+                            @error('volume_sold')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="mb-3">
                             <button type="submit" class="btn btn-primary">Update Book</button>
