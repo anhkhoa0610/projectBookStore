@@ -28,7 +28,15 @@
                             @error('contact_info')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
-                        </div>                   
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="address" class="form-label">Address</label>
+                            <input type="text" id="address" name="address" class="form-control" required>
+                            @error('address')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
                         <div class="mb-3">
                             <button type="submit" class="btn btn-primary">Create Publisher</button>
                         </div>

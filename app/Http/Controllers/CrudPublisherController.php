@@ -64,6 +64,7 @@ class CrudPublisherController extends Controller
         $request->validate([
             'publisher_name' => 'required|string|max:10',
             'contact_info' => 'required|string|max:255',
+            'address' => 'nullable|string|max:255',
         ]);
 
         $data = $request->all();
@@ -118,6 +119,7 @@ class CrudPublisherController extends Controller
         $request->validate([
             'publisher_name' => 'required|string|max:10',
             'contact_info' => 'required|string|max:255',
+            'address' => 'nullable|string|max:255',
         ]);
         $input = $request->all();
 
