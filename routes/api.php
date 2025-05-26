@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CrudCategoriesController;
+use App\Http\Controllers\IndexController;
 
 
 /*
@@ -20,4 +20,5 @@ Route::middleware('crud_user:sanctum')->get('/user', function (Request $request)
     return $request->user();
 });
 
-Route::get('/categories/all', [CrudCategoriesController::class, 'index'])->name('categories-api');
+
+Route::get('/categories/all', [IndexController::class, 'categories'])->name('categories-api');
