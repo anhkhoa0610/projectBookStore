@@ -20,7 +20,8 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Name</th>
-                                <th>Contact Info</th>                           
+                                <th>Contact Info</th>
+                                <th>Address</th>                        
                             </tr>
                         </thead>
                         <tbody>
@@ -28,6 +29,7 @@
                                 <th>{{ $publisher->publisher_id }}</th>
                                 <th>{{ $publisher->publisher_name }}</th>
                                 <th>{{ $publisher->contact_info }}</th>
+                                <th>{{ $publisher->address }}</th>
                             </tr>
                         </tbody>
                     </table>

@@ -83,10 +83,10 @@
                                 @foreach($books as $book)
                                     <tr>
                                         <th class="title-cell">{{ $book->title }}</th>
-                                        <th>{{ $book->author_id }}</th>
+                                        <th>{{ $book->author ? $book->author->author_name : 'Unknown' }}</th>
                                         <th>{{ $book->published_date }}</th>
                                  
-                                        <th>{{ $book->publisher_id }}</th>
+                                        <th>{{ $book->publisher->publisher_name }}</th>
                                         <td class="description-cell">{{ $book->description }}</td>
                                         <td>
                                             @if ($book->cover_image)
