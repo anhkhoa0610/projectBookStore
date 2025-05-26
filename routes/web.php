@@ -82,7 +82,7 @@ Route::get('listCate', [CrudCategoriesController::class, 'listCategories'])->nam
 
 Route::get('/', function () {
     return view('dashboard');
-});
+})->name('home');
 
 
 Route::get('createRepo', [CrudRepoController::class, 'createRepo'])->name('repo.createRepo');
@@ -196,8 +196,6 @@ Route::prefix('reviews')->group(function () {
     Route::delete('/{id}', [CrudReviewController::class, 'destroy'])->name('reviews.destroy');
 });
 
-Route::get('/index', function () {
-    return view('index');
-})->name('index');
+
 
 Route::get('/index', [IndexController::class, 'allBooks'])->name('index');

@@ -14,23 +14,6 @@
 
 </head>
 
-<style>
-.modern-big-title {
-    font-size: 3rem;
-    font-weight: 900;
-    letter-spacing: 0.1em;
-    color: #222;
-    background: linear-gradient(90deg, #00c6fb 0%, #005bea 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-transform: uppercase;
-    text-align: center;
-    margin: 40px 0;
-    padding: 10px 0;
-    border-bottom: 4px solid blue;
-    box-shadow: 0 4px 24px rgba(255, 45, 85, 0.15);
-}
-</style>
 
 <body>
     <nav class="navbar">
@@ -38,20 +21,27 @@
             <img src="{{ asset('images/rsz_logo.png') }}" alt="">
         </a>
         <div class="search-box">
-            <input type="text" placeholder="Search books, authors, ISBNs">
-            <i class="fas fa-search"></i>
+            <form class="d-flex position-relative" role="search" action="">
+                <input class="form-control me-2 input-search" type="search" placeholder="Search" aria-label="Search"
+                    name="q">
+                <i class="fas fa-search mt-2 me-1" style="font-size: 1rem;"></i>
+
+                <ul class="list-group suggest position-absolute start-0 end-0 top-100 bg-white" style="z-index: 10;">
+                    
+                </ul>
+            </form>
         </div>
         <div class="nav-links">
             @auth
-        <span class="user-name mx-5">Xin chào <b class="text-primary">{{ Auth::user()->full_name }}</b></span>
-        <form action="{{ route('logout') }}" method="POST" style="display:inline;">
-            @csrf
-            <button type="submit" class="btn btn-danger"><b>Log Out</b></button>
-        </form>
-    @else
-        <a href="{{ route('login') }}" class="btn btn-primary"><b>Sign In</b></a>
-        <a href="{{ route('user.createUser') }}" class="btn btn-primary"><b>Sign Up</b></a>
-    @endauth
+                <span class="user-name mx-5">Xin chào <b class="text-primary">{{ Auth::user()->full_name }}</b></span>
+                <form action="{{ route('logout') }}" method="POST" style="display:inline;">
+                    @csrf
+                    <button type="submit" class="btn btn-danger"><b>Log Out</b></button>
+                </form>
+            @else
+                <a href="{{ route('login') }}" class="btn btn-primary"><b>Sign In</b></a>
+                <a href="{{ route('user.createUser') }}" class="btn btn-primary"><b>Sign Up</b></a>
+            @endauth
             <div class="cart">
                 <a href="" class="cart-icon">
                     <i class="fas fa-shopping-cart"></i>
@@ -79,7 +69,7 @@
                                 <a class="nav-link" href="#best-seller">Bán Chạy Nhất</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="new-book">Sách Mới Nhất</a>
+                                <a class="nav-link" href="#new-book">Sách Mới Nhất</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#">Tài Khoản</a>
@@ -180,7 +170,7 @@
 
     </section>
 
-    <section id="best-seller" class="my-5 mx-5">
+    <section id="new-book" class="my-5 mx-5">
         <p class="modern-big-title">Newly Updated</p>
         <div class="grid">
             @foreach($newBooks as $book)
@@ -205,7 +195,7 @@
                     <button class="add-to-cart">Add to Cart</button>
                 </a>
             @endforeach
-            
+
         </div>
 
 
@@ -334,9 +324,12 @@
     </div>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js"></script>
+<script src="{{ asset('js/scripts.js') }}"></script>
 
 <script>
+    const root = "{{ route('home') }}";
+
     document.addEventListener("DOMContentLoaded", function () {
         let index = 0;
         const slides = document.querySelectorAll(".nav-slide");
@@ -355,7 +348,6 @@
         const res = await fetch(url);
         const result = await res.json();
 
-        console.log(result);
 
         const categoryList = document.querySelector('.categories-list');
 
