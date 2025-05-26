@@ -11,6 +11,7 @@ use App\Http\Controllers\CrudAuthorController;
 use App\Http\Controllers\CrudOrdersController;
 use App\Http\Controllers\CrudOrdersDetailsController;
 use App\Http\Controllers\CrudReviewController;
+use App\Http\Controllers\IndexController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -200,3 +201,5 @@ Route::prefix('reviews')->group(function() {
 Route::get('/index', function () {
     return view('index');
 })->name('index');
+
+Route::get('/index', [IndexController::class, 'allBooks'])->name('index');
