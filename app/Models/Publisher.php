@@ -40,5 +40,6 @@ class Publisher extends Model
     protected $fillable = [
         'publisher_name',
         'contact_info',
+        'address',
     ];
 }

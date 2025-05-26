@@ -68,7 +68,8 @@
                                 <tr>
                                     <th>Title</th>
                                     <th>Author</th>
-                                    <th>Category</th>
+                                    <th>Published Date</th>
+                                    <!-- <th>Category</th> -->
                                     <th>Publisher</th>
                                     <th>Description</th>
                                     <th>Image</th>
@@ -83,7 +84,8 @@
                                     <tr>
                                         <th class="title-cell">{{ $book->title }}</th>
                                         <th>{{ $book->author_id }}</th>
-                                        <th>{{ $book->category_id }}</th>
+                                        <th>{{ $book->published_date }}</th>
+                                 
                                         <th>{{ $book->publisher_id }}</th>
                                         <td class="description-cell">{{ $book->description }}</td>
                                         <td>

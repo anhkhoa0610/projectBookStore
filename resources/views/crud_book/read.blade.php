@@ -21,7 +21,7 @@
                                 <th>ID</th>
                                 <th>Title</th>
                                 <th>Author</th>
-                                <th>Category</th>
+                                <th>Published Date</th>
                                 <th>Publisher</th>
                                 <th>Description</th>
                                 <th>Summary</th>
@@ -35,7 +35,7 @@
                                 <th>{{ $book->book_id }}</th>
                                 <th>{{ $book->title }}</th>
                                 <th>{{ $book->author_id }}</th>
-                                <th>{{ $book->category_id }}</th>
+                                <th>{{ $book->published_date }}</th>
                                 <th>{{ $book->publisher_id }}</th>
                                 <th>{{ $book->description }}</th>
                                 <th>{{ $book->summary }}</th>
