@@ -16,15 +16,18 @@ class LoginController extends Controller
     // Xử lý đăng nhập
     public function login(Request $request)
     {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
         $credentials = $request->only('email', 'password');
-
-        if (Auth::attempt($credentials, $request->remember)) {
-            return redirect()->intended('/');
+        $remember = $request->has('remember');
+        if (Auth::attempt($credentials, $remember)) {
+            return redirect()->intended('index')
+                ->withSuccess('Signed in successfully');
         }
 
-        return back()->withErrors([
-            'email' => 'Email hoặc mật khẩu không đúng.',
-        ])->withInput();
+        return back()->withErrors(['email' => 'Invalid login details.']);
     }
 
     // Đăng xuất
