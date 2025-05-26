@@ -78,14 +78,7 @@ class AuthorSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now(),
         ]);
-
-        DB::table('authors')->insert([
-            'author_name' => 'Nguyễn Nhật Ánh', // Tên tác giả dạng "Author 1", "Author 2", ...
-            'bio' => null, // Tiểu sử ngắn cho tác giả
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-
+        
         DB::table('authors')->insert([
             'author_name' => 'Tony Buổi Sáng', // Tên tác giả dạng "Author 1", "Author 2", ...
             'bio' => null, // Tiểu sử ngắn cho tác giả

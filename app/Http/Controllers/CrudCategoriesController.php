@@ -155,4 +155,10 @@ class CrudCategoriesController extends Controller
 
         return Redirect('login');
     }
+
+    public function index()
+    {
+        $categories = Category::all();
+        return $categories;
+    }
 }
