@@ -63,9 +63,19 @@ class CrudBookController extends Controller
         // ]);
 
         $request->validate([
-            'title' => 'required|string|max:100',
+            'title' => [
+                'required',
+                'string',
+                function ($attribute, $value, $fail) {
+                    // mb_strlen counts multibyte (full-width) and single-byte (half-width) as 1 each
+                    if (mb_strlen($value) >= 50) {
+                        $fail('The ' . $attribute . ' must be less than 10 characters.');
+                    }
+                }
+            ],
             'summary' => 'required|string|max:500',
-            'description' => 'required|string|max:255',
+            'description' => 'required|string|max:500',
+            'published_date' => 'required|date|before:today',
             'price' => 'required|numeric|min:0|max:999999999',
             'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,svg|max:2048', // Validate cover image
             // ...other validation rules...
@@ -86,7 +96,7 @@ class CrudBookController extends Controller
             'title' => $data['title'],
             'summary' => $data['summary'],
             'author_id' => $data['author_id'],
-            'category_id' => $data['category_id'],
+            'published_date' => $data['published_date'], // Ensure this is included
             'publisher_id' => $data['publisher_id'],
             'description' => $data['description'],
             'price' => $data['price'],
@@ -150,9 +160,19 @@ class CrudBookController extends Controller
         $book = Books::find($input['book_id']);
 
         $request->validate([
-            'title' => 'required|string|max:100',
+            'title' => [
+                'required',
+                'string',
+                function ($attribute, $value, $fail) {
+                    // mb_strlen counts multibyte (full-width) and single-byte (half-width) as 1 each
+                    if (mb_strlen($value) >= 50) {
+                        $fail('The ' . $attribute . ' must be less than 10 characters.');
+                    }
+                }
+            ],
             'summary' => 'required|string|max:500',
-            'description' => 'required|string|max:255',
+            'description' => 'required|string|max:500',
+            'published_date' => 'required|date|before:today', // Must be a date before today            'description' => 'required|string|max:255',
             'price' => 'required|numeric|min:0|max:999999999',
             'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,svg|max:2048', // Validate cover image
             // ...other validation rules...
@@ -176,7 +196,6 @@ class CrudBookController extends Controller
         $book->title = $input['title'];
         $book->summary = $input['summary'];
         $book->author_id = $input['author_id'];
-        $book->category_id = $input['category_id'];
         $book->publisher_id = $input['publisher_id'];
         $book->description = $input['description'];
         $book->price = $input['price'];
@@ -202,7 +221,7 @@ class CrudBookController extends Controller
         $books = Books::when($search, function ($query, $search) {
             $query->where('title', 'like', "%{$search}%")
                 ->orWhere('author_id', 'like', "%{$search}%")
-                ->orWhere('category_id', 'like', "%{$search}%");
+            ;
         })->paginate(10)->appends(['search' => $search]); // Append search query to pagination links
 
         return view('crud_book.list', compact('books'));

@@ -244,13 +244,8 @@
         <div class="category-list mt-4">
             <div class="category-box">
                 <div class="category-title">Danh mục theo thể loại sách</div>
-                <ul>
-                    <li><i class="fas fa-book"></i> Văn Học</li>
-                    <li><i class="fas fa-book"></i> Tiểu Thuyết</li>
-                    <li><i class="fas fa-book"></i> Kỹ Năng Sống</li>
-                    <li><i class="fas fa-book"></i> Lịch sử</li>
-                    <li><i class="fas fa-book"></i> Thiếu Nhi</li>
-                    <li><i class="fas fa-book"></i> Sức Khỏe</li>
+                <ul class="categories-list">
+                    
                 </ul>
             </div>
             <div class="category-box">
@@ -260,14 +255,7 @@
                     <li><i class="fas fa-book"></i> Sách mới</li>
                     <li><i class="fas fa-book"></i> Sách được đánh giá cao</li>
                 </ul>
-            </div>
-            <div class="category-box">
-                <div class="category-title">Danh mục theo ngôn ngữ</div>
-                <ul>
-                    <li><i class="fas fa-book"></i> Tiếng Việt</li>
-                    <li><i class="fas fa-book"></i> Tiếng Anh</li>
-                </ul>
-            </div>
+            </div>           
         </div>
 
         <div>
@@ -462,8 +450,28 @@
 
         setInterval(autoSlide, 3000);
     });
-</script>
 
+    async function getAllCategory() {
+        const url = "{{ route('categories-api') }}";
+        const res = await fetch(url);
+        const result = await res.json();
+
+        console.log(result);
+
+        const categoryList = document.querySelector('.categories-list');
+
+        for (let i = 0; i < result.length; i++) {
+            const categoryBox = document.createElement("li");
+            categoryBox.innerHTML = `<i class="fas fa-book"></i>
+                ${result[i].category_name}
+            `;
+            categoryList.appendChild(categoryBox);
+        }
+    }
+
+    getAllCategory();
+</script>
+                   
 
 
 </html>

@@ -13,14 +13,71 @@ class PublisherSeeder extends Seeder
      */
     public function run(): void
     {
-        for ($i = 1; $i <= 20; $i++) {
-            DB::table('publishers')->insert([
-                'publisher_name' => 'Publisher ' . $i,
+        
+        DB::table('publishers')->insert([
+                'publisher_name' => 'Kim Đồng' ,
                 'contact_info' => Str::random(10) . '@example.com', // Random email-like contact info
-                'address' => 'Address ' . $i, // Simple address placeholder
+                'address' => 'Address ' , // Simple address placeholder
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
-        }
+
+        DB::table('publishers')->insert([
+                'publisher_name' => 'Hội Nhà Văn' ,
+                'contact_info' => Str::random(10) . '@example.com', // Random email-like contact info
+                'address' => 'Address ' , // Simple address placeholder
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+            DB::table('publishers')->insert([
+                'publisher_name' => 'Văn Học' ,
+                'contact_info' => Str::random(10) . '@example.com', // Random email-like contact info
+                'address' => 'Address ' , // Simple address placeholder
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+            DB::table('publishers')->insert([
+                'publisher_name' => 'First News' ,
+                'contact_info' => Str::random(10) . '@example.com', // Random email-like contact info
+                'address' => 'Address ' , // Simple address placeholder
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+            DB::table('publishers')->insert([
+                'publisher_name' => 'NXB Trẻ' ,
+                'contact_info' => Str::random(10) . '@example.com', // Random email-like contact info
+                'address' => 'Address ' , // Simple address placeholder
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+            DB::table('publishers')->insert([
+                'publisher_name' => 'Phụ Nữ' ,
+                'contact_info' => Str::random(10) . '@example.com', // Random email-like contact info
+                'address' => 'Address ' , // Simple address placeholder
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+            DB::table('publishers')->insert([
+                'publisher_name' => 'NXB Thế Giới' ,
+                'contact_info' => Str::random(10) . '@example.com', // Random email-like contact info
+                'address' => 'Address ' , // Simple address placeholder
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+            DB::table('publishers')->insert([
+                'publisher_name' => 'Lao Động - Xã Hội' ,
+                'contact_info' => Str::random(10) . '@example.com', // Random email-like contact info
+                'address' => 'Address ' , // Simple address placeholder
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+            
     }
 }
