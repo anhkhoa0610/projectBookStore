@@ -21,7 +21,7 @@ use App\Http\Controllers\CrudReviewController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('dashboard', [CrudBookController::class, 'dashboard']);
+Route::get('dashboard', action: [CrudBookController::class, 'dashboard']);
 
 Route::get('login', [CrudBookController::class, 'login'])->name('login');
 Route::post('login', [CrudBookController::class, 'authUser'])->name('user.authUser');
@@ -196,3 +196,7 @@ Route::prefix('reviews')->group(function() {
     Route::put('/{id}', [CrudReviewController::class, 'update'])->name('reviews.update');
     Route::delete('/{id}', [CrudReviewController::class, 'destroy'])->name('reviews.destroy');
 });
+
+Route::get('/index', function () {
+    return view('index');
+})->name('index');
