@@ -17,9 +17,9 @@ class CrudUserController extends Controller
     {
         $query = User::query();
 
-         if ($request->has('search')) {
+        if ($request->has('search')) {
             $search = $request->search;
-            $query->where(function($q) use ($search) {
+            $query->where(function ($q) use ($search) {
                 $q->where('full_name', 'like', "%{$search}%")
                     ->orWhere('email', 'like', "%{$search}%")
                     ->orWhere('address', 'like', "%{$search}%")
@@ -37,7 +37,7 @@ class CrudUserController extends Controller
 
     public function createUser()
     {
-        return view('crud_user.create');
+        return view('login.create');
     }
 
     /**
@@ -45,23 +45,25 @@ class CrudUserController extends Controller
      */
     public function postUser(Request $request)
     {
-        $validated = $request->validate([
-            'full_name' => 'required|string|max:100',
-            'email' => 'required|email|unique:users|max:100',
-            'password' => 'required|min:8|confirmed',
-            'phone' => 'required|string|min:10|max:15|unique:users',
-            'address' => 'required|string',
-            'dob' => 'required|date|before:today',
-            'role' => 'required|in:admin,manager,user'
+        $request->validate([
+            'full_name' => 'required',
+            'email' => 'required|email|unique:users',
+            'phone' => 'required|numeric',
+            'address' => 'required',
+            'dob' => 'required|date',
+            'password' => 'required|min:6',
         ]);
 
-        $validated['password'] = Hash::make($validated['password']);
-        $validated['is_active'] = true;
+        $user = new User();
+        $user->full_name = $request->full_name;
+        $user->email = $request->email;
+        $user->phone = $request->phone;
+        $user->address = $request->address;
+        $user->dob = $request->dob;
+        $user->password = Hash::make($request->password);
+        $user->save();
 
-        User::create($validated);
-
-        return redirect()->route('user.list')
-            ->with('status', 'User created successfully');
+        return redirect("login");
     }
 
     /**
@@ -88,8 +90,8 @@ class CrudUserController extends Controller
 
         $validated = $request->validate([
             'full_name' => 'required|string|max:100',
-            'email' => 'required|email|max:100|unique:users,email,'.$request->id,
-            'phone' => 'required|string|min:10|max:15|unique:users,phone,'.$request->id,
+            'email' => 'required|email|max:100|unique:users,email,' . $request->id,
+            'phone' => 'required|string|min:10|max:15|unique:users,phone,' . $request->id,
             'address' => 'required|string',
             'dob' => 'required|date|before:today',
             'role' => 'required|in:admin,manager,user'
@@ -113,13 +115,13 @@ class CrudUserController extends Controller
      */
     public function destroy($id)
     {
-           try {
-        $user = User::findOrFail($id);
-        $user->delete();
-        return redirect()->route('user.list')->with('status', 'User deleted successfully!');
-    } catch (\Exception $e) {
-        return redirect()->route('user.list')->with('error', 'Error delete user: ' . $e->getMessage());
-    }
+        try {
+            $user = User::findOrFail($id);
+            $user->delete();
+            return redirect()->route('user.list')->with('status', 'User deleted successfully!');
+        } catch (\Exception $e) {
+            return redirect()->route('user.list')->with('error', 'Error delete user: ' . $e->getMessage());
+        }
     }
 
     /**

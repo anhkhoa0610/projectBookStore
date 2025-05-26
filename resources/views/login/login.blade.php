@@ -136,7 +136,7 @@
             <button type="submit">Sign In</button>
             <div class="container-3">
                 <span class="psw psw1"> <a href="Reset.html">Reset password</a></span>
-                <span class="psw psw2"> <a href="create.html">Create account</a></span>
+                <span class="psw psw2"> <a href="{{ route('user.createUser') }}">Create account</a></span>
             </div>
         </div>
     </form>
