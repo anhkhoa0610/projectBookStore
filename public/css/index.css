@@ -541,3 +541,19 @@ body {
     box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18), 0 2px 8px rgba(0, 0, 0, 0.12);
     z-index: 2;
 }
+
+.modern-big-title {
+    font-size: 3rem;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    color: #222;
+    background: linear-gradient(90deg, #00c6fb 0%, #005bea 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-transform: uppercase;
+    text-align: center;
+    margin: 40px 0;
+    padding: 10px 0;
+    border-bottom: 4px solid blue;
+    box-shadow: 0 4px 24px rgba(255, 45, 85, 0.15);
+}

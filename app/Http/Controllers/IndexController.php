@@ -31,5 +31,18 @@ class IndexController extends Controller
         ]);
     }
 
+    public function searchAPI($keyword)
+{
+    $books = Books::with(['author'])
+        ->where(function($query) use ($keyword) {
+            $query->where('title', 'like', '%' . $keyword . '%')
+                  ->orWhereHas('author', function ($q) use ($keyword) {
+                      $q->where('author_name', 'like', '%' . $keyword . '%');
+                  });
+        })
+        ->get();
+
+    return response()->json($books);
+}
 }
 
