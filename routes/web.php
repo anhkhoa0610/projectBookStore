@@ -12,6 +12,7 @@ use App\Http\Controllers\CrudOrdersController;
 use App\Http\Controllers\CrudOrdersDetailsController;
 use App\Http\Controllers\CrudReviewController;
 use App\Http\Controllers\IndexController;
+use App\Http\Controllers\LoginController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,8 +25,6 @@ use App\Http\Controllers\IndexController;
 */
 Route::get('dashboard', action: [CrudBookController::class, 'dashboard']);
 
-Route::get('login', [CrudBookController::class, 'login'])->name('login');
-Route::post('login', [CrudBookController::class, 'authUser'])->name('user.authUser');
 
 Route::get('createBook', [CrudBookController::class, 'createBook'])->name('book.createBook');
 Route::post('createBook', [CrudBookController::class, 'postBook'])->name('book.postBook');
@@ -43,8 +42,6 @@ Route::get('signout', [CrudBookController::class, 'signOut'])->name('signout');
 
 Route::get('dashboard', [CrudPublisherController::class, 'dashboard']);
 
-Route::get('login', [CrudPublisherController::class, 'login'])->name('login');
-Route::post('login', [CrudPublisherController::class, 'authUser'])->name('user.authUser');
 
 Route::get('createPublisher', [CrudPublisherController::class, 'createPublisher'])->name('publisher.createPublisher');
 Route::post('createPublisher', [CrudPublisherController::class, 'postPublisher'])->name('publisher.postPublisher');
@@ -87,10 +84,6 @@ Route::get('/', function () {
     return view('dashboard');
 });
 
-
-
-Route::get('login', [CrudRepoController::class, 'login'])->name('login');
-Route::post('login', [CrudRepoController::class, 'authUser'])->name('user.authUser');
 
 Route::get('createRepo', [CrudRepoController::class, 'createRepo'])->name('repo.createRepo');
 Route::post('createRepo', [CrudRepoController::class, 'postRepo'])->name('repo.postRepo');
@@ -164,8 +157,13 @@ Route::prefix('users')->controller(CrudUserController::class)->group(function ()
     Route::get('update', 'updateUser')->name('user.updateUser');
     Route::post('update', 'postUpdateUser')->name('user.postUpdateUser');
     Route::patch('{id}/toggle-status', 'toggleStatus')->name('user.toggleStatus');
-Route::delete('/user/{id}', [CrudUserController::class, 'destroy'])->name('user.destroy');
+    Route::delete('/user/{id}', [CrudUserController::class, 'destroy'])->name('user.destroy');
 });
+
+Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('login', [LoginController::class, 'login'])->name('user.authUser');
+
+Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
 //  Route::controller(CrudUserController::class)->group(function () {
 //     Route::get('/login', 'login')->name('login');
@@ -188,7 +186,7 @@ Route::delete('/user/{id}', [CrudUserController::class, 'destroy'])->name('user.
 //     Route::delete('/{id}', [CrudReviewController::class, 'destroy'])->name('reviews.destroy');
 // });
 
-Route::prefix('reviews')->group(function() {
+Route::prefix('reviews')->group(function () {
     Route::get('/', [CrudReviewController::class, 'index'])->name('reviews.list');
     Route::get('/create', [CrudReviewController::class, 'create'])->name('reviews.create');
     Route::post('/store', [CrudReviewController::class, 'store'])->name('reviews.store');
