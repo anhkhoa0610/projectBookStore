@@ -42,9 +42,16 @@
             <i class="fas fa-search"></i>
         </div>
         <div class="nav-links">
-            <a href="#" class="btn btn-primary"><b>Sign In</b></a>
-            <a href="#" class="btn btn-primary"><b>Sign Up</b></a>
-
+            @auth
+        <span class="user-name mx-5">Xin chào <b class="text-primary">{{ Auth::user()->full_name }}</b></span>
+        <form action="{{ route('logout') }}" method="POST" style="display:inline;">
+            @csrf
+            <button type="submit" class="btn btn-danger"><b>Log Out</b></button>
+        </form>
+    @else
+        <a href="{{ route('login') }}" class="btn btn-primary"><b>Sign In</b></a>
+        <a href="{{ route('user.createUser') }}" class="btn btn-primary"><b>Sign Up</b></a>
+    @endauth
             <div class="cart">
                 <a href="" class="cart-icon">
                     <i class="fas fa-shopping-cart"></i>
