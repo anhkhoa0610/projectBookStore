@@ -17,6 +17,7 @@ class PublisherSeeder extends Seeder
             DB::table('publishers')->insert([
                 'publisher_name' => 'Publisher ' . $i,
                 'contact_info' => Str::random(10) . '@example.com', // Random email-like contact info
+                'address' => 'Address ' . $i, // Simple address placeholder
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);

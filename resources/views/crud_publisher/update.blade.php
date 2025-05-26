@@ -17,14 +17,26 @@
                         <div class="mb-3">
                             <label for="name" class="form-label">Publisher Name</label>
                             <input type="text" id="name" name="publisher_name" class="form-control" value="{{ $publisher->publisher_name }}" required>
+                            @error('publisher_name')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="mb-3">
                             <label for="info" class="form-label">Contact Info</label>
                             <input type="text" id="info" name="contact_info" class="form-control" value="{{ $publisher->contact_info }}" required>
+                            @error('contact_info')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
 
-
+                        <div class="mb-3">
+                            <label for="address" class="form-label">Address</label>
+                            <input type="text" id="address" name="address" class="form-control" value="{{ $publisher->address }}" required>
+                            @error('address')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
 
     
                         <div class="mb-3">
