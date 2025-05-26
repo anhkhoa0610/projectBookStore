@@ -39,23 +39,34 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label for="author_id" class="form-label">Author ID</label>
-                                <input type="number" name="author_id" class="form-control" required>
+                                <label for="author_id" class="form-label">Author</label>
+                                <select name="author_id" class="form-control" required>
+                                    <option value="">-- Select Author --</option>
+                                    @foreach($authors as $author)
+                                        <option value="{{ $author->author_id }}">{{ $author->author_name }}</option>
+                                    @endforeach
+                                </select>
                                 @error('author_id')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label for="published_date" class="form-label">Published Date</label>
-                                <input type="date" name="published_date" class="form-control" required>
-                                @error('published_date')
+                                <label for="publisher_id" class="form-label">Publisher</label>
+                                <select name="publisher_id" class="form-control" required>
+                                    <option value="">-- Select Publisher --</option>
+                                    @foreach($publishers as $publisher)
+                                        <option value="{{ $publisher->publisher_id }}">{{ $publisher->publisher_name }}</option>
+                                    @endforeach
+                                </select>
+                                @error('publisher_id')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
+
                             <div class="mb-3">
-                                <label for="publisher_id" class="form-label">Publisher ID</label>
-                                <input type="number" name="publisher_id" class="form-control" required>
-                                @error('publisher_id')
+                                <label for="published_date" class="form-label">Published Date</label>
+                                <input type="date" name="published_date" class="form-control" required>
+                                @error('published_date')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
@@ -97,5 +108,18 @@
             </div>
         </div>
     </div>
-
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.querySelector('form');
+            if (form) {
+                form.addEventListener('submit', function (e) {
+                    const btn = form.querySelector('button[type="submit"]');
+                    if (btn) {
+                        btn.disabled = true;
+                        btn.innerText = 'Submitting...';
+                    }
+                });
+            }
+        });
+    </script>
 @endsection

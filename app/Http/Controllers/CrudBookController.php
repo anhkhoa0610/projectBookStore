@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Publisher;
+use App\Models\Author;
 
 /**
  * CRUD User controller
@@ -48,7 +50,9 @@ class CrudBookController extends Controller
      */
     public function createBook()
     {
-        return view('crud_book.create');
+        $publishers = Publisher::all(); // Assuming you have a Publisher model
+        $authors = Author::all(); // Assuming you have an Author model
+        return view('crud_book.create', ['publishers' => $publishers, 'authors' => $authors]);
     }
 
     /**
@@ -91,6 +95,7 @@ class CrudBookController extends Controller
         } else {
             $data['cover_image'] = null; // <-- Add this line
         }
+
 
         Books::create([
             'title' => $data['title'],
@@ -215,17 +220,21 @@ class CrudBookController extends Controller
      * List of books with search functionality
      */
     public function listBook(Request $request)
-    {
-        $search = $request->input('search');
+{
+    $search = $request->input('search');
 
-        $books = Books::when($search, function ($query, $search) {
+    $books = Books::with('author', 'publisher')
+        ->when($search, function ($query, $search) {
             $query->where('title', 'like', "%{$search}%")
-                ->orWhere('author_id', 'like', "%{$search}%")
-            ;
-        })->paginate(10)->appends(['search' => $search]); // Append search query to pagination links
+                ->orWhereHas('author', function ($q) use ($search) {
+                    $q->where('author_name', 'like', "%{$search}%");
+                });
+        })
+        ->paginate(10)
+        ->appends(['search' => $search]);
 
-        return view('crud_book.list', compact('books'));
-    }
+    return view('crud_book.list', compact('books'));
+}
 
     /**
      * Sign out

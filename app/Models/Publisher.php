@@ -42,4 +42,9 @@ class Publisher extends Model
         'contact_info',
         'address',
     ];
+
+    public function books()
+    {
+        return $this->hasMany(Books::class, 'publisher_id');
+    }
 }

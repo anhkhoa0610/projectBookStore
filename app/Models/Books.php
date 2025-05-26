@@ -48,4 +48,14 @@ class Books extends Model
         'cover_image',
         'volume_sold',
     ];
+
+    public function author()
+    {
+        return $this->belongsTo(Author::class, 'author_id');
+    }
+
+    public function publisher()
+    {
+        return $this->belongsTo(Publisher::class, 'publisher_id');
+    }
 }

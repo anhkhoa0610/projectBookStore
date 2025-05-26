@@ -151,7 +151,8 @@ class CrudPublisherController extends Controller
 
         $publishers = Publisher::when($search, function ($query, $search) {
             $query->where('publisher_name', 'like', "%{$search}%")
-                  ->orWhere('contact_info', 'like', "%{$search}%");
+                  ->orWhere('contact_info', 'like', "%{$search}%")
+                  ->orWhere('address', 'like', "%{$search}%");
         })->paginate(10)->appends(['search' => $search]); // Append search query to pagination links
 
         return view('crud_publisher.list', compact('publishers'));

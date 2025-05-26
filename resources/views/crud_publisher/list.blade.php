@@ -48,6 +48,7 @@
                             <tr>
                                 <th>Publisher Name</th>
                                 <th>Contact Info</th>
+                                <th>Address</th>
                                 <th style="max-width: 70px">Action</th>
                             </tr>
                         </thead>
@@ -56,6 +57,7 @@
                             <tr>
                                 <th>{{ $publisher->publisher_name }}</th>
                                 <th>{{ $publisher->contact_info }}</th>
+                                <th>{{ $publisher->address }}</th>
                                 <td class="action-cell">
                                     <a href="{{ route('publisher.updatePublisher', ['publisher_id' => $publisher->publisher_id]) }}" class="btn btn-success">
                                         <i class="fas fa-edit"></i> <!-- Edit Icon -->
