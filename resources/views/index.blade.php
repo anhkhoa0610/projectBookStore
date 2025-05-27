@@ -233,6 +233,7 @@
         </div>
     </div>
 
+    @auth
     <section id="wish-list" class="my-5 mx-5">
         <p class="modern-big-title">Wish List</p>
         <div class="wishlist-carousel-container" style="position: relative; max-width: 930px; margin: auto;">
@@ -242,177 +243,26 @@
                 <div id="wishlist-carousel-track" class="wishlist-carousel-track"
                     style="display: flex; transition: transform 0.4s;">
                     <!-- Place your 5+ wishlist cards here -->
-                    <a href="" class="card" style="min-width: 300px; margin: 20px 10px;">
-                        <img src="" width="150" height="200" />
-                        <h3>Title</h3>
-                        <p class="author">Author</p>
-                        <div class="summary">
-                            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Inventore, corporis.</p>
-                        </div>
-                        <div class="price-row">
-                            <span>Giá ebook</span>
-                            <span class="price">99999<sup>₫</sup></span>
-                        </div>
-                        <div class="price-row">
-                            <span style="font-weight: bolder">Đã bán: 1</span>
-                        </div>
-                        <div class="price-row">
-                            <span>Ngày Xuất Bản : 1/1/2001</span>
-                        </div>
-                        <div class="">
-                            <span>Rating</span>
-                            <p style="color: yellow;">★★★★★</p>
-                        </div>
-                        <button class="add-to-cart">Add to Cart</button>
-                    </a>
-                    <a href="" class="card" style="min-width: 300px; margin: 20px 10px;">
-                        <img src="" width="150" height="200" />
-                        <h3>Title</h3>
-                        <p class="author">Author</p>
-                        <div class="summary">
-                            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Inventore, corporis.</p>
-                        </div>
-                        <div class="price-row">
-                            <span>Giá ebook</span>
-                            <span class="price">99999<sup>₫</sup></span>
-                        </div>
-                        <div class="price-row">
-                            <span style="font-weight: bolder">Đã bán: 1</span>
-                        </div>
-                        <div class="price-row">
-                            <span>Ngày Xuất Bản : 1/1/2001</span>
-                        </div>
-                        <div class="">
-                            <span>Rating</span>
-                            <p style="color: yellow;">★★★★★</p>
-                        </div>
-                        <button class="add-to-cart">Add to Cart</button>
-                    </a>
-                    <a href="" class="card" style="min-width: 300px; margin: 20px 10px;">
-                        <img src="" width="150" height="200" />
-                        <h3>Title</h3>
-                        <p class="author">Author</p>
-                        <div class="summary">
-                            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Inventore, corporis.</p>
-                        </div>
-                        <div class="price-row">
-                            <span>Giá ebook</span>
-                            <span class="price">99999<sup>₫</sup></span>
-                        </div>
-                        <div class="price-row">
-                            <span style="font-weight: bolder">Đã bán: 1</span>
-                        </div>
-                        <div class="price-row">
-                            <span>Ngày Xuất Bản : 1/1/2001</span>
-                        </div>
-                        <div class="">
-                            <span>Rating</span>
-                            <p style="color: yellow;">★★★★★</p>
-                        </div>
-                        <button class="add-to-cart">Add to Cart</button>
-                    </a>
-                    <a href="" class="card" style="min-width: 300px; margin: 20px 10px;">
-                        <img src="" width="150" height="200" />
-                        <h3>Title</h3>
-                        <p class="author">Author</p>
-                        <div class="summary">
-                            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Inventore, corporis.</p>
-                        </div>
-                        <div class="price-row">
-                            <span>Giá ebook</span>
-                            <span class="price">99999<sup>₫</sup></span>
-                        </div>
-                        <div class="price-row">
-                            <span style="font-weight: bolder">Đã bán: 1</span>
-                        </div>
-                        <div class="price-row">
-                            <span>Ngày Xuất Bản : 1/1/2001</span>
-                        </div>
-                        <div class="">
-                            <span>Rating</span>
-                            <p style="color: yellow;">★★★★★</p>
-                        </div>
-                        <button class="add-to-cart">Add to Cart</button>
-                    </a>
-                    <a href="" class="card" style="min-width: 300px; margin: 20px 10px;">
-                        <img src="" width="150" height="200" />
-                        <h3>Title</h3>
-                        <p class="author">Author</p>
-                        <div class="summary">
-                            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Inventore, corporis.</p>
-                        </div>
-                        <div class="price-row">
-                            <span>Giá ebook</span>
-                            <span class="price">99999<sup>₫</sup></span>
-                        </div>
-                        <div class="price-row">
-                            <span style="font-weight: bolder">Đã bán: 1</span>
-                        </div>
-                        <div class="price-row">
-                            <span>Ngày Xuất Bản : 1/1/2001</span>
-                        </div>
-                        <div class="">
-                            <span>Rating</span>
-                            <p style="color: yellow;">★★★★★</p>
-                        </div>
-                        <button class="add-to-cart">Add to Cart</button>
-                    </a>
-                    <a href="" class="card" style="min-width: 300px; margin: 20px 10px;">
-                        <img src="" width="150" height="200" />
-                        <h3>Title</h3>
-                        <p class="author">Author</p>
-                        <div class="summary">
-                            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Inventore, corporis.</p>
-                        </div>
-                        <div class="price-row">
-                            <span>Giá ebook</span>
-                            <span class="price">99999<sup>₫</sup></span>
-                        </div>
-                        <div class="price-row">
-                            <span style="font-weight: bolder">Đã bán: 1</span>
-                        </div>
-                        <div class="price-row">
-                            <span>Ngày Xuất Bản : 1/1/2001</span>
-                        </div>
-                        <div class="">
-                            <span>Rating</span>
-                            <p style="color: yellow;">★★★★★</p>
-                        </div>
-                        <button class="add-to-cart">Add to Cart</button>
-                    </a>
-                    <a href="" class="card" style="min-width: 300px; margin: 20px 10px;">
-                        <img src="" width="150" height="200" />
-                        <h3>Title</h3>
-                        <p class="author">Author</p>
-                        <div class="summary">
-                            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Inventore, corporis.</p>
-                        </div>
-                        <div class="price-row">
-                            <span>Giá ebook</span>
-                            <span class="price">99999<sup>₫</sup></span>
-                        </div>
-                        <div class="price-row">
-                            <span style="font-weight: bolder">Đã bán: 1</span>
-                        </div>
-                        <div class="price-row">
-                            <span>Ngày Xuất Bản : 1/1/2001</span>
-                        </div>
-                        <div class="">
-                            <span>Rating</span>
-                            <p style="color: yellow;">★★★★★</p>
-                        </div>
-                        <button class="add-to-cart">Add to Cart</button>
-                    </a>
+                    @foreach($wishlist as $book)
+                        <a href="" class="card" style="min-width: 300px; margin: 20px 10px;">
+                            <img src="{{ $book->cover_image ? asset('images/' . $book->cover_image) : asset('images/placeholder.png') }}"
+                                width="150" height="200" />
+                            <h3>{{ $book->title }}</h3>
+                            <p class="author">{{ $book->author->author_name }}</p>
+                            <div class="summary">
+                                <p>{{ $book->summary }}</p>
+                            </div>
+                            <!-- ...other book info... -->
+                        </a>
+                    @endforeach
                     <!-- Repeat the above <a> for each wishlist item (add as many as you want) -->
                 </div>
             </div>
             <button id="wishlist-right" class="wishlist-carousel-btn"
                 style="position: absolute; right: -50px; top: 40%; z-index: 2;">&#8594;</button>
         </div>
-
-
-
     </section>
+    @endauth
 
     <div>
         <footer class="footer">
@@ -477,7 +327,8 @@
 
 <script>
     const root = "{{ route('home') }}";
-    console.log(root);
+    console.log({{ $wishlist }});
+
 
     document.addEventListener("DOMContentLoaded", function () {
         let index = 0;

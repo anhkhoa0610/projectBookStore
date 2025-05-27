@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Books;
 use Illuminate\Http\Request;
 use App\Models\Category;
+use Illuminate\Support\Facades\Auth;
 
 class IndexController extends Controller
 {
@@ -26,6 +27,7 @@ class IndexController extends Controller
 
     public function index()
     {
+        $wishlist = Auth::check() ? Auth::user()->wishlist()->with('author', 'categories')->get() : collect();
         $books = Books::with(['author', 'categories'])->paginate(8);
         $soldBooks = Books::with(['author', 'categories'])->orderBy('volume_sold', 'desc')->take(4)->get();
         $newBooks = Books::with(['author', 'categories'])->orderBy('published_date', 'desc')->take(4)->get();
@@ -35,6 +37,7 @@ class IndexController extends Controller
             'soldBooks' => $soldBooks,
             'newBooks' => $newBooks,
             'categories' => $categories,
+            'wishlist' => $wishlist,
         ]);
     }
 

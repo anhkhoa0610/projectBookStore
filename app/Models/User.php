@@ -7,6 +7,7 @@ use Illuminate\Notifications\Notifiable;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Models\Wishlists;
 
 class User extends Authenticatable
 {
@@ -54,4 +55,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function wishlist()
+{
+    return $this->belongsToMany(Books::class, 'wishlists', 'user_id', 'book_id');
+}
 }
