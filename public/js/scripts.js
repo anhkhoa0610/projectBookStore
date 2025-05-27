@@ -72,14 +72,20 @@ async function getCategoryByID(category_id) {
                                 <span>Giá ebook</span>
                                 <span class="price">${book.price}<sup>₫</sup></span>
                             </div>
+                            <div class="price-row">
+                                <span>Ngày Xuất Bản : ${book.published_date}</span>
+                            </div>
                             <button class="add-to-cart">Add to Cart</button>
                         </a>`;
         };
         bookList.innerHTML = string;
-        document.querySelector('.paginate').style.display = 'none';
+        document.querySelector('.pagination').style.display = 'none';
     }
 }
 
+document.addEventListener('DOMContentLoaded', function () {
+    getAllBooks();
+});
 
 document.addEventListener('DOMContentLoaded', function () {
     const track = document.getElementById('wishlist-carousel-track');
@@ -134,6 +140,9 @@ async function getAllBooks(page = 1) {
             <div class="price-row">
                 <span>Giá ebook</span>
                 <span class="price">${book.price}<sup>₫</sup></span>
+            </div>
+            <div class="price-row">
+                <span>Ngày Xuất Bản : ${book.published_date}</span>
             </div>
             <button class="add-to-cart">Add to Cart</button>
         </a>`;
