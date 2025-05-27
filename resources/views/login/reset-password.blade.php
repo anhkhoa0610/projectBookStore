@@ -3,8 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forgot Password</title>
+    <title>Reset Password</title>
 </head>
 <style>
     body {
@@ -32,7 +31,8 @@
         margin-bottom: 8px;
     }
 
-    input[type="email"] {
+    input[type="email"],
+    input[type="password"] {
         width: 100%;
         padding: 10px;
         margin-bottom: 15px;
@@ -76,17 +76,40 @@
         background-color: #0078d7;
         color: #fff;
     }
+
+    .error-list {
+        color: red;
+        margin-bottom: 10px;
+    }
 </style>
 
 <body>
-    <form action="#" method="post">
+    <form method="POST" action="{{ route('password.update') }}">
+        @csrf
         <div class="container">
-            <h2>Forgot Password</h2>
-            <label for="email"><b>Email Address</b></label>
-            <input type="email" placeholder="Enter your email" name="email" required>
-            <button type="submit">Send Reset Link</button>
+            <h2>Reset Password</h2>
+            @if ($errors->any())
+                <div class="error-list">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+            <input type="hidden" name="token" value="{{ $token }}">
+            <label for="email">Email Address</label>
+            <input type="email" name="email" value="{{ request('email') }}" required>
+
+            <label for="password">New Password</label>
+            <input type="password" name="password" required>
+
+            <label for="password_confirmation">Confirm Password</label>
+            <input type="password" name="password_confirmation" required>
+
+            <button type="submit">Reset Password</button>
             <div class="psw">
-                <p><a href="Login.html">Back to Login</a></p>
+                <p><a href="{{ route('login') }}">Back to Login</a></p>
             </div>
         </div>
     </form>

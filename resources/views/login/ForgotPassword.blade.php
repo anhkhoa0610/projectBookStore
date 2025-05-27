@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reset Password</title>
+    <title>Forgot Password</title>
 </head>
 <style>
     body {
@@ -32,30 +32,13 @@
         margin-bottom: 8px;
     }
 
-    input[type="email"],
-    input[type="password"] {
+    input[type="email"] {
         width: 100%;
         padding: 10px;
         margin-bottom: 15px;
         border: 1px solid #ddd;
         border-radius: 4px;
         box-sizing: border-box;
-    }
-
-    button {
-        background-color: #fff;
-        color: #000;
-        padding: 12px 20px;
-        border: 1px solid #4a16d0;
-        border-radius: 4px;
-        cursor: pointer;
-        width: 100%;
-        font-size: 16px;
-    }
-
-    button:hover {
-        background-color: #0078d7;
-        color: #fff;
     }
 
     .psw a {
@@ -77,27 +60,34 @@
         text-align: center;
         margin-top: 15px;
     }
+
+    button {
+        background-color: #fff;
+        color: #000;
+        padding: 12px 20px;
+        border: 1px solid #4a16d0;
+        border-radius: 4px;
+        cursor: pointer;
+        width: 100%;
+        font-size: 16px;
+    }
+
+    button:hover {
+        background-color: #0078d7;
+        color: #fff;
+    }
 </style>
 
 <body>
-    <form action="#" method="post">
+    <form action="{{ route('forgot') }}" method="post">
+        @csrf
         <div class="container">
-            <h2>Reset Password</h2>
+            <h2>Forgot Password</h2>
             <label for="email"><b>Email Address</b></label>
             <input type="email" placeholder="Enter your email" name="email" required>
-
-            <label for="old-password"><b>Old Password</b></label>
-            <input type="password" placeholder="Enter Old Password" name="old_password" required>
-
-            <label for="new-password"><b>New Password</b></label>
-            <input type="password" placeholder="Enter New Password" name="new_password" required>
-
-            <label for="repeat-password"><b>Repeat New Password</b></label>
-            <input type="password" placeholder="Repeat New Password" name="repeat_password" required>
-
-            <button type="submit">Submit</button>
+            <button type="submit">Send Reset Link</button>
             <div class="psw">
-                <p><a href="Login.html">Back to Login</a></p>
+                <p><a href="{{ route('login') }}">Back to Login</a></p>
             </div>
         </div>
     </form>
