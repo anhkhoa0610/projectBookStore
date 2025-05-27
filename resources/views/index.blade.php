@@ -170,6 +170,7 @@
             <div class="category-box">
                 <div class="category-title">Danh mục theo thể loại sách</div>
                 <ul class="categories-list">
+                    <li onclick="getAllBooks()"><i class="fas fa-book"></i>Tất cả</li>
                     @foreach ($categories as $category)
                         <li onclick="getCategoryByID({{ $category->category_id }})">
                             <i class="fas fa-book"></i>
@@ -234,34 +235,34 @@
     </div>
 
     @auth
-    <section id="wish-list" class="my-5 mx-5">
-        <p class="modern-big-title">Wish List</p>
-        <div class="wishlist-carousel-container" style="position: relative; max-width: 930px; margin: auto;">
-            <button id="wishlist-left" class="wishlist-carousel-btn"
-                style="position: absolute; left: -40px; top: 40%; z-index: 2;">&#8592;</button>
-            <div class="wishlist-carousel-viewport" style="overflow: hidden;">
-                <div id="wishlist-carousel-track" class="wishlist-carousel-track"
-                    style="display: flex; transition: transform 0.4s;">
-                    <!-- Place your 5+ wishlist cards here -->
-                    @foreach($wishlist as $book)
-                        <a href="" class="card" style="min-width: 300px; margin: 20px 10px;">
-                            <img src="{{ $book->cover_image ? asset('images/' . $book->cover_image) : asset('images/placeholder.png') }}"
-                                width="150" height="200" />
-                            <h3>{{ $book->title }}</h3>
-                            <p class="author">{{ $book->author->author_name }}</p>
-                            <div class="summary">
-                                <p>{{ $book->summary }}</p>
-                            </div>
-                            <!-- ...other book info... -->
-                        </a>
-                    @endforeach
-                    <!-- Repeat the above <a> for each wishlist item (add as many as you want) -->
+        <section id="wish-list" class="my-5 mx-5">
+            <p class="modern-big-title">Wish List</p>
+            <div class="wishlist-carousel-container" style="position: relative; max-width: 930px; margin: auto;">
+                <button id="wishlist-left" class="wishlist-carousel-btn"
+                    style="position: absolute; left: -40px; top: 40%; z-index: 2;">&#8592;</button>
+                <div class="wishlist-carousel-viewport" style="overflow: hidden;">
+                    <div id="wishlist-carousel-track" class="wishlist-carousel-track"
+                        style="display: flex; transition: transform 0.4s;">
+                        <!-- Place your 5+ wishlist cards here -->
+                        @foreach($wishlist as $book)
+                            <a href="" class="card" style="min-width: 300px; margin: 20px 10px;">
+                                <img src="{{ $book->cover_image ? asset('images/' . $book->cover_image) : asset('images/placeholder.png') }}"
+                                    width="150" height="200" />
+                                <h3>{{ $book->title }}</h3>
+                                <p class="author">{{ $book->author->author_name }}</p>
+                                <div class="summary">
+                                    <p>{{ $book->summary }}</p>
+                                </div>
+                                <!-- ...other book info... -->
+                            </a>
+                        @endforeach
+                        <!-- Repeat the above <a> for each wishlist item (add as many as you want) -->
+                    </div>
                 </div>
+                <button id="wishlist-right" class="wishlist-carousel-btn"
+                    style="position: absolute; right: -50px; top: 40%; z-index: 2;">&#8594;</button>
             </div>
-            <button id="wishlist-right" class="wishlist-carousel-btn"
-                style="position: absolute; right: -50px; top: 40%; z-index: 2;">&#8594;</button>
-        </div>
-    </section>
+        </section>
     @endauth
 
     <div>
@@ -320,100 +321,10 @@
                 </div>
         </footer>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js"></script>
+    <script src="{{ asset('js/scripts.js') }}"></script>
 </body>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js"></script>
-<script src="{{ asset('js/scripts.js') }}"></script>
-
-<script>
-    const root = "{{ route('home') }}";
-    console.log({{ $wishlist }});
-
-
-    document.addEventListener("DOMContentLoaded", function () {
-        let index = 0;
-        const slides = document.querySelectorAll(".nav-slide");
-        const slidesContainer = document.querySelector(".nav-slides");
-        const totalSlides = slides.length;
-        function autoSlide() {
-            index = (index + 1) % totalSlides;
-            slidesContainer.style.transform = `translateX(-${index * 100}vw)`;
-        }
-
-        setInterval(autoSlide, 3000);
-    });
-
-
-
-
-    async function getCategoryByID(category_id) {
-        const bookList = document.getElementById('book-list');
-        const url = `/api/index/category/${category_id}`;
-        const res = await fetch(url);
-        const result = await res.json();
-        console.log(result);
-        console.log(result.books[0]);
-
-        if (res.ok) {
-            bookList.innerHTML = '';
-            let string = '';
-            for (let i = 0; i < result.books.length; i++) {
-                const book = result.books[i];
-                console.log(book);
-                string += `<a href="" style="text-decoration: none;" class="card">
-                            <img src="images/placeholder.png"
-                                alt="" width="150" height="200" />
-                            <h3>${book.title}</h3>
-                            <p class="author">${book.author.author_name}</p>
-                            <div class="summary">
-                                <p>${book.summary}</p>
-                            </div>
-                            <div class="price-row">
-                                <span>Giá ebook</span>
-                                <span class="price">${book.price}<sup>₫</sup></span>
-                            </div>
-                            <button class="add-to-cart">Add to Cart</button>
-                        </a>`;
-            };
-            bookList.innerHTML = string;
-            document.querySelector('.paginate').style.display = 'none';
-        }
-    }
-
-</script>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const track = document.getElementById('wishlist-carousel-track');
-        const leftBtn = document.getElementById('wishlist-left');
-        const rightBtn = document.getElementById('wishlist-right');
-        const cards = track.querySelectorAll('.card');
-        const visibleCount = 4;
-        let currentIndex = 0;
-
-        function updateCarousel() {
-            const cardWidth = cards[0].offsetWidth + 20; // card + margin
-            track.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
-            leftBtn.disabled = currentIndex === 0;
-            rightBtn.disabled = currentIndex > cards.length - visibleCount - 0.5;
-        }
-
-        leftBtn.addEventListener('click', function () {
-            if (currentIndex > 0) {
-                currentIndex--;
-                updateCarousel();
-            }
-        });
-
-        rightBtn.addEventListener('click', function () {
-            if (currentIndex < cards.length - visibleCount) {
-                currentIndex++;
-                updateCarousel();
-            }
-        });
-
-        updateCarousel();
-    });
-</script>
 
 </html>
