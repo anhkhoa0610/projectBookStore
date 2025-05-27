@@ -131,11 +131,11 @@
                 <input type="checkbox" name="remember" id="remember"> Remember me
             </label>
             <div class="container-2">
-                <span class="psw"> <a href="ForgotPassword.html">Forgot password?</a></span>
+                <span class="psw"> <a href="{{ route('forgot.form') }}">Forgot password?</a></span>
             </div>
             <button type="submit">Sign In</button>
             <div class="container-3">
-                <span class="psw psw1"> <a href="Reset.html">Reset password</a></span>
+                <span class="psw psw1"> <a href="{{ route('reset.form') }}">Reset password</a></span>
                 <span class="psw psw2"> <a href="{{ route('user.createUser') }}">Create account</a></span>
             </div>
         </div>
