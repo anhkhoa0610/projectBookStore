@@ -198,4 +198,4 @@ Route::prefix('reviews')->group(function () {
 
 
 
-Route::get('/index', [IndexController::class, 'allBooks'])->name('index');
+Route::get('/index', [IndexController::class, 'index'])->name('index');

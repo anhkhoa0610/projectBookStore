@@ -81,64 +81,27 @@
 
         </body>
     </div>
+
+  
     <div>
         <div class="nav-slider mt-5">
             <div class="nav-slides">
                 <div class="nav-slide">
-                    <a href="https://www.youtube.com/"></a>
-                    <div class="slide_img"><img src="./img/slideBook1.jpg" alt=""></div>
-                    <div class="slide_content">
-                    </div>
+                    <div class="slide_img"><img src="{{ asset('images/ngoaivan.png') }}" alt=""></div>                 
                 </div>
                 <div class="nav-slide">
-                    <div class="slide_img"><img src="./img/slideBook2.jpg" alt=""></div>
-                    <div class="slide_content">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Non voluptatum neque, ut optio
-                        praesentium architecto eaque corrupti debitis officia quia.
-                        Dolorem, voluptatem. Rerum facilis voluptas perferendis quas quis at fugit.
-                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Recusandae placeat consequuntur
-                        eligendi blanditiis voluptatibus laudantium ut maiores
-                        delectus quaerat neque, molestias saepe ullam ad sint voluptatum similique, expedita magnam.
-                        Deleniti!
-                    </div>
+                    <div class="slide_img"><img src="{{ asset('images/muasamkhongtienmat.png') }}" alt=""></div>                   
                 </div>
                 <div class="nav-slide">
-                    <div class="slide_img"><img src="./img/slideBook3.jpg" alt=""></div>
-                    <div class="slide_content">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Non voluptatum neque, ut optio
-                        praesentium architecto eaque corrupti debitis officia quia.
-                        Dolorem, voluptatem. Rerum facilis voluptas perferendis quas quis at fugit.
-                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Recusandae placeat consequuntur
-                        eligendi blanditiis voluptatibus laudantium ut maiores
-                        delectus quaerat neque, molestias saepe ullam ad sint voluptatum similique, expedita magnam.
-                        Deleniti!
-                    </div>
+                    <div class="slide_img"><img src="{{ asset('images/hotpick.png') }}" alt=""></div>
                 </div>
                 <div class="nav-slide">
-                    <div class="slide_img"><img src="./img/slideBook3.jpg" alt=""></div>
-                    <div class="slide_content"></div>
-                </div>
-                <div class="nav-slide">
-                    <div class="slide_img"><img src="./img/slideBook3.jpg" alt=""></div>
-                    <div class="slide_content"></div>
+                    <div class="slide_img"><img src="{{ asset('images/thuctinh.png') }}" alt=""></div>
                 </div>
             </div>
 
         </div>
-
-
     </div>
-
-    <!-- <style>
-        #best-seller {
-            height: 70%;
-            padding: 5px;
-            border-top: 5px solid silver;
-            border-bottom: 5px solid silver;
-            border-radius: 15px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), 0 1.5px 4px rgba(0, 0, 0, 0.10);
-        }
-    </style> -->
 
     <section id="best-seller" class="my-5 mx-5">
         <p class="modern-big-title">Best Seller</p>
@@ -207,7 +170,12 @@
             <div class="category-box">
                 <div class="category-title">Danh mục theo thể loại sách</div>
                 <ul class="categories-list">
-
+                    @foreach ($categories as $category)
+                        <li>
+                            <i class="fas fa-book"></i>
+                            {{ $category->category_name }}
+                        </li>              
+                    @endforeach
                 </ul>
             </div>
             <div class="category-box">
@@ -221,19 +189,7 @@
         </div>
 
         <style>
-            .summary {
-                margin-bottom: 10px;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                display: -webkit-box;
-                -webkit-line-clamp: 3;
-                /* Số dòng hiển thị */
-                -webkit-box-orient: vertical;
-            }
-
-            .card img {
-                object-fit: contain;
-            }
+            
         </style>
 
         <div>
@@ -362,7 +318,7 @@
 
 
 
-    getAllCategory();
+    // getAllCategory();
 
 
 </script>
