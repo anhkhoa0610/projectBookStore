@@ -16,7 +16,7 @@ class IndexController extends Controller
 
     public function categoryAPI($id)
     {
-        $books = Books::whereHas('categories', function ($query) use ($id) {
+        $books = Books::with('author')->whereHas('categories', function ($query) use ($id) {
             $query->where('category_book.category_id', $id);
         })->get();
         return response()->json([
@@ -26,9 +26,9 @@ class IndexController extends Controller
 
     public function index()
     {
-        $books = Books::paginate(8);
-        $soldBooks = Books::orderBy('volume_sold', 'desc')->take(4)->get();
-        $newBooks = Books::orderBy('published_date', 'desc')->take(4)->get();
+        $books = Books::with(['author', 'categories'])->paginate(8);
+        $soldBooks = Books::with(['author', 'categories'])->orderBy('volume_sold', 'desc')->take(4)->get();
+        $newBooks = Books::with(['author', 'categories'])->orderBy('published_date', 'desc')->take(4)->get();
         $categories = Category::all();
         return view('index', [
             'books' => $books,

@@ -567,3 +567,32 @@ body {
 .card img {
     object-fit: contain;
 }
+
+.wishlist-carousel-btn {
+    background: #fff;
+    border: none;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    width: 48px;
+    height: 48px;
+    font-size: 2rem;
+    color: #007bff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+    outline: none;
+}
+.wishlist-carousel-btn:hover, .wishlist-carousel-btn:focus {
+    background: #007bff;
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+}
+.wishlist-carousel-btn:disabled {
+    background: #eee;
+    color: #bbb;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
