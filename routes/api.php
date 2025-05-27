@@ -23,3 +23,6 @@ Route::middleware('crud_user:sanctum')->get('/user', function (Request $request)
 Route::get('/index/search/{keyword}', [IndexController::class, 'searchAPI'])->name('index-search-api');
 
 Route::get('/categories/all', [IndexController::class, 'categories'])->name('categories-api');
+
+Route::get('/index/category/{id}', [IndexController::class, 'categoryAPI'])
+    ->name('index-category-api');
