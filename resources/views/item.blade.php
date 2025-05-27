@@ -759,11 +759,11 @@
             <div class="details-grid">
                 <strong>Thông tin chi tiết:</strong>
                 <br>
-                <div class="label">Mã sách</div>
+                <div class="label">Mã sách:</div>
                 <div class="value">{{$book->book_id }}</div>
-                <div class="label">Tên Nhà Cung Cấp</div>
+                <div class="label">Tên Nhà Cung Cấp:</div>
                 <div class="value"><p style=" font-weight: bold" >{{$book->publisher->publisher_name}}</p></div>
-                <div class="label">Tác giả</div>
+                <div class="label">Tác giả:</div>
                 <div class="value">{{ $book->author->author_name }}</div>
                
             </div>

@@ -27,7 +27,7 @@
                 <i class="fas fa-search mt-2 me-1" style="font-size: 1rem;"></i>
 
                 <ul class="list-group suggest position-absolute start-0 end-0 top-100 bg-white" style="z-index: 10;">
-                    
+
                 </ul>
             </form>
         </div>
@@ -82,15 +82,15 @@
         </body>
     </div>
 
-  
+
     <div>
         <div class="nav-slider mt-5">
             <div class="nav-slides">
                 <div class="nav-slide">
-                    <div class="slide_img"><img src="{{ asset('images/ngoaivan.png') }}" alt=""></div>                 
+                    <div class="slide_img"><img src="{{ asset('images/ngoaivan.png') }}" alt=""></div>
                 </div>
                 <div class="nav-slide">
-                    <div class="slide_img"><img src="{{ asset('images/muasamkhongtienmat.png') }}" alt=""></div>                   
+                    <div class="slide_img"><img src="{{ asset('images/muasamkhongtienmat.png') }}" alt=""></div>
                 </div>
                 <div class="nav-slide">
                     <div class="slide_img"><img src="{{ asset('images/hotpick.png') }}" alt=""></div>
@@ -171,10 +171,10 @@
                 <div class="category-title">Danh mục theo thể loại sách</div>
                 <ul class="categories-list">
                     @foreach ($categories as $category)
-                        <li>
+                        <li onclick="getCategoryByID({{ $category->category_id }})">
                             <i class="fas fa-book"></i>
                             {{ $category->category_name }}
-                        </li>              
+                        </li>
                     @endforeach
                 </ul>
             </div>
@@ -188,26 +188,37 @@
             </div>
         </div>
 
-        <style>
-            
-        </style>
-
         <div>
             <div class="container d-flex flex-column align-items-center">
-                <div class="grid">
+                <div class="grid" id="book-list">
                     <!-- Card 1 -->
                     @foreach($books as $book)
                         <a href="" style="text-decoration: none;" class="card">
                             <img src="{{ $book->cover_image ? asset('images/' . $book->cover_image) : asset('images/placeholder.png') }}"
                                 alt="{{ $book->title }}" width="150" height="200" />
                             <h3>{{ $book->title }}</h3>
-                            <p class="author">{{ $book->author_id }}</p>
+                            <p class="author">{{ $book->author->author_name}}</p>
                             <div class="summary">
                                 <p>{{ $book->summary }}</p>
                             </div>
                             <div class="price-row">
                                 <span>Giá ebook</span>
                                 <span class="price">{{ $book->price }}<sup>₫</sup></span>
+                            </div>
+                            <div class="price-row">
+                                <span style="font-weight: bolder">Đã bán: {{ $book->volume_sold }}</span>
+                            </div>
+                            <div class="price-row">
+                                <span>Ngày Xuất Bản : {{ $book->published_date }}</span>
+                            </div>
+                            <div class="mb-2">
+                                @foreach($book->categories as $category)
+                                    <span class="badge bg-secondary">{{ $category->category_name }}</span>
+                                @endforeach
+                            </div>
+                            <div class="">
+                                <span>Rating</span>
+                                <p style="color: yellow;">★★★★★</p>
                             </div>
                             <button class="add-to-cart">Add to Cart</button>
                         </a>
@@ -221,6 +232,37 @@
 
         </div>
     </div>
+
+    @auth
+    <section id="wish-list" class="my-5 mx-5">
+        <p class="modern-big-title">Wish List</p>
+        <div class="wishlist-carousel-container" style="position: relative; max-width: 930px; margin: auto;">
+            <button id="wishlist-left" class="wishlist-carousel-btn"
+                style="position: absolute; left: -40px; top: 40%; z-index: 2;">&#8592;</button>
+            <div class="wishlist-carousel-viewport" style="overflow: hidden;">
+                <div id="wishlist-carousel-track" class="wishlist-carousel-track"
+                    style="display: flex; transition: transform 0.4s;">
+                    <!-- Place your 5+ wishlist cards here -->
+                    @foreach($wishlist as $book)
+                        <a href="" class="card" style="min-width: 300px; margin: 20px 10px;">
+                            <img src="{{ $book->cover_image ? asset('images/' . $book->cover_image) : asset('images/placeholder.png') }}"
+                                width="150" height="200" />
+                            <h3>{{ $book->title }}</h3>
+                            <p class="author">{{ $book->author->author_name }}</p>
+                            <div class="summary">
+                                <p>{{ $book->summary }}</p>
+                            </div>
+                            <!-- ...other book info... -->
+                        </a>
+                    @endforeach
+                    <!-- Repeat the above <a> for each wishlist item (add as many as you want) -->
+                </div>
+            </div>
+            <button id="wishlist-right" class="wishlist-carousel-btn"
+                style="position: absolute; right: -50px; top: 40%; z-index: 2;">&#8594;</button>
+        </div>
+    </section>
+    @endauth
 
     <div>
         <footer class="footer">
@@ -285,6 +327,8 @@
 
 <script>
     const root = "{{ route('home') }}";
+    console.log({{ $wishlist }});
+
 
     document.addEventListener("DOMContentLoaded", function () {
         let index = 0;
@@ -299,41 +343,77 @@
         setInterval(autoSlide, 3000);
     });
 
-    async function getAllCategory() {
-        const url = "{{ route('categories-api') }}";
+
+
+
+    async function getCategoryByID(category_id) {
+        const bookList = document.getElementById('book-list');
+        const url = `/api/index/category/${category_id}`;
         const res = await fetch(url);
         const result = await res.json();
+        console.log(result);
+        console.log(result.books[0]);
 
-
-        const categoryList = document.querySelector('.categories-list');
-
-        for (let i = 0; i < result.length; i++) {
-            const categoryBox = document.createElement("li");
-            categoryBox.innerHTML = `<i class="fas fa-book"></i>
-                ${result[i].category_name}
-            `;
-            categoryList.appendChild(categoryBox);
+        if (res.ok) {
+            bookList.innerHTML = '';
+            let string = '';
+            for (let i = 0; i < result.books.length; i++) {
+                const book = result.books[i];
+                console.log(book);
+                string += `<a href="" style="text-decoration: none;" class="card">
+                            <img src="images/placeholder.png"
+                                alt="" width="150" height="200" />
+                            <h3>${book.title}</h3>
+                            <p class="author">${book.author.author_name}</p>
+                            <div class="summary">
+                                <p>${book.summary}</p>
+                            </div>
+                            <div class="price-row">
+                                <span>Giá ebook</span>
+                                <span class="price">${book.price}<sup>₫</sup></span>
+                            </div>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </a>`;
+            };
+            bookList.innerHTML = string;
+            document.querySelector('.paginate').style.display = 'none';
         }
     }
 
-
-
-    // getAllCategory();
-
-
 </script>
-<!-- <div class="card">
-                        <img src="https://storage.googleapis.com/a1aa/image/ebab378e-46ab-461c-af6b-48caaf9d9410.jpg"
-                            alt="Book cover of Tiếng Việt các cở cũng cứng cựa with orange and dark blue geometric shapes"
-                            width="150" height="200" />
-                        <h3>Tiếng Việt các cở cũng cứng cựa</h3>
-                        <p class="author">Lê Minh Quốc</p>
-                        <div class="price-row">
-                            <span>Giá ebook</span>
-                            <span class="price">63,000<sup>₫</sup></span>
-                        </div>
-                        <button class="add-to-cart">Add to Cart</button>
-                    </div>       -->
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const track = document.getElementById('wishlist-carousel-track');
+        const leftBtn = document.getElementById('wishlist-left');
+        const rightBtn = document.getElementById('wishlist-right');
+        const cards = track.querySelectorAll('.card');
+        const visibleCount = 4;
+        let currentIndex = 0;
+
+        function updateCarousel() {
+            const cardWidth = cards[0].offsetWidth + 20; // card + margin
+            track.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
+            leftBtn.disabled = currentIndex === 0;
+            rightBtn.disabled = currentIndex > cards.length - visibleCount - 0.5;
+        }
+
+        leftBtn.addEventListener('click', function () {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateCarousel();
+            }
+        });
+
+        rightBtn.addEventListener('click', function () {
+            if (currentIndex < cards.length - visibleCount) {
+                currentIndex++;
+                updateCarousel();
+            }
+        });
+
+        updateCarousel();
+    });
+</script>
 
 </html>

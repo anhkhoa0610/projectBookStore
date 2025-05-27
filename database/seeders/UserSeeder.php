@@ -17,11 +17,25 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         // Khởi tạo Faker để tạo dữ liệu giả
+
         $faker = Faker::create();
 
-        // Tạo mảng chứa 50 user ngẫu nhiên
-        for ($i = 0; $i < 50; $i++) {
-             DB::table('users')->insert( [
+        DB::table('users')->insert([
+            'full_name' => $faker->name,
+            'email' => "admin@gmail.com",
+            'password' => Hash::make('123456'),
+            'phone' => $this->generatePhoneNumber($faker),
+            'address' => $faker->address,
+            'dob' => $faker->dateTimeBetween('-60 years', '-18 years')->format('Y-m-d'),
+            'role' => 'admin',
+            'is_active' => $faker->boolean(90),
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        // Tạo mảng chứa 20 user ngẫu nhiên
+        for ($i = 0; $i < 20; $i++) {
+            DB::table('users')->insert([
                 'full_name' => $faker->name,
                 'email' => $faker->unique()->safeEmail,
                 'password' => Hash::make('password'),
@@ -32,8 +46,8 @@ class UserSeeder extends Seeder
                 'is_active' => $faker->boolean(90),
                 'created_at' => now(),
                 'updated_at' => now(),
-           ]);
-            
+            ]);
+
         }
 
     }

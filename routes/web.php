@@ -14,6 +14,8 @@ use App\Http\Controllers\CrudOrdersDetailsController;
 use App\Http\Controllers\CrudReviewController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\LoginController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Password;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,7 +26,7 @@ use App\Http\Controllers\LoginController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('dashboard', action: [CrudBookController::class, 'dashboard']);
+Route::get('dashboard', action: [IndexController::class, 'dashboard'])->name('dashboard');
 
 
 Route::get('createBook', [CrudBookController::class, 'createBook'])->name('book.createBook');
@@ -40,9 +42,6 @@ Route::post('updateBook', [CrudBookController::class, 'postUpdateBook'])->name('
 Route::get('listBook', [CrudBookController::class, 'listBook'])->name('book.list');
 
 Route::get('signout', [CrudBookController::class, 'signOut'])->name('signout');
-
-Route::get('dashboard', [CrudPublisherController::class, 'dashboard']);
-
 
 Route::get('createPublisher', [CrudPublisherController::class, 'createPublisher'])->name('publisher.createPublisher');
 Route::post('createPublisher', [CrudPublisherController::class, 'postPublisher'])->name('publisher.postPublisher');
@@ -82,7 +81,7 @@ Route::get('listCate', [CrudCategoriesController::class, 'listCategories'])->nam
 
 
 Route::get('/', function () {
-    return view('dashboard');
+    return redirect()->route('index');
 })->name('home');
 
 
@@ -166,6 +165,35 @@ Route::post('login', [LoginController::class, 'login'])->name('user.authUser');
 
 Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
+Route::get('/reset', [LoginController::class, 'showResetForm'])->name('reset.form');
+Route::post('/reset', [LoginController::class, 'reset'])->name('reset');
+
+Route::get('/forgot', [LoginController::class, 'showForgotForm'])->name('forgot.form');
+Route::post('/forgot', [LoginController::class, 'forgot'])->name('forgot');
+
+Route::get('reset-password/{token}', function ($token) {
+    return view('login.reset-password', ['token' => $token]);
+})->name('password.reset');
+
+Route::post('reset-password', function (Illuminate\Http\Request $request) {
+    $request->validate([
+        'token' => 'required',
+        'email' => 'required|email',
+        'password' => 'required|min:6|confirmed',
+    ]);
+
+    $status = Password::reset(
+        $request->only('email', 'password', 'password_confirmation', 'token'),
+        function ($user, $password) {
+            $user->password = \Hash::make($password);
+            $user->save();
+        }
+    );
+
+    return $status === Password::PASSWORD_RESET
+        ? redirect()->route('login')->with('success', 'Password reset successfully.')
+        : back()->withErrors(['email' => [__($status)]]);
+})->name('password.update');
 //  Route::controller(CrudUserController::class)->group(function () {
 //     Route::get('/login', 'login')->name('login');
 //     Route::post('/login', 'authUser')->name('auth.login');
