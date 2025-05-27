@@ -27,7 +27,7 @@
                 <i class="fas fa-search mt-2 me-1" style="font-size: 1rem;"></i>
 
                 <ul class="list-group suggest position-absolute start-0 end-0 top-100 bg-white" style="z-index: 10;">
-                    
+
                 </ul>
             </form>
         </div>
@@ -82,15 +82,15 @@
         </body>
     </div>
 
-  
+
     <div>
         <div class="nav-slider mt-5">
             <div class="nav-slides">
                 <div class="nav-slide">
-                    <div class="slide_img"><img src="{{ asset('images/ngoaivan.png') }}" alt=""></div>                 
+                    <div class="slide_img"><img src="{{ asset('images/ngoaivan.png') }}" alt=""></div>
                 </div>
                 <div class="nav-slide">
-                    <div class="slide_img"><img src="{{ asset('images/muasamkhongtienmat.png') }}" alt=""></div>                   
+                    <div class="slide_img"><img src="{{ asset('images/muasamkhongtienmat.png') }}" alt=""></div>
                 </div>
                 <div class="nav-slide">
                     <div class="slide_img"><img src="{{ asset('images/hotpick.png') }}" alt=""></div>
@@ -171,10 +171,10 @@
                 <div class="category-title">Danh mục theo thể loại sách</div>
                 <ul class="categories-list">
                     @foreach ($categories as $category)
-                        <li>
+                        <li onclick="getCategoryByID({{ $category->category_id }})">
                             <i class="fas fa-book"></i>
                             {{ $category->category_name }}
-                        </li>              
+                        </li>
                     @endforeach
                 </ul>
             </div>
@@ -188,13 +188,9 @@
             </div>
         </div>
 
-        <style>
-            
-        </style>
-
         <div>
             <div class="container d-flex flex-column align-items-center">
-                <div class="grid">
+                <div class="grid" id="book-list">
                     <!-- Card 1 -->
                     @foreach($books as $book)
                         <a href="" style="text-decoration: none;" class="card">
@@ -285,6 +281,7 @@
 
 <script>
     const root = "{{ route('home') }}";
+    console.log(root);
 
     document.addEventListener("DOMContentLoaded", function () {
         let index = 0;
@@ -299,41 +296,43 @@
         setInterval(autoSlide, 3000);
     });
 
-    async function getAllCategory() {
-        const url = "{{ route('categories-api') }}";
+
+
+
+    async function getCategoryByID(category_id) {
+        const bookList = document.getElementById('book-list');
+        const url = `/api/index/category/${category_id}`;
         const res = await fetch(url);
         const result = await res.json();
+        console.log(result);
+        console.log(result.books[0]);
 
-
-        const categoryList = document.querySelector('.categories-list');
-
-        for (let i = 0; i < result.length; i++) {
-            const categoryBox = document.createElement("li");
-            categoryBox.innerHTML = `<i class="fas fa-book"></i>
-                ${result[i].category_name}
-            `;
-            categoryList.appendChild(categoryBox);
+        if (res.ok) {
+            bookList.innerHTML = '';
+            let string = '';
+            for (let i = 0; i < result.books.length; i++) {
+                const book = result.books[i];
+                console.log(book);
+                string += `<a href="" style="text-decoration: none;" class="card">
+                            <img src="images/placeholder.png"
+                                alt="" width="150" height="200" />
+                            <h3>${book.title}</h3>
+                            <p class="author">${book.author}</p>
+                            <div class="summary">
+                                <p>${book.summary}</p>
+                            </div>
+                            <div class="price-row">
+                                <span>Giá ebook</span>
+                                <span class="price">${book.price}<sup>₫</sup></span>
+                            </div>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </a>`;
+            };
+            bookList.innerHTML = string;
+            document.querySelector('.paginate').style.display = 'none';
         }
     }
 
-
-
-    // getAllCategory();
-
-
 </script>
-<!-- <div class="card">
-                        <img src="https://storage.googleapis.com/a1aa/image/ebab378e-46ab-461c-af6b-48caaf9d9410.jpg"
-                            alt="Book cover of Tiếng Việt các cở cũng cứng cựa with orange and dark blue geometric shapes"
-                            width="150" height="200" />
-                        <h3>Tiếng Việt các cở cũng cứng cựa</h3>
-                        <p class="author">Lê Minh Quốc</p>
-                        <div class="price-row">
-                            <span>Giá ebook</span>
-                            <span class="price">63,000<sup>₫</sup></span>
-                        </div>
-                        <button class="add-to-cart">Add to Cart</button>
-                    </div>       -->
-
 
 </html>

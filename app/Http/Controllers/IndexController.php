@@ -14,6 +14,16 @@ class IndexController extends Controller
         return $categories;
     }
 
+    public function categoryAPI($id)
+    {
+        $books = Books::whereHas('categories', function ($query) use ($id) {
+            $query->where('category_book.category_id', $id);
+        })->get();
+        return response()->json([
+            'books' => $books,
+        ]);
+    }
+
     public function index()
     {
         $books = Books::paginate(8);
@@ -29,17 +39,25 @@ class IndexController extends Controller
     }
 
     public function searchAPI($keyword)
-{
-    $books = Books::with(['author'])
-        ->where(function($query) use ($keyword) {
-            $query->where('title', 'like', '%' . $keyword . '%')
-                  ->orWhereHas('author', function ($q) use ($keyword) {
-                      $q->where('author_name', 'like', '%' . $keyword . '%');
-                  });
-        })
-        ->get();
+    {
+        $books = Books::with(['author'])
+            ->where(function ($query) use ($keyword) {
+                $query->where('title', 'like', '%' . $keyword . '%')
+                    ->orWhereHas('author', function ($q) use ($keyword) {
+                        $q->where('author_name', 'like', '%' . $keyword . '%');
+                    });
+            })
+            ->get();
 
-    return response()->json($books);
-}
+        return response()->json($books);
+    }
+
+    public function dashboard()
+    {
+        if (!auth()->check()) {
+            return redirect()->route('login');
+        }
+        return view('dashboard');
+    }
 }
 

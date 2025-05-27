@@ -23,7 +23,7 @@ use App\Http\Controllers\LoginController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('dashboard', action: [CrudBookController::class, 'dashboard']);
+Route::get('dashboard', action: [IndexController::class, 'dashboard'])->name('dashboard');
 
 
 Route::get('createBook', [CrudBookController::class, 'createBook'])->name('book.createBook');
@@ -39,9 +39,6 @@ Route::post('updateBook', [CrudBookController::class, 'postUpdateBook'])->name('
 Route::get('listBook', [CrudBookController::class, 'listBook'])->name('book.list');
 
 Route::get('signout', [CrudBookController::class, 'signOut'])->name('signout');
-
-Route::get('dashboard', [CrudPublisherController::class, 'dashboard']);
-
 
 Route::get('createPublisher', [CrudPublisherController::class, 'createPublisher'])->name('publisher.createPublisher');
 Route::post('createPublisher', [CrudPublisherController::class, 'postPublisher'])->name('publisher.postPublisher');
@@ -81,7 +78,7 @@ Route::get('listCate', [CrudCategoriesController::class, 'listCategories'])->nam
 
 
 Route::get('/', function () {
-    return view('dashboard');
+    return redirect()->route('index');
 })->name('home');
 
 
