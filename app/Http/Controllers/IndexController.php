@@ -15,6 +15,12 @@ class IndexController extends Controller
         return $categories;
     }
 
+    public function allBooksAPI()
+    {
+        $books = Books::with(['author', 'categories'])->paginate(8); // 8 books per page
+        return response()->json($books);
+    }
+
     public function categoryAPI($id)
     {
         $books = Books::with('author')->whereHas('categories', function ($query) use ($id) {
