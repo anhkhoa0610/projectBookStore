@@ -35,10 +35,26 @@ class CrudAuthorController extends Controller
     {
         $request->validate([
             'author_name' => 'required|string|max:255',
+            'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,svg|max:2048',
             'bio' => 'nullable|string',
         ]);
 
-        Author::create($request->all());
+        $data = $request->all();
+
+        if ($request->hasFile('cover_image')) {
+            $file = $request->file('cover_image');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('uploads'), $filename); // Save the file to 'public/uploads'
+            $data['cover_image'] = $filename; // Save the filename in the database
+        } else {
+            $data['cover_image'] = "placeholder.png"; // Default image if no file is uploaded
+        }
+
+        Author::created([
+            'author_name' => $data['author_name'],
+            'cover_image' => $data['cover_image'],
+            'bio' => $data['bio'],
+        ]);
 
         return redirect()->route('authors.list')->with('status', 'Author created successfully!');
     }
@@ -59,11 +75,25 @@ class CrudAuthorController extends Controller
     {
         $request->validate([
             'author_name' => 'required|string|max:255',
+            'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,svg|max:2048',
             'bio' => 'nullable|string',
         ]);
 
         $author = Author::findOrFail($id);
         $author->update($request->all());
+
+        if ($request->hasFile('cover_image')) {
+            // Delete the old cover image if it exists
+            if ($author->cover_image && file_exists(public_path('uploads/' . $author->cover_image))) {
+                unlink(public_path('uploads/' . $author->cover_image));
+            }
+
+            // Save the new cover image
+            $file = $request->file('cover_image');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('uploads'), $filename);
+            $author->cover_image = $filename;
+        }
 
         return redirect()->route('authors.list')->with('status', 'Author updated successfully!');
     }

@@ -60,6 +60,7 @@
                         <tr>
                             <th>Author ID</th>
                             <th>Name</th>
+                            <th>Image</th>
                             <th>Bio</th>
                             <th>Actions</th>
                         </tr>
@@ -69,6 +70,15 @@
                             <tr>
                                 <td>{{ $author->author_id }}</td>
                                 <td>{{ $author->author_name }}</td>
+                                <td>
+                                    @if ($author->cover_image)
+                                        <img src="{{ asset('uploads/' . $author->cover_image) }}" alt="Cover Image"
+                                            class="img-fluid rounded shadow" style="max-height: 100px;">
+                                    @else
+                                        <img src="{{ asset('images/placeholder.png') }}" alt="No Image"
+                                            class="img-fluid rounded shadow" style="max-height: 100px;">
+                                    @endif
+                                </td>
                                 <td>{{ $author->bio }}</td>
                                 <td>
                                     <a href="{{ route('authors.edit', $author->author_id) }}"

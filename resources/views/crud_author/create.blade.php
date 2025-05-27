@@ -16,10 +16,18 @@
                             @csrf
                             <div class="mb-3">
                                 <label for="author_name" class="form-label">Author Name</label>
-                                <input type="text" id="author_name" name="author_name" class="form-control" maxlength="255" required>
+                                <input type="text" id="author_name" name="author_name" class="form-control" maxlength="255"
+                                    required>
                                 @if ($errors->has('author_name'))
                                     <span class="text-danger">{{ $errors->first('author_name') }}</span>
                                 @endif
+                            </div>
+                            <div class="mb-3">
+                                <label for="cover_image" class="form-label">Cover Image</label>
+                                <input type="file" name="cover_image" class="form-control" accept="image/*">
+                                @error('cover_image')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="mb-3">
                                 <label for="bio" class="form-label">Bio</label>
@@ -28,7 +36,7 @@
                                     <span class="text-danger">{{ $errors->first('bio') }}</span>
                                 @endif
                             </div>
-                            
+
                             <div>
                                 <button type="submit" class="btn btn-primary">Create Author</button>
                             </div>

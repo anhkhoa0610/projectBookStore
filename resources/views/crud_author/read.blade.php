@@ -12,6 +12,15 @@
                         </h4>
                     </div>
                     <div class="card-body">
+                        <div class="mb-3 text-center">
+                            @if ($author->cover_image)
+                                <img src="{{ asset('uploads/' . $author->cover_image) }}" alt="Cover Image"
+                                    class="img-fluid rounded shadow" style="max-height: 220px;">
+                            @else
+                                <img src="{{ asset('images/placeholder.png') }}" alt="No Image" class="img-fluid rounded shadow"
+                                    style="max-height: 220px;">
+                            @endif
+                        </div>
                         <div class="mb-3">
                             <label for="coupon_code" class="form-label">Author ID</label>
                             <p class="form-control">{{ $author->author_id }}</p>

@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('authors', function (Blueprint $table) {
             $table->id('author_id'); // Primary key
             $table->string('author_name'); // Author's name
+            $table->string('cover_image')->nullable(); // Nullable for optional cover image
             $table->text('bio')->nullable(); // Author's biography
             $table->timestamps();
         });
