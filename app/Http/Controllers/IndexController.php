@@ -23,7 +23,7 @@ class IndexController extends Controller
 
     public function categoryAPI($id)
     {
-        $books = Books::with('author')->whereHas('categories', function ($query) use ($id) {
+        $books = Books::with(['author', 'categories'])->whereHas('categories', function ($query) use ($id) {
             $query->where('category_book.category_id', $id);
         })->get();
         return response()->json([
