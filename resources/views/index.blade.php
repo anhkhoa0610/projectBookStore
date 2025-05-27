@@ -193,42 +193,12 @@
             <div class="container d-flex flex-column align-items-center">
                 <div class="grid" id="book-list">
                     <!-- Card 1 -->
-                    @foreach($books as $book)
-                        <a href="" style="text-decoration: none;" class="card">
-                            <img src="{{ $book->cover_image ? asset('images/' . $book->cover_image) : asset('images/placeholder.png') }}"
-                                alt="{{ $book->title }}" width="150" height="200" />
-                            <h3>{{ $book->title }}</h3>
-                            <p class="author">{{ $book->author->author_name}}</p>
-                            <div class="summary">
-                                <p>{{ $book->summary }}</p>
-                            </div>
-                            <div class="price-row">
-                                <span>Giá ebook</span>
-                                <span class="price">{{ $book->price }}<sup>₫</sup></span>
-                            </div>
-                            <div class="price-row">
-                                <span style="font-weight: bolder">Đã bán: {{ $book->volume_sold }}</span>
-                            </div>
-                            <div class="price-row">
-                                <span>Ngày Xuất Bản : {{ $book->published_date }}</span>
-                            </div>
-                            <div class="mb-2">
-                                @foreach($book->categories as $category)
-                                    <span class="badge bg-secondary">{{ $category->category_name }}</span>
-                                @endforeach
-                            </div>
-                            <div class="">
-                                <span>Rating</span>
-                                <p style="color: yellow;">★★★★★</p>
-                            </div>
-                            <button class="add-to-cart">Add to Cart</button>
-                        </a>
-                    @endforeach
+                    
 
                 </div>
-                <div class="paginate mt-5 mx-auto">
+                <!-- <div class="paginate mt-5 mx-auto">
                     {{ $books->links() }}
-                </div>
+                </div> -->
             </div>
 
         </div>
