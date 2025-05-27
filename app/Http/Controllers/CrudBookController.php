@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Books;
+use App\Models\Category;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
@@ -51,8 +52,9 @@ class CrudBookController extends Controller
     public function createBook()
     {
         $publishers = Publisher::all(); // Assuming you have a Publisher model
-        $authors = Author::all(); // Assuming you have an Author model
-        return view('crud_book.create', ['publishers' => $publishers, 'authors' => $authors]);
+        $authors = Author::all();
+        $categories = Category::all(); // Assuming you have an Author model
+        return view('crud_book.create', ['publishers' => $publishers, 'authors' => $authors, 'categories' => $categories]);
     }
 
     /**
@@ -93,11 +95,11 @@ class CrudBookController extends Controller
             $file->move(public_path('uploads'), $filename); // Save the file to 'public/uploads'
             $data['cover_image'] = $filename; // Save the filename in the database
         } else {
-            $data['cover_image'] = null; // <-- Add this line
+            $data['cover_image'] = "placeholder.png"; // Default image if no file is uploaded
         }
 
 
-        Books::create([
+        $book = Books::create([
             'title' => $data['title'],
             'summary' => $data['summary'],
             'author_id' => $data['author_id'],
@@ -108,6 +110,8 @@ class CrudBookController extends Controller
             'cover_image' => $data['cover_image'],
             'volume_sold' => $data['volume_sold'],
         ]);
+
+        $book->categories()->attach($request->categories);
 
         return redirect("listBook")->with('status', 'Registration successful');
     }
@@ -142,7 +146,16 @@ class CrudBookController extends Controller
         $book_id = $request->get('book_id');
         $book = Books::find($book_id);
 
-        return view('crud_book.update', ['book' => $book]);
+        $authors = Author::all();
+        $publishers = Publisher::all();
+        $categories = Category::all();
+
+        return view('crud_book.update', [
+            'book' => $book,
+            'authors' => $authors,
+            'publishers' => $publishers,
+            'categories' => $categories,
+        ]);
     }
 
     /**
@@ -151,19 +164,7 @@ class CrudBookController extends Controller
     public function postUpdateBook(Request $request)
     {
         $input = $request->all();
-
-        // $request->validate([
-        //     'name' => 'required',
-        //     'email' => 'required|email|unique:users,id,'.$input['id'],
-        //     'password' => 'required|min:6',
-        //     'like' => 'required',
-        //     'age' => 'required',
-        // ]);
-
-
-
         $book = Books::find($input['book_id']);
-
         $request->validate([
             'title' => [
                 'required',
@@ -193,7 +194,7 @@ class CrudBookController extends Controller
             $file = $request->file('cover_image');
             $filename = time() . '_' . $file->getClientOriginalName();
             $file->move(public_path('uploads'), $filename);
-            $input['cover_image'] = $filename;
+            $book->cover_image = $filename;
         }
 
 
@@ -204,9 +205,15 @@ class CrudBookController extends Controller
         $book->publisher_id = $input['publisher_id'];
         $book->description = $input['description'];
         $book->price = $input['price'];
-        $book->cover_image = $input['cover_image'];
+        // $book->cover_image = $input['cover_image'];
         $book->volume_sold = $input['volume_sold'];
         $book->save();
+
+        if ($request->has('categories')) {
+            $book->categories()->sync($request->categories);
+        } else {
+            $book->categories()->detach();
+        }
 
         return redirect("listBook")->with('status', 'Update successfully');
     }
@@ -220,21 +227,21 @@ class CrudBookController extends Controller
      * List of books with search functionality
      */
     public function listBook(Request $request)
-{
-    $search = $request->input('search');
+    {
+        $search = $request->input('search');
 
-    $books = Books::with('author', 'publisher')
-        ->when($search, function ($query, $search) {
-            $query->where('title', 'like', "%{$search}%")
-                ->orWhereHas('author', function ($q) use ($search) {
-                    $q->where('author_name', 'like', "%{$search}%");
-                });
-        })
-        ->paginate(10)
-        ->appends(['search' => $search]);
+        $books = Books::with('author', 'publisher', 'categories')
+            ->when($search, function ($query, $search) {
+                $query->where('title', 'like', "%{$search}%")
+                    ->orWhereHas('author', function ($q) use ($search) {
+                        $q->where('author_name', 'like', "%{$search}%");
+                    });
+            })
+            ->paginate(10)
+            ->appends(['search' => $search]);
 
-    return view('crud_book.list', compact('books'));
-}
+        return view('crud_book.list', compact('books'));
+    }
 
     /**
      * Sign out

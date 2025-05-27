@@ -78,6 +78,26 @@
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Categories</label>
+                                <div>
+                                    @foreach($categories as $category)
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" name="categories[]"
+                                                id="category_{{ $category->category_id }}" value="{{ $category->category_id }}">
+                                            <label class="form-check-label" for="category_{{ $category->category_id }}">
+                                                {{ $category->category_name }}
+                                            </label>
+                                        </div>
+                                    @endforeach
+                                </div>
+                                @error('categories')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+
                             <div class="mb-3">
                                 <label for="price" class="form-label">Price</label>
                                 <input type="number" step="0.01" name="price" class="form-control" required maxlength="10">
