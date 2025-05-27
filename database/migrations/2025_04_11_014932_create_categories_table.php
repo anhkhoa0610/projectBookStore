@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id('category_id'); // Primary key
-            $table->string('category_name', 50); // nvarchar(50)
+            $table->string('category_name', 50)->unique(); // nvarchar(50)
             $table->text('category_desc'); // text
             $table->timestamps(); // created_at and updated_at
         });

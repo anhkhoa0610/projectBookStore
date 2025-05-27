@@ -16,11 +16,11 @@
                                 @csrf
                                 <div class="form-group mb-3">
                                     <input type="text" placeholder="category Name" id="category_name" class="form-control" name="category_name"
-                                           required>
+                                           required maxlength="50" pattern="[A-Za-zÀ-ỹà-ỹ0-9\s.,]+" title="không cho phép ký tự đặc biệt ngoài .  ," >
                                 </div>
                                 <div class="form-group mb-3">
                                     <input type="text" placeholder="category desc" id="category_desc" class="form-control" name="category_desc"
-                                           required>
+                                           required maxlength="1000" pattern="^[a-zA-Z0-9\s.,]+$" >
                                 </div>
                                 <button data-mdb-button-init data-mdb-ripple-init class="btn btn-dark btn-outline-light btn-lg px-5" type="submit">Create</button>
 

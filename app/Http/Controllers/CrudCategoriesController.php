@@ -31,7 +31,7 @@ class CrudCategoriesController extends Controller
         $request->validate([
             'email' => 'required',
             'password' => 'required',
-            
+
         ]);
 
         $credentials = $request->only('email', 'password');
@@ -57,25 +57,25 @@ class CrudCategoriesController extends Controller
      */
     public function postCategory(Request $request)
     {
-        // $request->validate([
-        //     'name' => 'required',
-        //     'email' => 'required|email|unique:users',
-        //     'password' => 'required|min:6',
-        // ]);
-
+        $request->validate([
+            'category_name' => 'required|string|max:50',
+            'category_desc' => 'nullable|string|max:1000',
+        ]);
+        
         $data = $request->all();
         Category::create([
             'category_name' => $data['category_name'],
             'category_desc' => $data['category_desc'],
         ]);
 
-        return redirect("listCate")->with('status','Registration successful');
+        return redirect("listCate")->with('status', 'Registration successful');
     }
 
     /**
      * View user detail page
      */
-    public function readCategory(Request $request) {
+    public function readCategory(Request $request)
+    {
         $category_id = $request->get('category_id');
         $category = Category::find($category_id);
 
@@ -85,11 +85,12 @@ class CrudCategoriesController extends Controller
     /**
      * Delete user by id
      */
-    public function deleteCategory(Request $request) {
+    public function deleteCategory(Request $request)
+    {
         $category_id = $request->get('category_id');
         $category = Category::destroy($category_id);
 
-        return redirect("listCate")->with('status','Delete successfully');
+        return redirect("listCate")->with('status', 'Delete successfully');
     }
 
     /**
@@ -117,20 +118,20 @@ class CrudCategoriesController extends Controller
         //     'age' => 'required',
         // ]);
 
-       $category = Category::find($input['category_id']);
-       $category->category_name = $input['category_name'];
-       $category->category_desc = $input['category_desc'];
-       $category->save();
+        $category = Category::find($input['category_id']);
+        $category->category_name = $input['category_name'];
+        $category->category_desc = $input['category_desc'];
+        $category->save();
 
-        return redirect("listCate")->with('status','Update successfully');
+        return redirect("listCate")->with('status', 'Update successfully');
     }
 
     /**
      * List of users
      */
-  
 
-     /**
+
+    /**
      * List of books with search functionality
      */
     public function listCategories(Request $request)
@@ -139,8 +140,8 @@ class CrudCategoriesController extends Controller
 
         $categories = Category::when($search, function ($query, $search) {
             $query->where('category_id', 'like', "%{$search}%")
-                  ->orWhere('category_name', 'like', "%{$search}%")
-                  ->orWhere('category_desc', 'like', "%{$search}%");
+                ->orWhere('category_name', 'like', "%{$search}%")
+                ->orWhere('category_desc', 'like', "%{$search}%");
         })->paginate(10)->appends(['search' => $search]); // Append search query to pagination links
 
         return view('crud_categories.list', compact('categories'));
@@ -149,7 +150,8 @@ class CrudCategoriesController extends Controller
     /**
      * Sign out
      */
-    public function signOut() {
+    public function signOut()
+    {
         Session::flush();
         Auth::logout();
 
