@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CrudUserController;
+use App\Http\Controllers\ItemController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CrudBookController;
 use App\Http\Controllers\CrudPublisherController;
@@ -199,3 +200,5 @@ Route::prefix('reviews')->group(function () {
 
 
 Route::get('/index', [IndexController::class, 'index'])->name('index');
+
+Route::get('/itemDetail/{book_id}', [ItemController::class, 'showItemDetail'])->name('item.detail');
