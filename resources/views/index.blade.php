@@ -297,32 +297,34 @@
                             style="display: flex; transition: transform 0.4s;">
                             <!-- Place your 5+ wishlist cards here -->
                             @foreach($wishlist as $book)
-                                <a href="" class="card" style="text-decoration: none;min-width: 300px; margin: 20px 10px;">
-                                    <img src="{{ $book->cover_image ? asset('uploads/' . $book->cover_image) : asset('images/placeholder.png') }}"
-                                        width="150" height="200" />
-                                    <h3>{{ $book->title }}</h3>
-                                    <p class="author">{{ $book->author->author_name }}</p>
-                                    <div class="summary">
-                                        <p>{{ $book->summary }}</p>
-                                    </div>
-                                    <div class="">
-                                        @if($book->reviews->avg('rating'))
-                                            <span class="rating">
-                                                @for ($i = 0; $i < floor($book->reviews->avg('rating')); $i++)
-                                                    <i class="fas fa-star text-warning"></i>
+                                <div class="card" style="min-width: 300px; margin: 20px 10px;">
+                                    <a href="{{ route('item.detail', $book->book_id) }}" style="text-decoration: none">
+                                        <img src="{{ $book->cover_image ? asset('uploads/' . $book->cover_image) : asset('images/placeholder.png') }}"
+                                            width="150" height="200" />
+                                        <h3>{{ $book->title }}</h3>
+                                        <p class="author">{{ $book->author->author_name }}</p>
+                                        <div class="summary">
+                                            <p>{{ $book->summary }}</p>
+                                        </div>
+                                        <div class="">
+                                            @if($book->reviews->avg('rating'))
+                                                <span class="rating">
+                                                    @for ($i = 0; $i < floor($book->reviews->avg('rating')); $i++)
+                                                        <i class="fas fa-star text-warning"></i>
 
-                                                @endfor
-                                            </span>
-                                        @else
-                                            <span class="rating">No Reviews</span>
-                                        @endif
-                                    </div>
-                                    <div class="price-row">
-                                        <span>Giá ebook</span>
-                                        <span class="price">{{ $book->price }}<sup>₫</sup></span>
-                                    </div>
+                                                    @endfor
+                                                </span>
+                                            @else
+                                                <span class="rating">No Reviews</span>
+                                            @endif
+                                        </div>
+                                        <div class="price-row">
+                                            <span>Giá ebook</span>
+                                            <span class="price">{{ $book->price }}<sup>₫</sup></span>
+                                        </div>
+                                    </a>
                                     <button class="add-to-cart">Add to Cart</button>
-                                </a>
+                                </div>
                             @endforeach
                             <!-- Repeat the above <a> for each wishlist item (add as many as you want) -->
                         </div>
