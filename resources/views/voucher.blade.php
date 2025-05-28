@@ -657,6 +657,35 @@
             grid-template-columns: 1fr;
             gap: 24px;
         }
+
+        .voucher-card {
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .voucher-card:hover {
+            transform: translateY(-6px) scale(1.03);
+            box-shadow: 0 8px 24px rgba(184, 28, 28, 0.15);
+        }
+
+        .voucher-skeleton {
+            background: linear-gradient(120deg, #f3f4f6 40%, #e5e7eb 60%, #f3f4f6 80%);
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.2s infinite linear;
+            border-radius: 16px;
+            min-height: 180px;
+            margin-bottom: 16px;
+            padding: 24px;
+        }
+
+        @keyframes skeleton-loading {
+            0% {
+                background-position: 200% 0;
+            }
+
+            100% {
+                background-position: -200% 0;
+            }
+        }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 </head>
@@ -750,11 +779,17 @@
         </div>
     </div>
 
-
+    <section id="voucher-list" class="my-5 mx-5">
+        <p class="modern-big-title" style="font-size: 2rem; font-weight: bold; color: #b91c1c;">
+            Limited-Time Vouchers – Shop and Save!
+        </p>
+        <div class="row g-4" id="voucher-container"></div>
+        <div id="voucher-pagination" class="my-3 text-center"></div>
+    </section>
 
 
     <section id="best-seller" class="my-5 mx-5">
-        <p class="modern-big-title">Best Seller</p>
+        <p class="modern-big-title" style="font-size: 2rem; font-weight: bold; color: #b91c1c;">Best Seller</p>
         <div class="grid">
             @foreach($soldBooks as $book)
                 <a href="{{ route('item.detail', $book->book_id) }}" style="text-decoration: none;" class="card">
