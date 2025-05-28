@@ -41,23 +41,19 @@
                     .action-cell {
                         display: flex;
                         flex-direction: column;
-                        /* Display icons in a row */
-                        justify-content: center;
-                        /* Center align the icons */
-                        gap: 10px;
-                        /* Add gap between icons */
-                    }
-
-                    .action-cell a {
-                        display: inline-flex;
+                        gap: 8px;
                         align-items: center;
                         justify-content: center;
-                        text-decoration: none;
-                        /* Remove underline from links */
+                    }
+
+                    .action-cell a,
+                    .action-cell button {
+                        min-width: 60px;
+                        padding: 4px 8px;
                     }
                 </style>
 
-                <table class="table table-stiped table-bordered text-center">
+                <table class="table table-striped table-bordered text-center">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -76,7 +72,7 @@
                                 <td>{{ $coupon->discount_amount }}</td>
                                 <td>{{ $coupon->valid_from }}</td>
                                 <td>{{ $coupon->valid_to }}</td>
-                                <td>
+                                <td class="action-cell">
                                     <a href="{{ route('coupon.edit', $coupon->id) }}" class="btn btn-success btn-sm">Edit</a>
                                     <form action="{{ route('coupon.delete', $coupon->id) }}" method="POST"
                                         style="display: inline-block;">

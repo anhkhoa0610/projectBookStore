@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\CrudUserController;
 use App\Http\Controllers\ItemController;
 use Illuminate\Support\Facades\Route;
@@ -16,6 +17,7 @@ use App\Http\Controllers\IndexController;
 use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Password;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -226,7 +228,7 @@ Route::prefix('reviews')->group(function () {
 });
 
 
-
+Route::get('/author/{id}', [AuthorController::class, 'showAuthor'])->name('author.show');
 Route::get('/index', [IndexController::class, 'index'])->name('index');
 
 Route::get('/itemDetail/{book_id}', [ItemController::class, 'showItemDetail'])->name('item.detail');
