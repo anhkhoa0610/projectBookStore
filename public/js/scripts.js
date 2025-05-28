@@ -62,7 +62,7 @@ async function getCategoryByID(category_id) {
                 categoryBadges += `<span class="badge bg-secondary me-1">${book.categories[j].category_name}</span>`;
             }
 
-            string += `<a href="" style="text-decoration: none; animation-delay:${0.2 * i}s" class="card">
+            string += `<a href="/itemDetail/${book.book_id}" style="text-decoration: none; animation-delay:${0.2 * i}s" class="card">
                             <img src="images/placeholder.png"
                                 alt="" width="150" height="200" />
                             <h3>${book.title}</h3>
@@ -142,7 +142,7 @@ async function getAllBooks(page = 1) {
             }
         }
 
-        string += `<a href="" style="text-decoration: none; animation-delay: ${i * 0.2}s" class="card">
+        string += `<a href="/itemDetail/${book.book_id}" style="text-decoration: none; animation-delay: ${i * 0.2}s" class="card">
             <img src="images/placeholder.png"
                 alt="" width="150" height="200" />
             <h3>${book.title}</h3>
@@ -187,7 +187,7 @@ async function getBooksByDate(page = 1) {
             }
         }
 
-        string += `<a href="" style="text-decoration: none; animation-delay: ${i * 0.2}s" class="card">
+        string += `<a href="/itemDetail/${book.book_id}" style="text-decoration: none; animation-delay: ${i * 0.2}s" class="card">
             <img src="images/placeholder.png"
                 alt="" width="150" height="200" />
             <h3>${book.title}</h3>
@@ -231,7 +231,7 @@ async function getBooksBySold(page = 1) {
             }
         }
 
-        string += `<a href="" style="text-decoration: none; animation-delay: ${i * 0.2}s" class="card">
+        string += `<a href="/itemDetail/${book.book_id}" style="text-decoration: none; animation-delay: ${i * 0.2}s" class="card">
             <img src="images/placeholder.png"
                 alt="" width="150" height="200" />
             <h3>${book.title}</h3>
