@@ -10,7 +10,7 @@ class CrudAuthorController extends Controller
     /**
      * Display a listing of authors.
      */
-    public function listAuthor(request $request)
+    public function listAuthor(Request $request)
     {
         $search = $request->input('search');
 
@@ -36,7 +36,7 @@ class CrudAuthorController extends Controller
     {
         $request->validate([
             'author_name' => 'required|string|max:255',
-            'birth_date' => 'nullable|string|max:15', // Assuming birth year is a string, adjust as needed
+            'birth_date' => 'nullable|date',
             'hometown' => 'nullable|string|max:255',
             'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,svg|max:2048',
             'bio' => 'nullable|string',
@@ -80,7 +80,7 @@ class CrudAuthorController extends Controller
     {
         $request->validate([
             'author_name' => 'required|string|max:255',
-            'birth_date' => 'nullable|string|max:15', // Assuming birth year is a string, adjust as needed
+            'birth_date' => 'nullable|date', // Assuming birth year is a string, adjust as needed
             'hometown' => 'nullable|string|max:255',
             'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,svg|max:2048',
             'bio' => 'nullable|string',
@@ -128,4 +128,5 @@ class CrudAuthorController extends Controller
         $author = Author::findOrFail($id);
         return view('crud_author.read', compact('author'));
     }
+
 }

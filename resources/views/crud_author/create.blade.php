@@ -26,15 +26,15 @@
                                 <label for="cover_image" class="form-label">Cover Image</label>
                                 <input type="file" name="cover_image" class="form-control" accept="image/*">
                                 @error('cover_image')
-                                <div class="text-danger">{{ $message }}</div>
+                                    <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
                             <div class="mb-3">
                                 <label for="birth_date" class="form-label">Birth Date</label>
-                                <input type="number" id="birth_date" name="birth_date" class="form-control" min="1000"
-                                    max="{{ date('Y') }}">
+                                <input type="date" id="birth_date" name="birth_date" class="form-control"
+                                    max="{{ date('Y-m-d') }}">
                                 @if ($errors->has('birth_date'))
-                                    <span class="text-danger">{{ $errors->first('birth_year') }}</span>
+                                    <span class="text-danger">{{ $errors->first('birth_date') }}</span>
                                 @endif
                             </div>
                             <div class="mb-3">

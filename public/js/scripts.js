@@ -23,14 +23,14 @@ async function suggestSearch(keyword) {
         result.forEach(element => {
             const li = document.createElement('li');
             li.classList.add('list-group-item', 'd-flex', 'flex-row', 'justify-content-between', 'row');
-            li.innerHTML = `<div class="col-2">
-                                <img src="/images/placeholder.png" alt="" width="50" height="50">
+            li.innerHTML = `<a style="text-decoration:none; color:black" href='/itemDetail/${element.book_id}' class="col-2">
+                                <img src="uploads/${element.cover_image}" alt="" width="50" height="50">
                             </div>
                             <div class="col-10">
                                 <h5 class="mb-1">${element.title}</h5>
                                 <p class="mb-1">${element.author.author_name}</p>
                                 <small>Price: ${element.price}</small>
-                            </div>`;
+                            </a>`;
             suggest.append(li);
         });
     }
@@ -68,7 +68,7 @@ async function getCategoryByID(category_id) {
 
             string += `<div class="card" style="animation-delay:${0.2 * i}s">
             <a href="/itemDetail/${book.book_id}" style="text-decoration: none;">
-                            <img src="images/placeholder.png"
+                            <img src="uploads/${book.cover_image}"
                                 alt="" width="150" height="200" />
                             <h3>${book.title}</h3>
                             <p class="author">${book.author.author_name}</p>
@@ -151,7 +151,7 @@ async function getAllBooks(page = 1) {
 
         string += `<div class="card" style="animation-delay:${0.2 * i}s">
         <a href="/itemDetail/${book.book_id}" style="text-decoration: none">
-            <img src="images/placeholder.png"
+            <img src="uploads/${book.cover_image}"
                 alt="" width="150" height="200" />
             <h3>${book.title}</h3>
             <p class="author">${book.author.author_name}</p>
@@ -198,7 +198,7 @@ async function getBooksByDate(page = 1) {
 
         string += `<div class="card" style="animation-delay:${0.2 * i}s">
         <a href="/itemDetail/${book.book_id}" style="text-decoration: none">
-            <img src="images/placeholder.png"
+            <img src="uploads/${book.cover_image}"
                 alt="" width="150" height="200" />
             <h3>${book.title}</h3>
             <p class="author">${book.author.author_name}</p>
@@ -245,7 +245,7 @@ async function getBooksBySold(page = 1) {
 
         string += `<div class="card" style="animation-delay:${0.2 * i}s">
         <a href="/itemDetail/${book.book_id}" style="text-decoration: none">
-            <img src="images/placeholder.png"
+            <img src="uploads/${book.cover_image}"
                 alt="" width="150" height="200" />
             <h3>${book.title}</h3>
             <p class="author">${book.author.author_name}</p>
@@ -334,7 +334,7 @@ async function loadVouchers(page = 1) {
             <div class="voucher-card shadow-sm p-4 rounded-4 position-relative"
                 style="background: linear-gradient(120deg, #fceabb 0%, #f8b500 100%); min-height: 180px;">
                 <div class="d-flex align-items-center mb-2">
-                    <span class="badge bg-danger me-2" style="font-size: 1.1rem;">${voucher.discount_amount}% OFF</span>
+                    <span class="badge bg-danger me-2" style="font-size: 1.1rem;">${voucher.discount_amount * 100}% OFF</span>
                 </div>
                 <div class="mb-2">
                     <span class="text-dark">Mã: </span>

@@ -69,7 +69,7 @@
                             <tr>
                                 <td>{{ $coupon->id }}</td>
                                 <td>{{ $coupon->coupon_code }}</td>
-                                <td>{{ $coupon->discount_amount }}</td>
+                                <td>{{ $coupon->discount_amount * 100}}%</td>
                                 <td>{{ $coupon->valid_from }}</td>
                                 <td>{{ $coupon->valid_to }}</td>
                                 <td class="action-cell">
