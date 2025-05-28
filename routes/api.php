@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\IndexController;
-
+use App\Http\Controllers\VoucherController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,3 +35,5 @@ Route::get('/index/books-by-date', [IndexController::class, 'booksByDateAPI'])
 
 Route::get('/index/books-by-sold', [IndexController::class, 'booksBySoldAPI'])
     ->name('index-books-by-sold');
+
+Route::get('/vouchers', [VoucherController::class, 'all']);

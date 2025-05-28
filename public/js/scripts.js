@@ -317,3 +317,79 @@ function renderPagination(fn, result) {
     html += `</ul>`;
     pagination.innerHTML = html;
 }
+
+async function loadVouchers(page = 1) {
+    const container = document.getElementById('voucher-container');
+    const pagination = document.getElementById('voucher-pagination');
+    if (!container) return;
+    const res = await fetch(`/api/vouchers?page=${page}`);
+    const result = await res.json();
+    showVoucherLoading(result.data.length);
+    setTimeout(() => {
+        let html = '';
+        result.data.forEach(voucher => {
+            html += `
+        <div class="col-md-4">
+            <div class="voucher-card shadow-sm p-4 rounded-4 position-relative"
+                style="background: linear-gradient(120deg, #fceabb 0%, #f8b500 100%); min-height: 180px;">
+                <div class="d-flex align-items-center mb-2">
+                    <span class="badge bg-danger me-2" style="font-size: 1.1rem;">${voucher.discount_amount}% OFF</span>
+                </div>
+                <div class="mb-2">
+                    <span class="text-dark">Mã: </span>
+                    <span class="fw-bold text-primary" style="font-size: 1.1rem;">${voucher.coupon_code}</span>
+                    <button class="btn btn-sm btn-outline-primary ms-2"
+                        onclick="navigator.clipboard.writeText('${voucher.coupon_code}')">Copy</button>
+                </div>
+                <div class="mb-2">
+                    <i class="far fa-calendar-alt"></i>
+                    <span class="text-dark">Hiệu lực: ${voucher.valid_from} - ${voucher.valid_to}</span>
+                </div>
+            </div>
+        </div>
+        `;
+        });
+        container.innerHTML = html;
+
+        // Render pagination
+        if (pagination) {
+            let pagHtml = `<ul class="pagination justify-content-center">`;
+            if (result.prev_page_url) {
+                pagHtml += `<li class="page-item"><button class="page-link" onclick="loadVouchers(${result.current_page - 1})">&laquo; Trước</button></li>`;
+            } else {
+                pagHtml += `<li class="page-item disabled"><span class="page-link">&laquo; Trước</span></li>`;
+            }
+            let start = Math.max(1, result.current_page - 2);
+            let end = Math.min(result.last_page, result.current_page + 2);
+            for (let i = start; i <= end; i++) {
+                if (i === result.current_page) {
+                    pagHtml += `<li class="page-item active"><span class="page-link">${i}</span></li>`;
+                } else {
+                    pagHtml += `<li class="page-item"><button class="page-link" onclick="loadVouchers(${i})">${i}</button></li>`;
+                }
+            }
+            if (result.next_page_url) {
+                pagHtml += `<li class="page-item"><button class="page-link" onclick="loadVouchers(${result.current_page + 1})">Sau &raquo;</button></li>`;
+            } else {
+                pagHtml += `<li class="page-item disabled"><span class="page-link">Sau &raquo;</span></li>`;
+            }
+            pagHtml += `</ul>`;
+            pagination.innerHTML = pagHtml;
+        }
+    }, 500);
+}
+
+// Gọi hàm khi trang voucher được load
+document.addEventListener('DOMContentLoaded', function () {
+    loadVouchers();
+});
+
+function showVoucherLoading(count = 9) {
+    const container = document.getElementById('voucher-container');
+    if (!container) return;
+    let html = '';
+    for (let i = 0; i < count; i++) {
+        html += `<div class="col-md-4"><div class="voucher-skeleton"></div></div>`;
+    }
+    container.innerHTML = html;
+}
