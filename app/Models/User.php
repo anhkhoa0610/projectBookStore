@@ -65,9 +65,6 @@ class User extends Authenticatable
     {
         return $this->role === 'admin';
     }
-    {
-        return $this->belongsToMany(Books::class, 'wishlists', 'user_id', 'book_id');
-    }
 
     public function cart()
     {
