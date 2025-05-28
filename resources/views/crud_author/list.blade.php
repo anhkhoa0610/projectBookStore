@@ -16,7 +16,7 @@
                 <form action="{{ route('authors.list') }}" method="GET" class="mb-3">
                     <div class="input-group">
                         <input type="text" name="search" class="form-control"
-                            placeholder="Search by Coupon Code, Discount Amount, Valid From, Valid To..."
+                            placeholder="Search by Author Name, Hometown"
                             value="{{ request('search') }}">
                         <button type="submit" class="btn btn-primary">Search</button>
                     </div>
@@ -76,6 +76,8 @@
                             <th>Author ID</th>
                             <th>Name</th>
                             <th>Image</th>
+                            <th>Birth Date</th>
+                            <th>Hometown</th>
                             <th>Bio</th>
                             <th>Actions</th>
                         </tr>
@@ -94,6 +96,8 @@
                                             class="img-fluid rounded shadow" style="max-height: 100px;">
                                     @endif
                                 </td>
+                                <td class="">{{ $author->birth_date }}</td>
+                                <td class="">{{ $author->hometown }}</td>
                                 <td class="bio-cell">{{ $author->bio }}</td>
                                 <td class="action-cell">
                                     <a href="{{ route('authors.edit', $author->author_id) }}"

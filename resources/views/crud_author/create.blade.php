@@ -12,7 +12,7 @@
                         </h4>
                     </div>
                     <div class="card-body">
-                        <form action="{{ route('authors.store') }}" method="POST">
+                        <form action="{{ route('authors.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="mb-3">
                                 <label for="author_name" class="form-label">Author Name</label>
@@ -26,8 +26,23 @@
                                 <label for="cover_image" class="form-label">Cover Image</label>
                                 <input type="file" name="cover_image" class="form-control" accept="image/*">
                                 @error('cover_image')
-                                    <div class="text-danger">{{ $message }}</div>
+                                <div class="text-danger">{{ $message }}</div>
                                 @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label for="birth_date" class="form-label">Birth Date</label>
+                                <input type="number" id="birth_date" name="birth_date" class="form-control" min="1000"
+                                    max="{{ date('Y') }}">
+                                @if ($errors->has('birth_date'))
+                                    <span class="text-danger">{{ $errors->first('birth_year') }}</span>
+                                @endif
+                            </div>
+                            <div class="mb-3">
+                                <label for="hometown" class="form-label">Hometown</label>
+                                <input type="text" id="hometown" name="hometown" class="form-control" maxlength="255">
+                                @if ($errors->has('hometown'))
+                                    <span class="text-danger">{{ $errors->first('hometown') }}</span>
+                                @endif
                             </div>
                             <div class="mb-3">
                                 <label for="bio" class="form-label">Bio</label>

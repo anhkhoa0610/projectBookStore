@@ -12,7 +12,8 @@
                         </h4>
                     </div>
                     <div class="card-body">
-                        <form action="{{ route('authors.update', $author->author_id) }}" method="POST">
+                        <form action="{{ route('authors.update', $author->author_id) }}" method="POST"
+                            enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
                             <div class="mb-3">
@@ -34,6 +35,22 @@
                                 @error('cover_image')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label for="birth_date" class="form-label">Birth Date</label>
+                                <input type="text" id="birth_date" name="birth_date" class="form-control"
+                                    value="{{ $author->birth_date }}" maxlength="255" required>
+                                @if ($errors->has('birth_date'))
+                                    <span class="text-danger">{{ $errors->first('birth_date') }}</span>
+                                @endif
+                            </div>
+                            <div class="mb-3">
+                                <label for="hometown" class="form-label">Hometown</label>
+                                <input type="text" id="hometown" name="hometown" class="form-control"
+                                    value="{{ $author->hometown }}" maxlength="255" required>
+                                @if ($errors->has('hometown'))
+                                    <span class="text-danger">{{ $errors->first('hometown') }}</span>
+                                @endif
                             </div>
                             <div class="mb-3">
                                 <label for="bio" class="form-label">Bio</label>

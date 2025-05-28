@@ -25,6 +25,10 @@
                                 <h3 class="fw-bold">{{ $author->title }}</h3>
                                 <p class="mb-1"><strong>Author:</strong>
                                     {{ $author->author_name ? $author->author_name : 'Unknown' }}</p>
+                                <p class="mb-1"><strong>Birth Date:</strong>
+                                    {{ $author->birth_date ? $author->birth_date : 'Unknown' }}</p>
+                                <p class="mb-1"><strong>Hometown:</strong>
+                                    {{ $author->hometown ? $author->hometown : 'Unknown' }}</p>
                             </div>
                         </div>
                         <hr>
