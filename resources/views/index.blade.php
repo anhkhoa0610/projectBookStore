@@ -290,8 +290,6 @@
                                     </div>
                                     <button class="add-to-cart">Add to Cart</button>
                                 </a>
-                                <!-- ...other book info... -->
-
                             @endforeach
                             <!-- Repeat the above <a> for each wishlist item (add as many as you want) -->
                         </div>
