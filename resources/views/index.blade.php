@@ -107,15 +107,27 @@
         <p class="modern-big-title">Best Seller</p>
         <div class="grid">
             @foreach($soldBooks as $book)
-                <a href="" style="text-decoration: none;" class="card">
-                <span class="badge bg-danger new-badge-animated"
+                <a href="{{ route('item.detail', $book->book_id) }}" style="text-decoration: none;" class="card">
+                    <span class="badge bg-danger new-badge-animated"
                         style="position: absolute; top: 10px; left: 10px; z-index: 2;">
                         Recommended
-                    </span>    
-                <img src="{{ $book->cover_image ? asset('images/' . $book->cover_image) : asset('images/placeholder.png') }}"
+                    </span>
+                    <img src="{{ $book->cover_image ? asset('images/' . $book->cover_image) : asset('images/placeholder.png') }}"
                         alt="{{ $book->title }}" width="150" height="200" />
                     <h3>{{ $book->title }}</h3>
                     <p class="author">{{ $book->author->author_name }}</p>
+                    <div class="">
+                        @if($book->reviews->avg('rating'))
+                            <span class="rating">
+                                @for ($i = 0; $i < floor($book->reviews->avg('rating')); $i++)
+                                    <i class="fas fa-star text-warning"></i>
+
+                                @endfor
+                            </span>
+                        @else
+                            <span class="rating">No Reviews</span>
+                        @endif
+                    </div>
                     <div class="summary">
                         <p>{{ $book->summary }}</p>
                     </div>
@@ -144,7 +156,8 @@
         <p class="modern-big-title">Newly Updated</p>
         <div class="grid">
             @foreach($newBooks as $book)
-                <a href="" style="text-decoration: none; position: relative;" class="card">
+                <a href="{{ route('item.detail', $book->book_id) }}" style="text-decoration: none; position: relative;"
+                    class="card">
                     <span class="badge bg-success new-badge-animated"
                         style="position: absolute; top: 10px; left: 10px; z-index: 2;">
                         New
@@ -153,6 +166,15 @@
                         alt="{{ $book->title }}" width="150" height="200" />
                     <h3>{{ $book->title }}</h3>
                     <p class="author">{{ $book->author->author_name }}</p>
+                    @if($book->reviews->avg('rating'))
+                        <span class="rating">
+                            @for ($i = 0; $i < floor($book->reviews->avg('rating')); $i++)
+                                <i class="fas fa-star text-warning"></i>
+                            @endfor
+                        </span>
+                    @else
+                        <span class="rating">No Reviews</span>
+                    @endif
                     <div class="summary">
                         <p>{{ $book->summary }}</p>
                     </div>

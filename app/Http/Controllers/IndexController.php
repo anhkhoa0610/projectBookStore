@@ -36,7 +36,7 @@ class IndexController extends Controller
         $wishlist = Auth::check() ? Auth::user()->wishlist()->with('author', 'categories')->get() : collect();
         $books = Books::with(['author', 'categories'])->paginate(8);
         $soldBooks = Books::with(['author', 'categories'])->orderBy('volume_sold', 'desc')->take(4)->get();
-        $newBooks = Books::with(['author', 'categories'])->orderBy('published_date', 'desc')->take(4)->get();
+        $newBooks = Books::with(['author', 'categories', 'reviews'])->orderBy('published_date', 'desc')->take(4)->get();
         $categories = Category::all();
         return view('index', [
             'books' => $books,
