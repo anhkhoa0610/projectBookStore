@@ -15,8 +15,10 @@ use App\Http\Controllers\CrudOrdersDetailsController;
 use App\Http\Controllers\CrudReviewController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\CartController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Password;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -230,5 +232,7 @@ Route::prefix('reviews')->group(function () {
 
 Route::get('/author/{id}', [AuthorController::class, 'showAuthor'])->name('author.show');
 Route::get('/index', [IndexController::class, 'index'])->name('index');
+Route::get('/cart', [CartController::class, 'showCart'])->name('cart.show');
+Route::get('/cart/add/{id}', [CartController::class, 'addToCart'])->name('cart.add');
 
 Route::get('/itemDetail/{book_id}', [ItemController::class, 'showItemDetail'])->name('item.detail');
