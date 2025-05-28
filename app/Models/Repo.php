@@ -25,7 +25,11 @@ class Repo extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
+        'bookName',
         'warehouseLocation',
+        'quantityAvailable',
+        'lastUpdated',
+        
     ];
 
 

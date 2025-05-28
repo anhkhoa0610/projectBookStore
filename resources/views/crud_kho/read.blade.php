@@ -19,20 +19,20 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Book Id</th>
-                                <th>Warehouse Id</th>
-                                <th>Quantity</th>
-                                <th>Action</th>
+                                <th>BookName</th>
+                                <th>Warehouse Location</th>
+                                <th>Quantity Available</th>
+                                <th>Last Updated</th>
 
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                 <th>{{ $messi->id }}</th>
-                                <th>{{ $messi->book_id }}</th>
-                                <th>{{ $messi->warehouse_id }}</th>
-                                <th>{{ $messi->quantity }}</th>
-                               
+                                <th>{{ $messi->id }}</th>
+                                <th>{{ $messi->bookName }}</th>
+                                <th>{{ $messi->warehouseLocation }}</th>
+                                <th>{{ $messi->quantityAvailable }}</th>
+                                <th>{{ $messi->lastUpdated }}</th>
 
                             </tr>
 

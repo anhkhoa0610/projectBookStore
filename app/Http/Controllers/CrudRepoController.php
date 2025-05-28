@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\RepoBook;
+use App\Models\Repo;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
@@ -14,7 +14,35 @@ use Illuminate\Support\Facades\Auth;
 class CrudRepoController extends Controller
 {
 
- 
+    /**
+     * Login page
+     */
+    public function login()
+    {
+        return view('crud_user.login');
+    }
+
+    /**
+     * User submit form login
+     */
+    public function authUser(Request $request)
+    {
+        $request->validate([
+            'email' => 'required',
+            'password' => 'required',
+
+        ]);
+
+        $credentials = $request->only('email', 'password');
+
+        if (Auth::attempt($credentials)) {
+            return redirect()->intended('list')
+                ->withSuccess('Signed in');
+        }
+
+        return redirect("login")->withSuccess('Login details are not valid');
+    }
+
     /**
      * Registration page
      */
@@ -29,17 +57,19 @@ class CrudRepoController extends Controller
     public function postRepo(Request $request)
     {
         $request->validate([
-            'book_id' => 'required',
-            'warehouse_id' => 'required',
-            'quantity' => 'required',
+            'bookName' => 'required',
+            'warehouseLocation' => 'required',
+            'quantityAvailable' => 'required',
+            'lastUpdated' => 'required',
+
         ]);
 
         $data = $request->all();
-        RepoBook::create([
-            'book_id' => $data['book_id'],
-            'warehouse_id' => $data['warehouse_id'],
-            'quantity' => $data['quantity'],
-            
+        Repo::create([
+            'bookName' => $data['bookName'],
+            'warehouseLocation' => $data['warehouseLocation'],
+            'quantityAvailable' => $data['quantityAvailable'],
+            'lastUpdated' => $data['lastUpdated'],
         ]);
 
         return redirect("listRepo")->with('status','Registration Repo successful');
@@ -50,7 +80,7 @@ class CrudRepoController extends Controller
      */
     public function readRepo(Request $request) {
         $repo_id = $request->get('id');
-        $repo = RepoBook::find($repo_id);
+        $repo = Repo::find($repo_id);
 
         return view('crud_kho.read', ['messi' => $repo]);
     }
@@ -60,7 +90,7 @@ class CrudRepoController extends Controller
      */
     public function deleteRepo(Request $request) {
         $repo_id = $request->get('id');
-        $repo = RepoBook::destroy($repo_id);
+        $repo = Repo::destroy($repo_id);
 
         return redirect("listRepo")->with('status','Delete successfully');
     }
@@ -71,7 +101,7 @@ class CrudRepoController extends Controller
     public function updateRepo(Request $request)
     {
         $repo_id = $request->get('id');
-        $repo = RepoBook::find($repo_id);
+        $repo = Repo::find($repo_id);
 
         return view('crud_kho.update', ['repo' => $repo]);
     }
@@ -84,18 +114,17 @@ class CrudRepoController extends Controller
         $input = $request->all();
 
         $request->validate([
-           'book_id' => 'required',
-            'warehouse_id' => 'required',
-            'quantity' => 'required',
-            
+            'bookName' => 'required',
+            'warehouseLocation' => 'required',
+            'quantityAvailable' => 'required',
+            'lastUpdated' => 'required',
         ]);
 
-       $repo = RepoBook::find($input['id']);
-       
-       $repo->book_id = $input['book_id'];
-       $repo->warehouse_id = $input['warehouse_id'];
-       $repo->quantity = $input['quantity'];
-      
+       $repo = Repo::find($input['id']);
+       $repo->bookName = $input['bookName'];
+       $repo->warehouseLocation = $input['warehouseLocation'];
+       $repo->quantityAvailable = $input['quantityAvailable'];
+       $repo->lastUpdated= $input['lastUpdated'];
        $repo->save();
 
         return redirect("listRepo")->with('status','Update successfully');
@@ -108,8 +137,8 @@ class CrudRepoController extends Controller
     {
             $search = $request->input('search');
 
-            $repos = RepoBook::with('repo')->when($search, function ($query, $search) {
-                $query->where('book_id', 'like', "%{$search}%");
+            $repos = Repo::when($search, function ($query, $search) {
+                $query->where('bookName', 'like', "%{$search}%");
 
             })->paginate(10)->appends(['search' => $search]); // Append search query to pagination links
 

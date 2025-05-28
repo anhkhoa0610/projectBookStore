@@ -17,11 +17,7 @@ use App\Http\Controllers\IndexController;
 use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Password;
-<<<<<<< HEAD
 
-=======
-use App\Http\Controllers\CartController;
->>>>>>> thanh-kiet/cart_database
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -191,7 +187,7 @@ Route::post('reset-password', function (Illuminate\Http\Request $request) {
     $status = Password::reset(
         $request->only('email', 'password', 'password_confirmation', 'token'),
         function ($user, $password) {
-            $user->password = Hash::make($password);
+            $user->password = \Hash::make($password);
             $user->save();
         }
     );
@@ -234,6 +230,5 @@ Route::prefix('reviews')->group(function () {
 
 Route::get('/author/{id}', [AuthorController::class, 'showAuthor'])->name('author.show');
 Route::get('/index', [IndexController::class, 'index'])->name('index');
-Route::get('/cart', [CartController::class, 'showCart'])->name('cart.show');
-Route::get('/cart/add/{id}', [CartController::class, 'addToCart'])->name('cart.add');
+
 Route::get('/itemDetail/{book_id}', [ItemController::class, 'showItemDetail'])->name('item.detail');

@@ -13,31 +13,38 @@
                     </div>
                     <div class="card-body">
                     <form action="{{ route('repo.postRepo') }}" method="POST">
-                                 @csrf
-                             
-                                 <div data-mdb-input-init class="form-outline form-white mb-4">
-                                    <input type="text" placeholder="Book ID" id="book_id" class="form-control" name="book_id" required
-                                        autofocus>
-                                    @if ($errors->has('book_id'))
-                                    <span class="text-danger">{{ $errors->first('book_id') }}</span>
+                                @csrf
+                                <div class="form-group mb-3">
+                                    <input type="text" placeholder="bookName" id="bookName" class="form-control" name="bookName"
+                                           required autofocus>
+                                    @if ($errors->has('bookName'))
+                                        <span class="text-danger">{{ $errors->first('bookName') }}</span>
                                     @endif
                                 </div>
-
                                 <div data-mdb-input-init class="form-outline form-white mb-4">
-                                    <input type="text" placeholder="Warehouse ID" id="warehouse_id" class="form-control" name="warehouse_id" required
+                                    <input type="text" placeholder="warehouseLocation" id="warehouseLocation" class="form-control" name="warehouseLocation" required
                                         autofocus>
-                                    @if ($errors->has('warehouse_id'))
-                                    <span class="text-danger">{{ $errors->first('warehouse_id') }}</span>
+                                    @if ($errors->has('warehouseLocation'))
+                                    <span class="text-danger">{{ $errors->first('warehouseLocation') }}</span>
                                     @endif
                                 </div>
 
-                                 <div data-mdb-input-init class="form-outline form-white mb-4">
-                                    <input type="text" placeholder="Quantity" id="quantity" class="form-control" name="quantity" required
-                                        autofocus>
-                                    @if ($errors->has('quantity'))
-                                    <span class="text-danger">{{ $errors->first('quantity') }}</span>
+                                <div class="form-group mb-3">
+                                    <input type="text" placeholder="quantityAvailable" id="quantityAvailable" class="form-control" name="quantityAvailable"
+                                           required autofocus>
+                                    @if ($errors->has('quantityAvailable'))
+                                        <span class="text-danger">{{ $errors->first('quantityAvailable') }}</span>
                                     @endif
                                 </div>
+                                <div class="form-group mb-3">
+                                    <input type="date" placeholder="lastUpdated" id="lastUpdated" class="form-control" name="lastUpdated"
+                                           required autofocus>
+                                    @if ($errors->has('lastUpdated'))
+                                        <span class="text-danger">{{ $errors->first('lastUpdated') }}</span>
+                                    @endif
+                                </div>
+                            
+                                   
 
                                 <button data-mdb-button-init data-mdb-ripple-init class="btn btn-dark btn-outline-light btn-lg px-5" type="submit">Create</button>
 

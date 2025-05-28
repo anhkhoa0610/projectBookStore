@@ -24,8 +24,6 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             ReviewSeeder::class,
             CategoryBookSeeder::class,
-            RepoBookSeeder::class,
-            CartDBSeeder::class,
             WishlistSeeder::class
         ]);
     }
