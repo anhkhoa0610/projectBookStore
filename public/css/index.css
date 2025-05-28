@@ -616,3 +616,33 @@ body {
     color: #6c757d;
 }
 
+.new-badge-animated {
+    animation: flash 0.7s linear infinite;
+}
+@keyframes flash {
+    0%, 100% {
+        color: #fff;
+        background-color: #28a745;
+    }
+    50% {
+        color: #fff700;
+        background-color: #222;
+    }
+}
+
+.card {
+    animation: fadeIn 0.5s ease-in-out both;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+        scale: 1.4;
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+        scale: 1;
+    }
+}

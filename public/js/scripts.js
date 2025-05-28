@@ -51,20 +51,25 @@ async function getCategoryByID(category_id) {
     const url = `/api/index/category/${category_id}`;
     const res = await fetch(url);
     const result = await res.json();
-    console.log(result);
-    console.log(result.books[0]);
 
     if (res.ok) {
         bookList.innerHTML = '';
         let string = '';
         for (let i = 0; i < result.books.length; i++) {
             const book = result.books[i];
-            console.log(book);
-            string += `<a href="" style="text-decoration: none;" class="card">
+            let categoryBadges = '';
+            for (let j = 0; j < book.categories.length; j++) {
+                categoryBadges += `<span class="badge bg-secondary me-1">${book.categories[j].category_name}</span>`;
+            }
+
+            string += `<a href="" style="text-decoration: none; animation-delay:${0.2 * i}s" class="card">
                             <img src="images/placeholder.png"
                                 alt="" width="150" height="200" />
                             <h3>${book.title}</h3>
                             <p class="author">${book.author.author_name}</p>
+                            <div class="categories my-2">
+                                ${categoryBadges}
+                            </div>
                             <div class="summary">
                                 <p>${book.summary}</p>
                             </div>
@@ -129,11 +134,22 @@ async function getAllBooks(page = 1) {
     let string = '';
     for (let i = 0; i < result.data.length; i++) {
         const book = result.data[i];
-        string += `<a href="" style="text-decoration: none;" class="card">
+
+        let categoryBadges = '';
+            if (book.categories && book.categories.length > 0) {
+                for (let j = 0; j < book.categories.length; j++) {
+                    categoryBadges += `<span class="badge bg-secondary me-1">${book.categories[j].category_name}</span>`;
+                }
+            }
+            console.log("category:" .categoryBadges);
+        string += `<a href="" style="text-decoration: none; animation-delay: ${i * 0.2}s" class="card">
             <img src="images/placeholder.png"
                 alt="" width="150" height="200" />
             <h3>${book.title}</h3>
             <p class="author">${book.author.author_name}</p>
+            <div class="categories my-2">
+                ${categoryBadges}
+            </div>
             <div class="summary">
                 <p>${book.summary}</p>
             </div>
@@ -197,5 +213,4 @@ function renderPagination(result) {
 
     html += `</ul>`;
     pagination.innerHTML = html;
-    document.querySelector('.paginate').style.display = 'none';
 }
