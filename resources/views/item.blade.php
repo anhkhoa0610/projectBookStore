@@ -745,9 +745,8 @@
     <div class="container">
         <!-- Left side -->
         <div class="card left cardLeft">
-            <img src="{{ asset('uploads/' . $book->cover_image) }}"
-                alt="Book img" class="main-img"
-                width="280" height="400" />
+            <img src="{{ asset('uploads/' . $book->cover_image) }}" alt="Book img" class="main-img" width="280"
+                height="400" />
 
             <div class="btn-group">
                 <button type="button" class="btn-cart">
@@ -762,10 +761,12 @@
                 <div class="label">Mã sách:</div>
                 <div class="value">{{$book->book_id }}</div>
                 <div class="label">Tên Nhà Cung Cấp:</div>
-                <div class="value"><p style=" font-weight: bold" >{{$book->publisher->publisher_name}}</p></div>
+                <div class="value">
+                    <p style=" font-weight: bold">{{$book->publisher->publisher_name}}</p>
+                </div>
                 <div class="label">Tác giả:</div>
                 <div class="value">{{ $book->author->author_name }}</div>
-               
+
             </div>
         </div>
         <!-- Right side -->
@@ -774,10 +775,10 @@
                 <h1 class="title">{{ $book->title}}</h1>
                 <div class="info-row">
                     <div>
-                       <p> Nhà cung cấp:</p>
-                        <p  style=" font-weight: bold" >{{$book->publisher->publisher_name}}</p>
+                        <p> Nhà cung cấp:</p>
+                        <p style=" font-weight: bold">{{$book->publisher->publisher_name}}</p>
                     </div>
-                   
+
                 </div>
                 <div class="info-row">
                     <div>
@@ -785,11 +786,11 @@
                     </div>
                 </div>
                 <div class="info-row">
-                    Danh mục: 
+                    Danh mục:
                     @foreach ($book->categories as $category)
                         {{ $category->category_name }}/
                     @endforeach
-                    
+
                 </div>
 
             </div>
@@ -860,19 +861,19 @@
                 <div><strong>Thông tin vận chuyển</strong></div>
                 <div class="shipping-address">
                     @auth
-                    <p>Giao hàng đến: </p>
-                    <p style=" font-weight: bold" >{{ Auth::user()->address }}</p>
+                        <p>Giao hàng đến: </p>
+                        <p style=" font-weight: bold">{{ Auth::user()->address }}</p>
                     @else
-                    <span>Vui lòng đăng nhập để xem địa chỉ giao hàng</span>
+                        <span>Vui lòng đăng nhập để xem địa chỉ giao hàng</span>
                     @endauth
                 </div>
-              
-              
+
+
                 <!-- <div class="related-offers">
                     <span>Ưu đãi liên quan</span>
                     <a href="#">Xem thêm <i class="fas fa-chevron-right"></i></a>
                 </div> -->
-               
+
                 <div class="quantity" aria-label="Quantity selector">
                     <label for="quantity-input">Số lượng:</label>
                     <div class="quantity-controls">
@@ -914,6 +915,42 @@
         </div>
     </div>
 
+   <section id="new-book" class="my-5 mx-5">
+    <p class="modern-big-title text-center mb-4">Same Genre</p>
+    <div class="row justify-content-center gx-4 gy-5">
+        @foreach($relatedBooks as $book)
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex align-items-stretch">
+                <div class="card w-100 shadow-sm">
+                    <img src="{{ $book->cover_image ? asset('images/' . $book->cover_image) : asset('images/placeholder.png') }}"
+                         class="card-img-top"
+                         alt="{{ $book->title }}" style="height: 200px; object-fit: cover;" />
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title text-center">{{ $book->title }}</h5>
+                        <p class="card-subtitle mb-2 text-muted text-center">{{ $book->author_id }}</p>
+                        <p class="card-text" style="flex-grow: 1; font-size: 0.9rem;">
+                            {{ \Illuminate\Support\Str::limit($book->summary, 100) }}
+                        </p>
+                        <div class="mt-2">
+                            <div class="d-flex justify-content-between">
+                                <span>Giá ebook</span>
+                                <span class="text-danger fw-bold">{{ number_format($book->price) }}₫</span>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <span>Đã bán:</span>
+                                <span>{{ $book->volume_sold }}</span>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <span>Xuất bản:</span>
+                                <span>{{ $book->published_date }}</span>
+                            </div>
+                        </div>
+                        <a href="#" class="btn btn-primary mt-3 w-100">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    </div>
+</section>
 
     <div>
         <footer class="footer">
