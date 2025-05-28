@@ -68,10 +68,15 @@
                 <a href="{{ route('user.createUser') }}" class="btn btn-primary"><b>Sign Up</b></a>
             @endauth
             <div class="cart">
-                <a href="" class="cart-icon">
+                <a href="{{ route('cart.show') }}" class="cart-icon">
                     <i class="fas fa-shopping-cart"></i>
+                    @auth
+                    <sup style="font-size: 20px;  color: #0f718a;">
+                        {{ \App\Models\Cart::where('user_id', Auth::id())->sum('quantity') }}
+                    </sup>
+                    @endauth
                 </a>
-            </div>
+            </div> 
         </div>
     </nav>
 
