@@ -136,12 +136,12 @@ async function getAllBooks(page = 1) {
         const book = result.data[i];
 
         let categoryBadges = '';
-            if (book.categories && book.categories.length > 0) {
-                for (let j = 0; j < book.categories.length; j++) {
-                    categoryBadges += `<span class="badge bg-secondary me-1">${book.categories[j].category_name}</span>`;
-                }
+        if (book.categories && book.categories.length > 0) {
+            for (let j = 0; j < book.categories.length; j++) {
+                categoryBadges += `<span class="badge bg-secondary me-1">${book.categories[j].category_name}</span>`;
             }
-            console.log("category:" .categoryBadges);
+        }
+
         string += `<a href="" style="text-decoration: none; animation-delay: ${i * 0.2}s" class="card">
             <img src="images/placeholder.png"
                 alt="" width="150" height="200" />
@@ -165,11 +165,100 @@ async function getAllBooks(page = 1) {
     }
     bookList.innerHTML = string;
 
-    // Render pagination controls
-    renderPagination(result);
+    renderPagination('getAllBooks', result);
 }
 
-function renderPagination(result) {
+async function getBooksByDate(page = 1) {
+
+    const bookList = document.getElementById('book-list');
+    const url = `/api/index/books-by-date?page=${page}`;
+    const res = await fetch(url);
+    const result = await res.json();
+
+    bookList.innerHTML = '';
+    let string = '';
+    for (let i = 0; i < result.data.length; i++) {
+        const book = result.data[i];
+
+        let categoryBadges = '';
+        if (book.categories && book.categories.length > 0) {
+            for (let j = 0; j < book.categories.length; j++) {
+                categoryBadges += `<span class="badge bg-secondary me-1">${book.categories[j].category_name}</span>`;
+            }
+        }
+
+        string += `<a href="" style="text-decoration: none; animation-delay: ${i * 0.2}s" class="card">
+            <img src="images/placeholder.png"
+                alt="" width="150" height="200" />
+            <h3>${book.title}</h3>
+            <p class="author">${book.author.author_name}</p>
+            <div class="categories my-2">
+                ${categoryBadges}
+            </div>
+            <div class="summary">
+                <p>${book.summary}</p>
+            </div>
+            <div class="price-row">
+                <span>Giá ebook</span>
+                <span class="price">${book.price}<sup>₫</sup></span>
+            </div>
+            <div class="price-row">
+                <span>Ngày Xuất Bản : ${book.published_date}</span>
+            </div>
+            <button class="add-to-cart">Add to Cart</button>
+        </a>`;
+    }
+    bookList.innerHTML = string;
+
+    renderPagination('getBooksByDate', result);
+}
+
+async function getBooksBySold(page = 1) {
+    const bookList = document.getElementById('book-list');
+    const url = `/api/index/books-by-sold?page=${page}`;
+    const res = await fetch(url);
+    const result = await res.json();
+
+    bookList.innerHTML = '';
+    let string = '';
+    for (let i = 0; i < result.data.length; i++) {
+        const book = result.data[i];
+
+        let categoryBadges = '';
+        if (book.categories && book.categories.length > 0) {
+            for (let j = 0; j < book.categories.length; j++) {
+                categoryBadges += `<span class="badge bg-secondary me-1">${book.categories[j].category_name}</span>`;
+            }
+        }
+
+        string += `<a href="" style="text-decoration: none; animation-delay: ${i * 0.2}s" class="card">
+            <img src="images/placeholder.png"
+                alt="" width="150" height="200" />
+            <h3>${book.title}</h3>
+            <p class="author">${book.author.author_name}</p>
+            <div class="categories my-2">
+                ${categoryBadges}
+            </div>
+            <div class="summary">
+                <p>${book.summary}</p>
+            </div>
+            <div class="price-row">
+                <span>Giá ebook</span>
+                <span class="price">${book.price}<sup>₫</sup></span>
+            </div>
+            <div class="price-row">
+                <span>Đã bán : ${book.volume_sold}</span>
+            </div>
+            <button class="add-to-cart">Add to Cart</button>
+        </a>`;
+    }
+    bookList.innerHTML = string;
+
+    renderPagination('getBooksBySold', result);
+}
+
+
+function renderPagination(fn, result) {
     let pagination = document.querySelector('.dynamic-paginate');
     if (!pagination) {
         pagination = document.createElement('nav');
@@ -181,7 +270,7 @@ function renderPagination(result) {
     // Previous button
     if (result.prev_page_url) {
         html += `<li class="page-item">
-                    <button class="page-link" onclick="getAllBooks(${result.current_page - 1})">&laquo; Previous</button>
+                    <button class="page-link" onclick="${fn}(${result.current_page - 1})">&laquo; Previous</button>
                  </li>`;
     } else {
         html += `<li class="page-item disabled">
@@ -196,14 +285,14 @@ function renderPagination(result) {
         if (i === result.current_page) {
             html += `<li class="page-item active"><span class="page-link">${i}</span></li>`;
         } else {
-            html += `<li class="page-item"><button class="page-link" onclick="getAllBooks(${i})">${i}</button></li>`;
+            html += `<li class="page-item"><button class="page-link" onclick="${fn}(${i})">${i}</button></li>`;
         }
     }
 
     // Next button
     if (result.next_page_url) {
         html += `<li class="page-item">
-                    <button class="page-link" onclick="getAllBooks(${result.current_page + 1})">Next &raquo;</button>
+                    <button class="page-link" onclick="${fn}(${result.current_page + 1})">Next &raquo;</button>
                  </li>`;
     } else {
         html += `<li class="page-item disabled">
