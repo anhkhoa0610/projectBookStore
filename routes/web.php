@@ -20,6 +20,8 @@ use App\Http\Controllers\CartController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Password;
 use App\Http\Controllers\WishlistsController;
+use App\Http\Controllers\ReviewController;
+
 
 
 
@@ -200,3 +202,4 @@ Route::get('/itemDetail/{book_id}', [ItemController::class, 'showItemDetail'])->
 Route::post('/api/wishlist/toggle', [WishlistsController::class, 'toggle'])->name('wishlist.toggle');
 Route::get('/voucher', [VoucherController::class, 'index'])->name('voucher.index');
 
+Route::post('/api/reviews', [ReviewController::class, 'store'])->name('reviews.store');
