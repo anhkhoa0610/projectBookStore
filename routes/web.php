@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\CrudUserController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\VoucherController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CrudBookController;
 use App\Http\Controllers\CrudPublisherController;
@@ -241,3 +242,5 @@ Route::get('/cart/add/{id}', [CartController::class, 'addToCart'])->name('cart.a
 Route::get('/itemDetail/{book_id}', [ItemController::class, 'showItemDetail'])->name('item.detail');
 
 Route::post('/api/wishlist/toggle', [WishlistsController::class, 'toggle'])->name('wishlist.toggle');
+Route::get('/voucher', [VoucherController::class, 'index'])->name('voucher.index');
+
