@@ -23,14 +23,14 @@ async function suggestSearch(keyword) {
         result.forEach(element => {
             const li = document.createElement('li');
             li.classList.add('list-group-item', 'd-flex', 'flex-row', 'justify-content-between', 'row');
-            li.innerHTML = `<div class="col-2">
-                                <img src="/images/${element.cover_image}" alt="" width="50" height="50">
+            li.innerHTML = `<a style="text-decoration:none; color:black" href='/itemDetail/${element.book_id}' class="col-2">
+                                <img src="uploads/${element.cover_image}" alt="" width="50" height="50">
                             </div>
                             <div class="col-10">
                                 <h5 class="mb-1">${element.title}</h5>
                                 <p class="mb-1">${element.author.author_name}</p>
                                 <small>Price: ${element.price}</small>
-                            </div>`;
+                            </a>`;
             suggest.append(li);
         });
     }
