@@ -73,4 +73,11 @@ class Books extends Model
     {
         return $this->hasMany(Review::class, 'book_id');
     }
+
+    protected static function booted()
+{
+    static::deleting(function ($book) {
+        $book->categories()->detach();
+    });
+}
 }

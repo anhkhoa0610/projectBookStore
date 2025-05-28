@@ -17,17 +17,7 @@ use App\Models\Author;
 class CrudBookController extends Controller
 {
 
-    /**
-     * Login page
-     */
-    public function login()
-    {
-        return view('crud_book.login');
-    }
 
-    /**
-     * User submit form login
-     */
     public function authUser(Request $request)
     {
         $request->validate([
@@ -62,11 +52,7 @@ class CrudBookController extends Controller
      */
     public function postBook(Request $request)
     {
-        // $request->validate([
-        //     'name' => 'required',
-        //     'email' => 'required|email|unique:users',
-        //     'password' => 'required|min:6',
-        // ]);
+
 
         $request->validate([
             'title' => [
