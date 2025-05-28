@@ -108,10 +108,26 @@
         <div class="grid">
             @foreach($soldBooks as $book)
                 <a href="{{ route('item.detail', $book->book_id) }}" style="text-decoration: none;" class="card">
+                    <span class="badge bg-danger new-badge-animated"
+                        style="position: absolute; top: 10px; left: 10px; z-index: 2;">
+                        Recommended
+                    </span>
                     <img src="{{ $book->cover_image ? asset('images/' . $book->cover_image) : asset('images/placeholder.png') }}"
                         alt="{{ $book->title }}" width="150" height="200" />
                     <h3>{{ $book->title }}</h3>
                     <p class="author">{{ $book->author->author_name }}</p>
+                    <div class="">
+                        @if($book->reviews->avg('rating'))
+                            <span class="rating">
+                                @for ($i = 0; $i < floor($book->reviews->avg('rating')); $i++)
+                                    <i class="fas fa-star text-warning"></i>
+
+                                @endfor
+                            </span>
+                        @else
+                            <span class="rating">No Reviews</span>
+                        @endif
+                    </div>
                     <div class="summary">
                         <p>{{ $book->summary }}</p>
                     </div>
@@ -140,11 +156,25 @@
         <p class="modern-big-title">Newly Updated</p>
         <div class="grid">
             @foreach($newBooks as $book)
-                <a href="{{ route('item.detail', $book->book_id) }}" style="text-decoration: none;" class="card">
+                <a href="{{ route('item.detail', $book->book_id) }}" style="text-decoration: none; position: relative;"
+                    class="card">
+                    <span class="badge bg-success new-badge-animated"
+                        style="position: absolute; top: 10px; left: 10px; z-index: 2;">
+                        New
+                    </span>
                     <img src="{{ $book->cover_image ? asset('images/' . $book->cover_image) : asset('images/placeholder.png') }}"
                         alt="{{ $book->title }}" width="150" height="200" />
                     <h3>{{ $book->title }}</h3>
                     <p class="author">{{ $book->author->author_name }}</p>
+                    @if($book->reviews->avg('rating'))
+                        <span class="rating">
+                            @for ($i = 0; $i < floor($book->reviews->avg('rating')); $i++)
+                                <i class="fas fa-star text-warning"></i>
+                            @endfor
+                        </span>
+                    @else
+                        <span class="rating">No Reviews</span>
+                    @endif
                     <div class="summary">
                         <p>{{ $book->summary }}</p>
                     </div>
@@ -235,32 +265,43 @@
     </div>
 
     @auth
-    <section id="wish-list" class="my-5 mx-5">
-        <p class="modern-big-title">Wish List</p>
-        <div class="wishlist-carousel-container" style="position: relative; max-width: 930px; margin: auto;">
-            <button id="wishlist-left" class="wishlist-carousel-btn"
-                style="position: absolute; left: -40px; top: 40%; z-index: 2;">&#8592;</button>
-            <div class="wishlist-carousel-viewport" style="overflow: hidden;">
-                <div id="wishlist-carousel-track" class="wishlist-carousel-track"
-                    style="display: flex; transition: transform 0.4s;">
-                    <!-- Place your 5+ wishlist cards here -->
-                    @foreach($wishlist as $book)
-                        <a href="{{ route('item.detail', $book->book_id) }}" class="card" style="min-width: 300px; margin: 20px 10px;">
-                            <img src="{{ $book->cover_image ? asset('images/' . $book->cover_image) : asset('images/placeholder.png') }}"
-                                width="150" height="200" />
-                            <h3>{{ $book->title }}</h3>
-                            <p class="author">{{ $book->author->author_name }}</p>
-                            <div class="summary">
-                                <p>{{ $book->summary }}</p>
-                            </div>
-                            <!-- ...other book info... -->
-                        </a>
-                    @endforeach
-                    <!-- Repeat the above <a> for each wishlist item (add as many as you want) -->
+        <section id="wish-list" class="my-5 mx-5">
+            <p class="modern-big-title">Wish List</p>
+            @if(!$wishlist->isEmpty())
+                <div class="wishlist-carousel-container" style="position: relative; max-width: 930px; margin: auto;">
+                    <button id="wishlist-left" class="wishlist-carousel-btn"
+                        style="position: absolute; left: -40px; top: 40%; z-index: 2;">&#8592;</button>
+                    <div class="wishlist-carousel-viewport" style="overflow: hidden;">
+                        <div id="wishlist-carousel-track" class="wishlist-carousel-track"
+                            style="display: flex; transition: transform 0.4s;">
+                            <!-- Place your 5+ wishlist cards here -->
+                            @foreach($wishlist as $book)
+                                <a href="" class="card" style="text-decoration: none;min-width: 300px; margin: 20px 10px;">
+                                    <img src="{{ $book->cover_image ? asset('uploads/' . $book->cover_image) : asset('images/placeholder.png') }}"
+                                        width="150" height="200" />
+                                    <h3>{{ $book->title }}</h3>
+                                    <p class="author">{{ $book->author->author_name }}</p>
+                                    <div class="summary">
+                                        <p>{{ $book->summary }}</p>
+                                    </div>
+                                    <div class="price-row">
+                                        <span>Giá ebook</span>
+                                        <span class="price">{{ $book->price }}<sup>₫</sup></span>
+                                    </div>
+                                    <button class="add-to-cart">Add to Cart</button>
+                                </a>
+                                <!-- ...other book info... -->
+
+                            @endforeach
+                            <!-- Repeat the above <a> for each wishlist item (add as many as you want) -->
+                        </div>
+                    </div>
+                    <button id="wishlist-right" class="wishlist-carousel-btn"
+                        style="position: absolute; right: -50px; top: 40%; z-index: 2;">&#8594;</button>
                 </div>
-                <button id="wishlist-right" class="wishlist-carousel-btn"
-                    style="position: absolute; right: -50px; top: 40%; z-index: 2;">&#8594;</button>
-            </div>
+            @else
+                <p class="text-center">Your wish list is empty. Wish some !!</p>
+            @endif
         </section>
     @endauth
 
