@@ -10,6 +10,10 @@ input.addEventListener('input', function () {
     }, 300);
 });
 
+function test() {
+    console.log('test');
+}
+
 async function suggestSearch(keyword) {
     if (keyword != '') {
         const url = `/api/index/search/${keyword}`;
@@ -62,7 +66,8 @@ async function getCategoryByID(category_id) {
                 categoryBadges += `<span class="badge bg-secondary me-1">${book.categories[j].category_name}</span>`;
             }
 
-            string += `<a href="/itemDetail/${book.book_id}" style="text-decoration: none; animation-delay:${0.2 * i}s" class="card">
+            string += `<div class="card" style="animation-delay:${0.2 * i}s">
+            <a href="/itemDetail/${book.book_id}" style="text-decoration: none;">
                             <img src="images/placeholder.png"
                                 alt="" width="150" height="200" />
                             <h3>${book.title}</h3>
@@ -80,8 +85,9 @@ async function getCategoryByID(category_id) {
                             <div class="price-row">
                                 <span>Ngày Xuất Bản : ${book.published_date}</span>
                             </div>
+                            </a>
                             <button class="add-to-cart">Add to Cart</button>
-                        </a>`;
+                        </div>`;
         };
         bookList.innerHTML = string;
         document.querySelector('.pagination').style.display = 'none';
@@ -142,7 +148,8 @@ async function getAllBooks(page = 1) {
             }
         }
 
-        string += `<a href="/itemDetail/${book.book_id}" style="text-decoration: none; animation-delay: ${i * 0.2}s" class="card">
+        string += `<div class="card" style="animation-delay:${0.2 * i}s">
+        <a href="/itemDetail/${book.book_id}" style="text-decoration: none">
             <img src="images/placeholder.png"
                 alt="" width="150" height="200" />
             <h3>${book.title}</h3>
@@ -160,8 +167,9 @@ async function getAllBooks(page = 1) {
             <div class="price-row">
                 <span>Ngày Xuất Bản : ${book.published_date}</span>
             </div>
+            </a>
             <button class="add-to-cart">Add to Cart</button>
-        </a>`;
+        </div>`;
     }
     bookList.innerHTML = string;
 
@@ -187,7 +195,8 @@ async function getBooksByDate(page = 1) {
             }
         }
 
-        string += `<a href="/itemDetail/${book.book_id}" style="text-decoration: none; animation-delay: ${i * 0.2}s" class="card">
+        string += `<div class="card" style="animation-delay:${0.2 * i}s">
+        <a href="/itemDetail/${book.book_id}" style="text-decoration: none">
             <img src="images/placeholder.png"
                 alt="" width="150" height="200" />
             <h3>${book.title}</h3>
@@ -205,8 +214,10 @@ async function getBooksByDate(page = 1) {
             <div class="price-row">
                 <span>Ngày Xuất Bản : ${book.published_date}</span>
             </div>
+            </a>
             <button class="add-to-cart">Add to Cart</button>
-        </a>`;
+        </div>`
+        ;
     }
     bookList.innerHTML = string;
 
@@ -231,7 +242,8 @@ async function getBooksBySold(page = 1) {
             }
         }
 
-        string += `<a href="/itemDetail/${book.book_id}" style="text-decoration: none; animation-delay: ${i * 0.2}s" class="card">
+        string += `<div class="card" style="animation-delay:${0.2 * i}s">
+        <a href="/itemDetail/${book.book_id}" style="text-decoration: none">
             <img src="images/placeholder.png"
                 alt="" width="150" height="200" />
             <h3>${book.title}</h3>
@@ -249,8 +261,10 @@ async function getBooksBySold(page = 1) {
             <div class="price-row">
                 <span>Đã bán : ${book.volume_sold}</span>
             </div>
+            </a>
             <button class="add-to-cart">Add to Cart</button>
-        </a>`;
+        </div>`
+        ;
     }
     bookList.innerHTML = string;
 
