@@ -750,7 +750,7 @@
 
             <div class="btn-group">
                 <button type="button" class="btn-cart">
-                    <i class="fas fa-shopping-cart"></i> Thêm vào giỏ hàng
+                   <a href="{{route('cart.show')}}" style="text-decoration: none;"> <i class="fas fa-shopping-cart"></i> Thêm vào giỏ hàng</a>
                 </button>
 
             </div>

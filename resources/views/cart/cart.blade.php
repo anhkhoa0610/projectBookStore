@@ -625,9 +625,14 @@
             <a href="{{ route('login') }}" class="btn btn-primary"><b>Sign In</b></a>
             <a href="{{ route('user.createUser') }}" class="btn btn-primary"><b>Sign Up</b></a>
             @endauth
-            <div class="cart">
-                <a href="{{route('cart.show')}}" class="cart-icon">
-                    <i class="fas fa-shopping-cart"><sup>{{count(session('cart', []))}}</sup></i>
+           <div class="cart">
+                <a href="{{ route('cart.show') }}" class="cart-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    @auth
+                    <sup style="font-size: 20px;  color: #0f718a;">
+                        {{ \App\Models\Cart::where('user_id', Auth::id())->sum('quantity') }}
+                    </sup>
+                    @endauth
                 </a>
             </div>
         </div>
@@ -673,7 +678,7 @@
                 <input type="checkbox" id="selectAllCheckbox" />
                 <span>Chọn Tất Cả Sản Phẩm</span>
             </label>
-            @foreach (session('cart') as $item => $details)
+            @foreach ($cartItems as $item)
             <div class="product-row" id="productRow">
                 <div class="product-left">
                     <label for="productCheckbox">
@@ -683,10 +688,10 @@
                         alt="Bìa sách màu đỏ với viền trang trí màu vàng" class="product-image" width="80"
                         height="100" />
                     <div class="product-info">
-                        <div>{{$details['title']}}</div>
+                        <div>{{ $item->book->title }}</div>
                         <div class="product-price">
-                            <span class="unit-price" data-base-price="{{$details['price']}}">{{$details['price']}}</span>
-                            <span class="old-price">75.000 đ</span>
+                            <span class="unit-price" data-base-price="{{ $item->book->price }}">{{ $item->book->price }}</span>
+                            {{-- <span class="old-price">75.000 đ</span> --}}
                         </div>
                     </div>
                 </div>
@@ -694,21 +699,12 @@
                     <span class="qty-label">Số lượng</span>
                     <div class="qty-controls" aria-label="Số lượng sản phẩm">
                         <button type="button" class="decrease-btn" aria-label="Giảm số lượng">−</button>
-                        <input type="text" class="text quantity-input" id="quantityInput" value="1" readonly aria-live="polite"
+                        <input type="text" class="text quantity-input" id="quantityInput" value="{{ $item->quantity }}" readonly aria-live="polite"
                             aria-atomic="true" />
                         <button type="button" class="increase-btn" aria-label="Tăng số lượng">+</button>
                     </div>
-                    <span class="total-price">{{$details['price']}}</span>
-                    <button type="button" class="delete-btn" id="deleteProduct" aria-label="Xóa sản phẩm">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" width="20"
-                            height="20" aria-hidden="true" focusable="false">
-                            <path d="M3 6h18M9 6v12m6-12v12M5 6l1 14a2 2 0 002 2h8a2 2 0 002-2l1-14"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                fill="none" />
-                            <path d="M10 11v6M14 11v6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                        </svg>
-                    </button>
+                    <span class="total-price">{{ $item->book->price * $item->quantity }}</span>
+                   
                 </div>
             </div>
             @endforeach
@@ -784,7 +780,6 @@
             const selectAllCheckbox = document.getElementById("selectAllCheckbox");
             const productRows = document.querySelectorAll(".product-row");
             const grandTotalEl = document.getElementById("grandTotal");
-            let selectedProducts = new Set();
 
             // Gán sự kiện cho từng sản phẩm
             productRows.forEach((row, index) => {
@@ -794,7 +789,6 @@
                 const increaseBtn = row.querySelector(".increase-btn");
                 const totalPriceEl = row.querySelector(".total-price");
                 const unitPriceEl = row.querySelector(".unit-price");
-                const deleteBtn = row.querySelector(".delete-btn");
 
                 const basePrice = Number(unitPriceEl.getAttribute("data-base-price"));
 
@@ -802,11 +796,6 @@
                     const qty = Number(quantityInput.value);
                     const total = basePrice * qty;
                     totalPriceEl.textContent = formatPrice(total);
-
-                    if (checkbox.checked) {
-                        selectedProducts.add(row);
-                    }
-
                     updateGrandTotal();
                 }
 
@@ -839,17 +828,6 @@
 
                 checkbox.addEventListener("change", updateGrandTotal);
 
-                deleteBtn.addEventListener("click", () => {
-                    row.remove();
-                    updateGrandTotal();
-
-                    if (document.querySelectorAll(".product-row").length === 0) {
-                        document.getElementById("cartWrapper").innerHTML = '<p class="empty-cart-message">Giỏ hàng trống</p>';
-                        grandTotalEl.textContent = "0 đ";
-                        selectAllCheckbox.checked = false;
-                    }
-                });
-
                 updateItemPrice();
             });
 
@@ -860,17 +838,16 @@
                     const cb = row.querySelector(".product-checkbox");
                     cb.checked = allChecked;
                 });
-                grandTotalEl.textContent = "0 đ";
-                productRows.forEach((row) => {
-                    const cb = row.querySelector(".product-checkbox");
-                    if (cb.checked) {
+                // Update grand total after select all
+                let grandTotal = 0;
+                if (allChecked) {
+                    productRows.forEach((row) => {
                         const qty = Number(row.querySelector(".quantity-input").value);
                         const base = Number(row.querySelector(".unit-price").getAttribute("data-base-price"));
-                        grandTotalEl.textContent = formatPrice(
-                            Number(grandTotalEl.textContent.replace(/[^\d]/g, '')) + qty * base
-                        );
-                    }
-                });
+                        grandTotal += qty * base;
+                    });
+                }
+                grandTotalEl.textContent = formatPrice(grandTotal);
             });
 
             // Đặt hàng
