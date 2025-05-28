@@ -781,7 +781,7 @@
         <p class="modern-big-title">The author's writings</p>
         <div class="grid">
             @foreach($books as $book)
-                <a href="" style="text-decoration: none;" class="card">
+                <a href="{{ route('item.detail', $book->book_id) }}" style="text-decoration: none;" class="card">
                     <img src="{{ $book->cover_image ? asset('images/' . $book->cover_image) : asset('images/placeholder.png') }}"
                         alt="{{ $book->title }}" width="150" height="200" />
                     <h3>{{ $book->title }}</h3>
