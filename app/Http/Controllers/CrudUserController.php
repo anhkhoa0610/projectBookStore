@@ -37,7 +37,7 @@ class CrudUserController extends Controller
 
     public function createUser()
     {
-        return view('login.create');
+        return view('crud_user.create');
     }
 
     /**

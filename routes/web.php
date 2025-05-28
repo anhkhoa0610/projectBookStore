@@ -131,8 +131,6 @@ Route::middleware(['checkrole:admin'])->group(function () {
     //user routes
     Route::prefix('users')->controller(CrudUserController::class)->group(function () {
         Route::get('/', 'listUser')->name('user.list');
-        Route::get('create', 'createUser')->name('user.createUser');
-        Route::post('create', 'postUser')->name('user.postUser');
         Route::get('read', 'readUser')->name('user.readUser');
         Route::get('update', 'updateUser')->name('user.updateUser');
         Route::post('update', 'postUpdateUser')->name('user.postUpdateUser');
@@ -151,10 +149,13 @@ Route::middleware(['checkrole:admin'])->group(function () {
         Route::delete('/{id}', [CrudReviewController::class, 'destroy'])->name('reviews.destroy');
     });
 });
-
+Route::get('users/create', [CrudUserController::class, 'createUser'])->name('user.createUser');
+Route::post('createUser', [CrudUserController::class, 'postUser'])->name('user.postUser');
 // login routes
 Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('login', [LoginController::class, 'login'])->name('user.authUser');
+
+Route::get('register', [LoginController::class, 'showRegisterForm'])->name('register');
 
 Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
