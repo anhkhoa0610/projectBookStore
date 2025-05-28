@@ -125,45 +125,47 @@
         <p class="modern-big-title">Best Seller</p>
         <div class="grid">
             @foreach($soldBooks as $book)
-                <a href="{{ route('item.detail', $book->book_id) }}" style="text-decoration: none;" class="card">
-                    <span class="badge bg-danger new-badge-animated"
-                        style="position: absolute; top: 10px; left: 10px; z-index: 2;">
-                        Recommended
-                    </span>
-                    <img src="{{ $book->cover_image ? asset('images/' . $book->cover_image) : asset('images/placeholder.png') }}"
-                        alt="{{ $book->title }}" width="150" height="200" />
-                    <h3>{{ $book->title }}</h3>
-                    <p class="author">{{ $book->author->author_name }}</p>
-                    <div class="">
-                        @if($book->reviews->avg('rating'))
-                            <span class="rating">
-                                @for ($i = 0; $i < floor($book->reviews->avg('rating')); $i++)
-                                    <i class="fas fa-star text-warning"></i>
+                <div class="card">
+                    <a href="{{ route('item.detail', $book->book_id) }}" style="text-decoration: none;">
+                        <span class="badge bg-danger new-badge-animated"
+                            style="position: absolute; top: 10px; left: 10px; z-index: 2;">
+                            Recommended
+                        </span>
+                        <img src="{{ $book->cover_image ? asset('images/' . $book->cover_image) : asset('images/placeholder.png') }}"
+                            alt="{{ $book->title }}" width="150" height="200" />
+                        <h3>{{ $book->title }}</h3>
+                        <p class="author">{{ $book->author->author_name }}</p>
+                        <div class="">
+                            @if($book->reviews->avg('rating'))
+                                <span class="rating">
+                                    @for ($i = 0; $i < floor($book->reviews->avg('rating')); $i++)
+                                        <i class="fas fa-star text-warning"></i>
 
-                                @endfor
-                            </span>
-                        @else
-                            <span class="rating">No Reviews</span>
-                        @endif
-                    </div>
-                    <div class="summary">
-                        <p>{{ $book->summary }}</p>
-                    </div>
-                    <div>
-                        @foreach ($book->categories as $category)
-                            <span class="badge bg-secondary">{{ $category->category_name }}</span>
-                        @endforeach
-                    </div>
-                    <div class="price-row">
-                        <span>Giá ebook</span>
-                        <span class="price">{{ $book->price }}<sup>₫</sup></span>
-                    </div>
-                    <div class="price-row">
-                        <span style="font-weight: bolder">Đã bán: {{ $book->volume_sold }}</span>
-                    </div>
+                                    @endfor
+                                </span>
+                            @else
+                                <span class="rating">No Reviews</span>
+                            @endif
+                        </div>
+                        <div class="summary">
+                            <p>{{ $book->summary }}</p>
+                        </div>
+                        <div>
+                            @foreach ($book->categories as $category)
+                                <span class="badge bg-secondary">{{ $category->category_name }}</span>
+                            @endforeach
+                        </div>
+                        <div class="price-row">
+                            <span>Giá ebook</span>
+                            <span class="price">{{ $book->price }}<sup>₫</sup></span>
+                        </div>
+                        <div class="price-row">
+                            <span style="font-weight: bolder">Đã bán: {{ $book->volume_sold }}</span>
+                        </div>
 
+                    </a>
                     <button class="add-to-cart">Add to Cart</button>
-                </a>
+                </div>
             @endforeach
         </div>
 
@@ -174,37 +176,38 @@
         <p class="modern-big-title">Newly Updated</p>
         <div class="grid">
             @foreach($newBooks as $book)
-                <a href="{{ route('item.detail', $book->book_id) }}" style="text-decoration: none; position: relative;"
-                    class="card">
-                    <span class="badge bg-success new-badge-animated"
-                        style="position: absolute; top: 10px; left: 10px; z-index: 2;">
-                        New
-                    </span>
-                    <img src="{{ $book->cover_image ? asset('images/' . $book->cover_image) : asset('images/placeholder.png') }}"
-                        alt="{{ $book->title }}" width="150" height="200" />
-                    <h3>{{ $book->title }}</h3>
-                    <p class="author">{{ $book->author->author_name }}</p>
-                    @if($book->reviews->avg('rating'))
-                        <span class="rating">
-                            @for ($i = 0; $i < floor($book->reviews->avg('rating')); $i++)
-                                <i class="fas fa-star text-warning"></i>
-                            @endfor
+                <div style="position: relative;" class="card">
+                    <a style="text-decoration: none" href="{{ route('item.detail', $book->book_id) }}">
+                        <span class="badge bg-success new-badge-animated"
+                            style="position: absolute; top: 10px; left: 10px; z-index: 2;">
+                            New
                         </span>
-                    @else
-                        <span class="rating">No Reviews</span>
-                    @endif
-                    <div class="summary">
-                        <p>{{ $book->summary }}</p>
-                    </div>
-                    <div class="price-row">
-                        <span>Giá ebook</span>
-                        <span class="price">{{ $book->price }}<sup>₫</sup></span>
-                    </div>
-                    <div class="price-row">
-                        <span>Ngày Xuất Bản : {{ $book->published_date }}</span>
-                    </div>
-                    <button class="add-to-cart">Add to Cart</button>
-                </a>
+                        <img src="{{ $book->cover_image ? asset('images/' . $book->cover_image) : asset('images/placeholder.png') }}"
+                            alt="{{ $book->title }}" width="150" height="200" />
+                        <h3>{{ $book->title }}</h3>
+                        <p class="author">{{ $book->author->author_name }}</p>
+                        @if($book->reviews->avg('rating'))
+                            <span class="rating">
+                                @for ($i = 0; $i < floor($book->reviews->avg('rating')); $i++)
+                                    <i class="fas fa-star text-warning"></i>
+                                @endfor
+                            </span>
+                        @else
+                            <span class="rating">No Reviews</span>
+                        @endif
+                        <div class="summary">
+                            <p>{{ $book->summary }}</p>
+                        </div>
+                        <div class="price-row">
+                            <span>Giá ebook</span>
+                            <span class="price">{{ $book->price }}<sup>₫</sup></span>
+                        </div>
+                        <div class="price-row">
+                            <span>Ngày Xuất Bản : {{ $book->published_date }}</span>
+                        </div>
+                    </a>
+                    <button class="add-to-cart" onclick="test()">Add to Cart</button>
+                </div>
             @endforeach
 
         </div>
