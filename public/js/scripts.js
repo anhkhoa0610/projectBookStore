@@ -333,7 +333,7 @@ async function loadVouchers(page = 1) {
             <div class="voucher-card shadow-sm p-4 rounded-4 position-relative"
                 style="background: linear-gradient(120deg, #fceabb 0%, #f8b500 100%); min-height: 180px;">
                 <div class="d-flex align-items-center mb-2">
-                    <span class="badge bg-danger me-2" style="font-size: 1.1rem;">${voucher.discount_amount}% OFF</span>
+                    <span class="badge bg-danger me-2" style="font-size: 1.1rem;">${voucher.discount_amount * 100}% OFF</span>
                 </div>
                 <div class="mb-2">
                     <span class="text-dark">Mã: </span>
