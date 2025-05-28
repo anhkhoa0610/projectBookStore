@@ -17,6 +17,8 @@ use App\Http\Controllers\CrudReviewController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\PayController;
+use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Password;
 use App\Http\Controllers\WishlistsController;
@@ -243,4 +245,10 @@ Route::get('/itemDetail/{book_id}', [ItemController::class, 'showItemDetail'])->
 
 Route::post('/api/wishlist/toggle', [WishlistsController::class, 'toggle'])->name('wishlist.toggle');
 Route::get('/voucher', [VoucherController::class, 'index'])->name('voucher.index');
+Route::get('/api/cart', [App\Http\Controllers\CartController::class, 'cartApi'])->name('cart.api');
+Route::delete('/api/cart/{cart}', [App\Http\Controllers\CartController::class, 'deleteApi'])->name('cart.api.delete');
+Route::patch('/api/cart/{cart}', [App\Http\Controllers\CartController::class, 'updateQuantity'])->name('cart.api.update');
+Route::get('/pay', [PayController::class, 'ShowPay'])->name('pay.show');
+Route::post('/vnpay_payment', [PaymentController::class, 'vnpay_payment']);
+
 
