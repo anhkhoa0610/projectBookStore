@@ -33,11 +33,29 @@
         </div>
         <div class="nav-links">
             @auth
-                <span class="user-name mx-5">Xin chào <b class="text-primary">{{ Auth::user()->full_name }}</b></span>
-                <form action="{{ route('logout') }}" method="POST" style="display:inline;">
-                    @csrf
-                    <button type="submit" class="btn btn-danger"><b>Log Out</b></button>
-                </form>
+                <div class="dropdown user-dropdown mx-5" style="display: inline-block; position: relative;">
+                    <span class="user-name" style="cursor:pointer;">
+                        Xin chào <b class="text-primary mx-2">{{ Auth::user()->full_name }}</b>
+                        <i class="fas fa-user text-primary"></i>
+                    </span>
+                    <div class="dropdown-menu"
+                        style="display:none; position:absolute; right:0; top:100%; background:#fff; box-shadow:0 2px 8px rgba(0,0,0,0.15); min-width:160px; z-index:100;">
+                        <a class="dropdown-item" href="">Profile</a>
+                        @if(Auth::user()->role === 'admin')
+                            <a class="dropdown-item" href="{{ route('dashboard') }}">Admin dashboard</a>
+                        @endif
+                        <a class="dropdown-item" href="#wish-list">Wishlist</a>
+                        <form action="{{ route('logout') }}" class="dropdown-item ms-4" method="POST">
+                            @csrf
+                            <button type="submit" style="border: none; background: none; cursor: pointer;">
+                                Logout
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <style>
+
+                </style>
             @else
                 <a href="{{ route('login') }}" class="btn btn-primary"><b>Sign In</b></a>
                 <a href="{{ route('user.createUser') }}" class="btn btn-primary"><b>Sign Up</b></a>
@@ -283,6 +301,18 @@
                                     <p class="author">{{ $book->author->author_name }}</p>
                                     <div class="summary">
                                         <p>{{ $book->summary }}</p>
+                                    </div>
+                                    <div class="">
+                                        @if($book->reviews->avg('rating'))
+                                            <span class="rating">
+                                                @for ($i = 0; $i < floor($book->reviews->avg('rating')); $i++)
+                                                    <i class="fas fa-star text-warning"></i>
+
+                                                @endfor
+                                            </span>
+                                        @else
+                                            <span class="rating">No Reviews</span>
+                                        @endif
                                     </div>
                                     <div class="price-row">
                                         <span>Giá ebook</span>
