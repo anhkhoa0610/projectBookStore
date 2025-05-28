@@ -186,9 +186,9 @@
             <div class="category-box">
                 <div class="category-title">Danh mục theo xu hướng</div>
                 <ul>
-                    <li><i class="fas fa-book"></i> Sách bán chạy</li>
-                    <li><i class="fas fa-book"></i> Sách mới</li>
-                    <li><i class="fas fa-book"></i> Sách được đánh giá cao</li>
+                    <li onclick="getBooksBySold()"><i class="fas fa-book"></i> Sách bán chạy</li>
+                    <li onclick="getBooksByDate()"><i class="fas fa-book"></i> Sách mới nhất</li>
+                    <li onclick=""><i class="fas fa-book"></i> Sách được đánh giá cao</li>
                 </ul>
             </div>
         </div>

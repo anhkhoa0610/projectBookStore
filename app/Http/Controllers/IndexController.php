@@ -68,5 +68,21 @@ class IndexController extends Controller
         }
         return view('dashboard');
     }
+
+    public function booksByDateAPI()
+    {
+        $books = Books::with(['author', 'categories'])
+            ->orderBy('published_date', 'desc')
+            ->paginate(8); 
+        return response()->json($books);
+    }
+
+    public function booksBySoldAPI()
+    {
+        $books = Books::with(['author', 'categories'])
+            ->orderBy('volume_sold', 'desc')
+            ->paginate(8); 
+        return response()->json($books);
+    }
 }
 
