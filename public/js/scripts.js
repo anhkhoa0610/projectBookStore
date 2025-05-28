@@ -86,10 +86,11 @@ async function getCategoryByID(category_id) {
                                 <span>Ngày Xuất Bản : ${book.published_date}</span>
                             </div>
                             </a>
-                            <button class="add-to-cart">Add to Cart</button>
+                            <button class="add-to-cart" data-book-id="${book.book_id}">Add to Cart</button>
                         </div>`;
         };
         bookList.innerHTML = string;
+        attachAddCartListeners();
         document.querySelector('.pagination').style.display = 'none';
     }
 }
@@ -168,11 +169,11 @@ async function getAllBooks(page = 1) {
                 <span>Ngày Xuất Bản : ${book.published_date}</span>
             </div>
             </a>
-            <button class="add-to-cart">Add to Cart</button>
+            <button class="add-to-cart" data-book-id="${book.book_id}">Add to Cart</button>
         </div>`;
     }
     bookList.innerHTML = string;
-
+    attachAddCartListeners();
     renderPagination('getAllBooks', result);
 }
 
@@ -215,12 +216,12 @@ async function getBooksByDate(page = 1) {
                 <span>Ngày Xuất Bản : ${book.published_date}</span>
             </div>
             </a>
-            <button class="add-to-cart">Add to Cart</button>
+            <button class="add-to-cart" data-book-id="${book.book_id}">Add to Cart</button>
         </div>`
-        ;
+            ;
     }
     bookList.innerHTML = string;
-
+    attachAddCartListeners();
     renderPagination('getBooksByDate', result);
 }
 
@@ -262,12 +263,12 @@ async function getBooksBySold(page = 1) {
                 <span>Đã bán : ${book.volume_sold}</span>
             </div>
             </a>
-            <button class="add-to-cart">Add to Cart</button>
+            <button class="add-to-cart" data-book-id="${book.book_id}">Add to Cart</button>
         </div>`
-        ;
+            ;
     }
     bookList.innerHTML = string;
-
+    attachAddCartListeners();
     renderPagination('getBooksBySold', result);
 }
 
@@ -316,4 +317,42 @@ function renderPagination(fn, result) {
 
     html += `</ul>`;
     pagination.innerHTML = html;
+}
+
+
+async function addCart(book_id, user_id) { // Assuming you have the user ID available
+    const data = {
+        user_id: user_id,
+        book_id: book_id
+    };
+    const url = addCartApiUrl; // Adjust the URL as needed
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8',
+            'Accept': 'Application/json',
+        },
+        body: JSON.stringify(data)
+    });
+    const result = await response.json();
+    console.log(result);
+    if (response.ok) {
+        alert('Book added to cart successfully!');
+    } else {
+        alert('Failed to add book to cart.');
+    }
+
+}
+
+function attachAddCartListeners() {
+    document.querySelectorAll('.add-to-cart').forEach(btn => {
+        btn.addEventListener('click', function () {
+            if (!userId || userId === 'null') {
+                alert('Please log in to add books to your cart.');
+                return;
+            }
+            const bookId = this.getAttribute('data-book-id');
+            addCart(bookId, userId);
+        });
+    });
 }

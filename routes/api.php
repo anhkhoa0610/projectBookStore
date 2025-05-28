@@ -20,6 +20,9 @@ Route::middleware('crud_user:sanctum')->get('/user', function (Request $request)
     return $request->user();
 });
 
+Route::post('/index/add-cart/', [IndexController::class, 'addCartAPI'])
+    ->name('index-add-cart-api');
+
 Route::get('/index/search/{keyword}', [IndexController::class, 'searchAPI'])->name('index-search-api');
 
 Route::get('/categories/all', [IndexController::class, 'categories'])->name('categories-api');
