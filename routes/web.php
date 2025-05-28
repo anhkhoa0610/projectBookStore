@@ -19,6 +19,8 @@ use App\Http\Controllers\CartController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Password;
 use App\Http\Controllers\WishlistsController;
+use App\Http\Controllers\ReviewController;
+
 
 
 
@@ -241,3 +243,4 @@ Route::get('/cart/add/{id}', [CartController::class, 'addToCart'])->name('cart.a
 Route::get('/itemDetail/{book_id}', [ItemController::class, 'showItemDetail'])->name('item.detail');
 
 Route::post('/api/wishlist/toggle', [WishlistsController::class, 'toggle'])->name('wishlist.toggle');
+Route::post('/api/reviews', [ReviewController::class, 'store'])->name('reviews.store');

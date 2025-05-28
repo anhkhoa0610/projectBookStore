@@ -575,6 +575,7 @@
             gap: 20px;
             font-size: 13px;
             color: #4b5563;
+            text-align: left;
 
         }
 
@@ -646,6 +647,260 @@
 
         #toggle:hover {
             text-decoration: underline;
+        }
+
+
+        .review-container {
+            background: white;
+            padding: 20px 40px;
+            border-radius: 10px;
+            width: 1200px;
+            /* Chiều rộng lớn hơn */
+            margin: auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .review-summary {
+            display: flex;
+            align-items: flex-start;
+            gap: 30px;
+        }
+
+        .review-score {
+            text-align: center;
+            width: 120px;
+        }
+
+        .review-score .number {
+            font-size: 48px;
+            font-weight: bold;
+        }
+
+        .review-bars {
+            flex-grow: 1;
+        }
+
+        .review-bar {
+            display: flex;
+            align-items: center;
+            margin: 6px 0;
+        }
+
+        .bar {
+            height: 8px;
+            background: orange;
+            border-radius: 4px;
+            margin: 0 10px;
+            flex-grow: 1;
+        }
+
+        .bar-empty {
+            background: #ddd;
+        }
+
+        .btn-review {
+            border: 2px solid red;
+            color: red;
+            background: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            float: right;
+            margin-top: 10px;
+        }
+
+        .tab-bar {
+            margin-top: 30px;
+            display: flex;
+            gap: 20px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .tab-bar span {
+            padding-bottom: 8px;
+            cursor: pointer;
+        }
+
+        .tab-bar .active {
+            border-bottom: 3px solid red;
+            color: red;
+            font-weight: bold;
+        }
+
+        .review-list {
+            margin-top: 20px;
+        }
+
+        .review-item {
+            border-top: 1px solid #eee;
+            padding: 20px 0;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .review-stars {
+            color: orange;
+            font-size: 18px;
+            margin: 5px 0;
+        }
+
+        .review-content {
+            margin-top: 10px;
+            line-height: 1.6;
+            font-size: 16px;
+             word-break: break-word;
+        }
+
+        .review-footer {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .review-footer span {
+            margin-right: 20px;
+            cursor: pointer;
+        }
+
+        .review-header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .write-review-btn {
+            border: 2px solid #e53935;
+            background: transparent;
+            color: #e53935;
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .write-review-btn i {
+            margin-right: 5px;
+        }
+
+        .write-review-btn:hover {
+            background-color: #e53935;
+            color: #fff;
+        }
+
+
+        /* new */
+
+        .inline-review-form {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .review-banner {
+            width: 100%;
+            margin: 10px 0;
+            border-radius: 8px;
+        }
+
+        .stars {
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 22px;
+        }
+
+        .form-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .form-group input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+
+        textarea {
+            width: 100%;
+            height: 100px;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            resize: none;
+            margin-bottom: 10px;
+        }
+
+        .anonymous-switch {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            gap: 5px;
+        }
+
+        /* Toggle switch đơn giản */
+        .anonymous-switch input[type="checkbox"] {
+            appearance: none;
+            width: 40px;
+            height: 20px;
+            background: #ccc;
+            border-radius: 20px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .anonymous-switch input[type="checkbox"]::before {
+            content: "";
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 16px;
+            height: 16px;
+            background: white;
+            border-radius: 50%;
+            transition: .3s;
+        }
+
+        .anonymous-switch input[type="checkbox"]:checked {
+            background: #e53935;
+        }
+
+        .anonymous-switch input[type="checkbox"]:checked::before {
+            transform: translateX(20px);
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .form-actions button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .form-actions .submit-btn {
+            background: #e53935;
+            color: white;
+        }
+
+        .form-actions button:not(.submit-btn) {
+            background: transparent;
+            color: #666;
         }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
@@ -800,6 +1055,7 @@
             <div class="details-grid">
                 <strong>Thông tin chi tiết:</strong>
                 <br>
+
                 <div class="label">Mã sách:</div>
                 <div class="value">{{$book->book_id }}</div>
                 <div class="label">Tên Nhà Cung Cấp:</div>
@@ -808,7 +1064,20 @@
                 </div>
                 <div class="label">Tác giả:</div>
                 <div class="value">{{ $book->author->author_name }}</div>
+                <div class="label">rating:</div>
 
+                <div class="">
+                    @if($book->reviews->avg('rating'))
+                        <span class="rating">
+                            @for ($i = 0; $i < floor($book->reviews->avg('rating')); $i++)
+                                <i class="fas fa-star text-warning"></i>
+
+                            @endfor
+                        </span>
+                    @else
+                        <span class="rating">No Reviews</span>
+                    @endif
+                </div>
             </div>
         </div>
         <!-- Right side -->
@@ -829,9 +1098,11 @@
                 </div>
                 <div class="info-row">
                     Danh mục:
-                    @foreach ($book->categories as $category)
-                        {{ $category->category_name }}/
-                    @endforeach
+                    <div>
+                        @foreach ($book->categories as $category)
+                            <span class="badge bg-secondary">{{ $category->category_name }}</span>
+                        @endforeach
+                    </div>
 
                 </div>
 
@@ -840,7 +1111,7 @@
 
             <div class="price-row">
                 <div class="price-current" id="price-current">
-                    20000 <span>đ</span>
+                    {{ $book->price }}<span>đ</span>
                 </div>
                 <!-- <div class="price-old" aria-label="Old price 118,000 đồng">118.000</div>
                 <div class="price-discount" aria-label="30 percent discount">-30%</div> -->
@@ -957,54 +1228,274 @@
         </div>
     </div>
 
-    <section id="new-book" class="my-5 mx-5">
-        <p class="modern-big-title text-center mb-4">Same Genre</p>
-        <div class="row justify-content-center gx-4 gy-5">
-            @foreach($relatedBooks as $book)
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex align-items-stretch">
-                    <div class="card w-100 shadow-sm d-flex flex-column h-100 position-relative">
-                        <a href="{{ route('item.detail', $book->book_id) }}"
-                            class="stretched-link text-decoration-none text-dark d-flex flex-column h-100">
-                            <img src="{{ $book->cover_image ? asset('images/' . $book->cover_image) : asset('images/placeholder.png') }}"
-                                class="card-img-top" alt="{{ $book->title }}" style="height: 200px; object-fit: cover;" />
-                            <div class="card-body d-flex flex-column flex-grow-1">
-                                <h5 class="card-title text-center">{{ $book->title }}</h5>
-                                <p class="card-subtitle mb-2 text-muted text-center">{{ $book->author_id }}</p>
-                                <p class="card-text" style="flex-grow: 1; font-size: 0.9rem;">
-                                    {{ \Illuminate\Support\Str::limit($book->summary, 100) }}
-                                </p>
-                                <div class="mt-2">
-                                    <div class="d-flex justify-content-between">
-                                        <span>Giá ebook</span>
-                                        <span class="text-danger fw-bold">{{ number_format($book->price) }}₫</span>
-                                    </div>
-                                    <div class="d-flex justify-content-between">
-                                        <span>Đã bán:</span>
-                                        <span>{{ $book->volume_sold }}</span>
-                                    </div>
-                                    <div class="d-flex justify-content-between">
-                                        <span>Xuất bản:</span>
-                                        <span>{{ $book->published_date }}</span>
-                                    </div>
-                                    <div class="d-flex justify-content-between">
-                                        <span>Danh mục:</span>
-                                        <span>
-                                            @foreach ($book->categories as $category)
-                                                {{ $category->category_name }}/
-                                            @endforeach
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                        <div class="card-footer bg-transparent border-0 mt-auto">
-                            <button class="btn btn-primary w-100">Add to Cart</button>
+    <!-- review container  -->
+    <div class="review-container">
+        <div class="review-header-top">
+            <h3>Đánh giá sản phẩm</h3>
+           @auth
+             <button class="write-review-btn" onclick="toggleReviewForm()">
+             <i class="fas fa-pen"></i> Viết đánh giá
+             </button>
+            @endauth
+
+            @guest
+            <a href="{{ route('login') }}" class="write-review-btn" style="text-decoration: none;" >
+                <i class="fas fa-pen"></i> <b>Đăng nhập để viết đánh giá</b>
+            </a>
+            @endguest
+        </div>
+
+        <!-- form review -->
+        <div id="review-form" class="review-form-modal" style="display: none;">
+            <div class="review-form-content">
+                <h4>VIẾT ĐÁNH GIÁ SẢN PHẨM</h4>
+
+                <div class="stars" id="review-stars">
+                    @for ($i = 1; $i <= 5; $i++)
+                        <i class="far fa-star star" data-value="{{ $i }}"></i>
+                    @endfor
+                </div>
+                <input type="hidden" name="rating" id="rating-value" value="0">
+
+                <div class="form-group">
+                   
+                    <input type="text"
+                     placeholder="Nhập tên sẽ hiển thị khi đánh giá"
+                      name="display_name"
+                      id="display-name"
+                      value="@auth{{ Auth::user()->full_name }}@endauth"
+                     @auth readonly @endauth
+                    >
+                </div>
+
+                <textarea id="comment-text" placeholder="Nhập nhận xét của bạn về sản phẩm"></textarea>
+
+                <div class="form-actions">
+                    <button onclick="toggleReviewForm()">Hủy</button>
+                    <button class="submit-btn" onclick="submitReview({{ $book->book_id }})" >Gửi nhận xét</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- form review script -->
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const stars = document.querySelectorAll('#review-stars .star');
+                const ratingInput = document.getElementById('rating-value');
+                let currentRating = 0;
+
+                stars.forEach(star => {
+                    star.addEventListener('mouseover', function () {
+                        const val = parseInt(this.getAttribute('data-value'));
+                        highlightStars(val);
+                    });
+                    star.addEventListener('mouseout', function () {
+                        highlightStars(currentRating);
+                    });
+                    star.addEventListener('click', function () {
+                        currentRating = parseInt(this.getAttribute('data-value'));
+                        ratingInput.value = currentRating;
+                        highlightStars(currentRating);
+                    });
+                });
+
+                function highlightStars(rating) {
+                    stars.forEach(star => {
+                        if (parseInt(star.getAttribute('data-value')) <= rating) {
+                            star.classList.remove('far');
+                            star.classList.add('fas', 'text-warning');
+                        } else {
+                            star.classList.remove('fas', 'text-warning');
+                            star.classList.add('far');
+                        }
+                    });
+                }
+            });
+
+
+            function submitReview(bookId) {
+                const rating = document.getElementById('rating-value').value;
+                const comment = document.getElementById('comment-text').value;
+                const url = "{{ route('reviews.store') }}";
+
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json;charset=utf-8',
+                        'Accept': 'Application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({
+                        book_id: bookId,
+                        rating: rating,
+                        comment: comment
+                    })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    toggleReviewForm(); 
+                    location.reload(); 
+                })
+                .catch(err => {
+                    console.error(err);
+                });
+            }
+        </script>
+
+        <div class="review-summary">
+        </div>
+
+        <div class="tab-bar">
+            <span class="active">Mới nhất</span>
+        </div>
+
+        <div class="review-list">
+            @foreach ($book->reviews->reverse() as $review)
+
+                <div class="review-item">
+                    <div class="review-header">
+                        <strong>{{ $review->user ? $review->user->full_name : 'Ẩn danh' }}</strong>
+                        <div>{{ $review->date_review }}</div>
+                    </div>
+                    <div class="review-stars">
+                        <div class="">
+                            @if($review->rating > 0)
+                                <span class="rating">
+                                    @for ($i = 0; $i < $review->rating; $i++)
+                                        <i class="fas fa-star text-warning"></i>
+                                    @endfor
+                                </span>
+                            @else
+                                <span class="rating">No Reviews</span>
+                            @endif
                         </div>
                     </div>
+                    <div class="review-content">
+                        
+                        @if(Auth::user()->id == $review->user_id)
+                        <p>{{ $review->comment }} </p>
+                        <a href="" style="margin-left:10px;" ><i class="fas fa-pen" ></i></a>
+                        <a href=""  style="margin-left:10px;" ><i class="fas fa-trash" ></i></a>
+                        @else
+                        <p>{{ $review->comment }} </p>
+                    @endif
+                    </div>
+                    <div class="review-footer">
+                       
+                </div>
+            @endforeach
+
+        </div>
+    </div>
+
+
+    <script>
+        function toggleReviewForm() {
+            const form = document.getElementById("review-form");
+            form.style.display = (form.style.display === "none" || form.style.display === "") ? "block" : "none";
+        }
+    </script>
+
+
+    <section id="new-book" class="my-5 mx-5">
+        <p class="modern-big-title text-center mb-4">Same Genre</p>
+        <div class="grid">
+            @foreach($relatedBooks as $book)
+                <div class="card">
+                    <a href="{{ route('item.detail', $book->book_id) }}" style="text-decoration: none;">
+                        <span class="badge bg-danger new-badge-animated"
+                            style="position: absolute; top: 10px; left: 10px; z-index: 2;">
+                            Recommended
+                        </span>
+                        <img src="{{ $book->cover_image ? asset('images/' . $book->cover_image) : asset('images/placeholder.png') }}"
+                            alt="{{ $book->title }}" width="150" height="200" />
+                        <h3>{{ $book->title }}</h3>
+                        <p class="author">{{ $book->author->author_name }}</p>
+                        <div class="">
+                            @if($book->reviews->avg('rating'))
+                                <span class="rating">
+                                    @for ($i = 0; $i < floor($book->reviews->avg('rating')); $i++)
+                                        <i class="fas fa-star text-warning"></i>
+
+                                    @endfor
+                                </span>
+                            @else
+                                <span class="rating">No Reviews</span>
+                            @endif
+                        </div>
+                        <div class="summary">
+                            <p>{{ $book->summary }}</p>
+                        </div>
+                        <div>
+                            @foreach ($book->categories as $category)
+                                <span class="badge bg-secondary">{{ $category->category_name }}</span>
+                            @endforeach
+                        </div>
+                        <div class="price-row">
+                            <span>Giá ebook</span>
+                            <span class="price">{{ $book->price }}<sup>₫</sup></span>
+                        </div>
+                        <div class="price-row">
+                            <span style="font-weight: bolder">Đã bán: {{ $book->volume_sold }}</span>
+                        </div>
+
+                    </a>
+                    <button class="add-to-cart">Add to Cart</button>
                 </div>
             @endforeach
         </div>
     </section>
+    <section id="new-book" class="my-5 mx-5">
+        <p class="modern-big-title text-center mb-4">Same Author</p>
+        <div class="grid">
+            @foreach($relatedAuthorBooks as $book)
+                <div class="card">
+                    <a href="{{ route('item.detail', $book->book_id) }}" style="text-decoration: none;">
+                        <span class="badge bg-danger new-badge-animated"
+                            style="position: absolute; top: 10px; left: 10px; z-index: 2;">
+                            Recommended
+                        </span>
+                        <img src="{{ $book->cover_image ? asset('images/' . $book->cover_image) : asset('images/placeholder.png') }}"
+                            alt="{{ $book->title }}" width="150" height="200" />
+                        <h3>{{ $book->title }}</h3>
+                        <p class="author">{{ $book->author->author_name }}</p>
+                        <div class="">
+                            @if($book->reviews->avg('rating'))
+                                <span class="rating">
+                                    @for ($i = 0; $i < floor($book->reviews->avg('rating')); $i++)
+                                        <i class="fas fa-star text-warning"></i>
+
+                                    @endfor
+                                </span>
+                            @else
+                                <span class="rating">No Reviews</span>
+                            @endif
+                        </div>
+                        <div class="summary">
+                            <p>{{ $book->summary }}</p>
+                        </div>
+                        <div>
+                            @foreach ($book->categories as $category)
+                                <span class="badge bg-secondary">{{ $category->category_name }}</span>
+                            @endforeach
+                        </div>
+                        <div class="price-row">
+                            <span>Giá ebook</span>
+                            <span class="price">{{ $book->price }}<sup>₫</sup></span>
+                        </div>
+                        <div class="price-row">
+                            <span style="font-weight: bolder">Đã bán: {{ $book->volume_sold }}</span>
+                        </div>
+
+                    </a>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            @endforeach
+        </div>
+    </section>
+
+
+
 
     <div>
         <footer class="footer">
