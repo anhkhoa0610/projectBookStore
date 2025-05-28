@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     </script>
@@ -164,7 +165,8 @@
                         </div>
 
                     </a>
-                    <button class="add-to-cart">Add to Cart</button>
+                    <button class="add-to-cart" data-book-id="{{ $book->book_id }}">Add to
+                        Cart</button>
                 </div>
             @endforeach
         </div>
@@ -206,7 +208,8 @@
                             <span>Ngày Xuất Bản : {{ $book->published_date }}</span>
                         </div>
                     </a>
-                    <button class="add-to-cart" onclick="test()">Add to Cart</button>
+                    <button class="add-to-cart" data-book-id="{{ $book->book_id }}">Add to
+                        Cart</button>
                 </div>
             @endforeach
 
@@ -244,37 +247,7 @@
             <div class="container d-flex flex-column align-items-center">
                 <div class="grid" id="book-list">
                     <!-- Card 1 -->
-                    @foreach($books as $book)
-                        <a href="{{ route('item.detail', $book->book_id) }}" style="text-decoration: none;" class="card">
-                            <img src="{{ $book->cover_image ? asset('images/' . $book->cover_image) : asset('images/placeholder.png') }}"
-                                alt="{{ $book->title }}" width="150" height="200" />
-                            <h3>{{ $book->title }}</h3>
-                            <p class="author">{{ $book->author->author_name}}</p>
-                            <div class="summary">
-                                <p>{{ $book->summary }}</p>
-                            </div>
-                            <div class="price-row">
-                                <span>Giá ebook</span>
-                                <span class="price">{{ $book->price }}<sup>₫</sup></span>
-                            </div>
-                            <div class="price-row">
-                                <span style="font-weight: bolder">Đã bán: {{ $book->volume_sold }}</span>
-                            </div>
-                            <div class="price-row">
-                                <span>Ngày Xuất Bản : {{ $book->published_date }}</span>
-                            </div>
-                            <div class="mb-2">
-                                @foreach($book->categories as $category)
-                                    <span class="badge bg-secondary">{{ $category->category_name }}</span>
-                                @endforeach
-                            </div>
-                            <div class="">
-                                <span>Rating</span>
-                                <p style="color: yellow;">★★★★★</p>
-                            </div>
-                            <button class="add-to-cart">Add to Cart</button>
-                        </a>
-                    @endforeach
+                    
 
                 </div>
                 <!-- <div class="paginate mt-5 mx-auto">
@@ -323,7 +296,7 @@
                                             <span class="price">{{ $book->price }}<sup>₫</sup></span>
                                         </div>
                                     </a>
-                                    <button class="add-to-cart">Add to Cart</button>
+                                    <button class="add-to-cart" data-book-id="{{ $book->book_id }}">Add to Cart</button>
                                 </div>
                             @endforeach
                             <!-- Repeat the above <a> for each wishlist item (add as many as you want) -->
@@ -394,6 +367,10 @@
                 </div>
         </footer>
     </div>
+    <script>
+        const userId = {{ Auth::check() ? Auth::id() : 'null' }};
+        const addCartApiUrl = "{{ route('index-add-cart-api') }}";
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js"></script>

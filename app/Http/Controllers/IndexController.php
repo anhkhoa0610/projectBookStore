@@ -6,6 +6,7 @@ use App\Models\Books;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class IndexController extends Controller
 {
@@ -61,6 +62,7 @@ class IndexController extends Controller
         return response()->json($books);
     }
 
+
     public function dashboard()
     {
         if (!auth()->check()) {
@@ -73,7 +75,7 @@ class IndexController extends Controller
     {
         $books = Books::with(['author', 'categories'])
             ->orderBy('published_date', 'desc')
-            ->paginate(8); 
+            ->paginate(8);
         return response()->json($books);
     }
 
@@ -81,8 +83,35 @@ class IndexController extends Controller
     {
         $books = Books::with(['author', 'categories'])
             ->orderBy('volume_sold', 'desc')
-            ->paginate(8); 
+            ->paginate(8);
         return response()->json($books);
     }
+
+    public function addCartAPI(Request $request)
+    {
+        
+        $user_id = $request->user_id;
+        $book_id = $request->book_id;
+
+        $cartItem = DB::table('carts')
+            ->where('user_id', $user_id)
+            ->where('book_id', $book_id)
+            ->first();
+
+        if ($cartItem) {
+            DB::table('carts')
+                ->where('id', $cartItem->id)
+                ->update(['quantity' => $cartItem->quantity + 1]);
+        } else {
+            DB::table('carts')->insert([
+                'user_id' => $user_id,
+                'book_id' => $book_id,
+                'quantity' => 1,
+            ]);
+        }
+
+        return response()->json(['message' => 'Book added to cart successfully']);
+    }
+
 }
 
