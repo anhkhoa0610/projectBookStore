@@ -318,7 +318,6 @@ function renderPagination(fn, result) {
     html += `</ul>`;
     pagination.innerHTML = html;
 }
-
 async function loadVouchers(page = 1) {
     const container = document.getElementById('voucher-container');
     const pagination = document.getElementById('voucher-pagination');
