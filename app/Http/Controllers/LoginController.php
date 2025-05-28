@@ -86,4 +86,9 @@ class LoginController extends Controller
             return back()->withErrors(['email' => 'Email not found or error sending reset link.']);
         }
     }
+
+    public function showRegisterForm()
+    {
+        return view('login.create');
+    }
 }

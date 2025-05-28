@@ -18,8 +18,9 @@
 
 <body>
     @if(session('error'))
-        <div class="alert alert-danger">
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
             {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
     <nav class="navbar">
@@ -252,7 +253,7 @@
             <div class="container d-flex flex-column align-items-center">
                 <div class="grid" id="book-list">
                     <!-- Card 1 -->
-                    
+
 
                 </div>
                 <!-- <div class="paginate mt-5 mx-auto">
