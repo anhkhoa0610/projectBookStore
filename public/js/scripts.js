@@ -24,7 +24,7 @@ async function suggestSearch(keyword) {
             const li = document.createElement('li');
             li.classList.add('list-group-item', 'd-flex', 'flex-row', 'justify-content-between', 'row');
             li.innerHTML = `<div class="col-2">
-                                <img src="/images/placeholder.png" alt="" width="50" height="50">
+                                <img src="/images/${element.cover_image}" alt="" width="50" height="50">
                             </div>
                             <div class="col-10">
                                 <h5 class="mb-1">${element.title}</h5>
@@ -68,7 +68,7 @@ async function getCategoryByID(category_id) {
 
             string += `<div class="card" style="animation-delay:${0.2 * i}s">
             <a href="/itemDetail/${book.book_id}" style="text-decoration: none;">
-                            <img src="images/placeholder.png"
+                            <img src="uploads/${book.cover_image}"
                                 alt="" width="150" height="200" />
                             <h3>${book.title}</h3>
                             <p class="author">${book.author.author_name}</p>
@@ -151,7 +151,7 @@ async function getAllBooks(page = 1) {
 
         string += `<div class="card" style="animation-delay:${0.2 * i}s">
         <a href="/itemDetail/${book.book_id}" style="text-decoration: none">
-            <img src="images/placeholder.png"
+            <img src="uploads/${book.cover_image}"
                 alt="" width="150" height="200" />
             <h3>${book.title}</h3>
             <p class="author">${book.author.author_name}</p>
@@ -198,7 +198,7 @@ async function getBooksByDate(page = 1) {
 
         string += `<div class="card" style="animation-delay:${0.2 * i}s">
         <a href="/itemDetail/${book.book_id}" style="text-decoration: none">
-            <img src="images/placeholder.png"
+            <img src="uploads/${book.cover_image}"
                 alt="" width="150" height="200" />
             <h3>${book.title}</h3>
             <p class="author">${book.author.author_name}</p>
@@ -245,7 +245,7 @@ async function getBooksBySold(page = 1) {
 
         string += `<div class="card" style="animation-delay:${0.2 * i}s">
         <a href="/itemDetail/${book.book_id}" style="text-decoration: none">
-            <img src="images/placeholder.png"
+            <img src="uploads/${book.cover_image}"
                 alt="" width="150" height="200" />
             <h3>${book.title}</h3>
             <p class="author">${book.author.author_name}</p>

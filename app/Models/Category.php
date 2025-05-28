@@ -22,4 +22,11 @@ class Category extends Model
     {
         return $this->belongsToMany(Books::class, 'category_book', 'category_id', 'book_id');
     }
+
+    protected static function booted()
+{
+    static::deleting(function ($category) {
+        $category->books()->detach();
+    });
+}
 }

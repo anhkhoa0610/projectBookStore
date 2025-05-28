@@ -132,7 +132,7 @@
                             style="position: absolute; top: 10px; left: 10px; z-index: 2;">
                             Recommended
                         </span>
-                        <img src="{{ $book->cover_image ? asset('images/' . $book->cover_image) : asset('images/placeholder.png') }}"
+                        <img src="{{ $book->cover_image ? asset('uploads/' . $book->cover_image) : asset('images/placeholder.png') }}"
                             alt="{{ $book->title }}" width="150" height="200" />
                         <h3>{{ $book->title }}</h3>
                         <p class="author">{{ $book->author->author_name }}</p>
@@ -184,7 +184,7 @@
                             style="position: absolute; top: 10px; left: 10px; z-index: 2;">
                             New
                         </span>
-                        <img src="{{ $book->cover_image ? asset('images/' . $book->cover_image) : asset('images/placeholder.png') }}"
+                        <img src="{{ $book->cover_image ? asset('uploads/' . $book->cover_image) : asset('images/placeholder.png') }}"
                             alt="{{ $book->title }}" width="150" height="200" />
                         <h3>{{ $book->title }}</h3>
                         <p class="author">{{ $book->author->author_name }}</p>
