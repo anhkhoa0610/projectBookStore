@@ -107,7 +107,7 @@
         <p class="modern-big-title">Best Seller</p>
         <div class="grid">
             @foreach($soldBooks as $book)
-                <a href="" style="text-decoration: none;" class="card">
+                <a href="{{ route('item.detail', $book->book_id) }}" style="text-decoration: none;" class="card">
                     <img src="{{ $book->cover_image ? asset('images/' . $book->cover_image) : asset('images/placeholder.png') }}"
                         alt="{{ $book->title }}" width="150" height="200" />
                     <h3>{{ $book->title }}</h3>
@@ -137,7 +137,7 @@
         <p class="modern-big-title">Newly Updated</p>
         <div class="grid">
             @foreach($newBooks as $book)
-                <a href="" style="text-decoration: none;" class="card">
+                <a href="{{ route('item.detail', $book->book_id) }}" style="text-decoration: none;" class="card">
                     <img src="{{ $book->cover_image ? asset('images/' . $book->cover_image) : asset('images/placeholder.png') }}"
                         alt="{{ $book->title }}" width="150" height="200" />
                     <h3>{{ $book->title }}</h3>
@@ -193,7 +193,7 @@
                 <div class="grid" id="book-list">
                     <!-- Card 1 -->
                     @foreach($books as $book)
-                        <a href="" style="text-decoration: none;" class="card">
+                        <a href="{{ route('item.detail', $book->book_id) }}" style="text-decoration: none;" class="card">
                             <img src="{{ $book->cover_image ? asset('images/' . $book->cover_image) : asset('images/placeholder.png') }}"
                                 alt="{{ $book->title }}" width="150" height="200" />
                             <h3>{{ $book->title }}</h3>
@@ -244,7 +244,7 @@
                     style="display: flex; transition: transform 0.4s;">
                     <!-- Place your 5+ wishlist cards here -->
                     @foreach($wishlist as $book)
-                        <a href="" class="card" style="min-width: 300px; margin: 20px 10px;">
+                        <a href="{{ route('item.detail', $book->book_id) }}" class="card" style="min-width: 300px; margin: 20px 10px;">
                             <img src="{{ $book->cover_image ? asset('images/' . $book->cover_image) : asset('images/placeholder.png') }}"
                                 width="150" height="200" />
                             <h3>{{ $book->title }}</h3>
