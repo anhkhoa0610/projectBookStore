@@ -16,6 +16,11 @@
 
 
 <body>
+    @if(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
     <nav class="navbar">
         <a class="logo" href="#">
             <img src="{{ asset('images/rsz_logo.png') }}" alt="">

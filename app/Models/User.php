@@ -57,7 +57,12 @@ class User extends Authenticatable
     ];
 
     public function wishlist()
-{
-    return $this->belongsToMany(Books::class, 'wishlists', 'user_id', 'book_id');
-}
+    {
+        return $this->belongsToMany(Books::class, 'wishlists', 'user_id', 'book_id');
+    }
+
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
+    }
 }

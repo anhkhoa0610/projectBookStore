@@ -10,7 +10,7 @@ class CrudAuthorController extends Controller
     /**
      * Display a listing of authors.
      */
-    public function listAuthor(request $request)
+    public function listAuthor(Request $request)
     {
         $search = $request->input('search');
 
@@ -128,4 +128,5 @@ class CrudAuthorController extends Controller
         $author = Author::findOrFail($id);
         return view('crud_author.read', compact('author'));
     }
+
 }
