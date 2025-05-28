@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\CrudUserController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\VoucherController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CrudBookController;
 use App\Http\Controllers\CrudPublisherController;
@@ -232,3 +233,5 @@ Route::get('/author/{id}', [AuthorController::class, 'showAuthor'])->name('autho
 Route::get('/index', [IndexController::class, 'index'])->name('index');
 
 Route::get('/itemDetail/{book_id}', [ItemController::class, 'showItemDetail'])->name('item.detail');
+Route::get('/voucher', [VoucherController::class, 'index'])->name('voucher.index');
+
