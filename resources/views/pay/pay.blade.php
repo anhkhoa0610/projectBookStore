@@ -529,7 +529,7 @@
             <h3>Đơn hàng ({{ $totalQuantity }} sản phẩm)</h3>
             @foreach($cartItems as $item)
             <div class="order-item" style="position:relative;">
-                <img src="{{ $item->book->cover_image ? asset('uploads/' . $item->book->cover_image) : 'https://storage.googleapis.com/a1aa/image/84982eee-aa44-41ca-4541-5e3a7b555e3a.jpg' }}"
+                <img src="{{ $item->book->cover_image ? asset('uploads/' . ltrim($item->book->cover_image, '/')) : 'https://storage.googleapis.com/a1aa/image/84982eee-aa44-41ca-4541-5e3a7b555e3a.jpg' }}"
                     alt="{{ $item->book->title }}" width="40" height="40" />
                 <div class="badge"
                     style="position:absolute;top:-4px;left:-4px;background:#d35400;color:#fff;font-size:10px;font-weight:700;border-radius:9999px;width:16px;height:16px;display:flex;justify-content:center;align-items:center;">

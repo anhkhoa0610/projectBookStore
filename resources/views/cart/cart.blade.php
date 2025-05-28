@@ -773,7 +773,7 @@
                     <label>
                         <input type="checkbox" class="product-checkbox" />
                     </label>
-                    <img src="${item.book.cover_image ? '/uploads/' + item.book.cover_image : 'https://storage.googleapis.com/a1aa/image/84982eee-aa44-41ca-4541-5e3a7b555e3a.jpg'}"
+                    <img src="${item.book.cover_image ? '{{ asset('uploads') }}/' + item.book.cover_image : 'https://storage.googleapis.com/a1aa/image/84982eee-aa44-41ca-4541-5e3a7b555e3a.jpg'}"
                         alt="${item.book.title}" class="product-image" width="80" height="100" />
                     <div class="product-info">
                         <div>${item.book.title}</div>
