@@ -710,7 +710,7 @@
                     <div class="collapse navbar-collapse " id="collapsibleNavbar">
                         <ul class="navbar-nav ">
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Home</a>
+                                <a class="nav-link" href="{{ route('index') }}">Home</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#best-seller">Bán Chạy Nhất</a>
@@ -765,29 +765,45 @@
                     </h2>
                     <hr>
                     <div class="mb-3" style="font-size: 1.15rem;">
-                        <span class="fw-bold text-secondary">Tiểu sử:</span>
+                        <span class="fw-bold text-secondary">Birth date:</span>
+                        <span class="text-dark">{{ $author->birth_date }}</span><br>
+                        <span class="fw-bold text-secondary">Hometown:</span>
+                        <span class="text-dark">{{ $author->hometown }}</span><br>
+                        <span class="fw-bold text-secondary">Bio:</span>
                         <span class="text-dark">{{ $author->bio }}</span>
                     </div>
-                    <!-- <div class="mt-4">
-                        <a href="#" class="btn btn-outline-primary btn-sm rounded-pill me-2">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="#" class="btn btn-outline-info btn-sm rounded-pill me-2">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="#" class="btn btn-outline-danger btn-sm rounded-pill">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                    </div> -->
-                    {{-- Thêm các trường khác nếu muốn, ví dụ: --}}
-                    {{-- <div class="mt-3">
-                        <span class="fw-bold">Số sách đã xuất bản:</span> {{ $author->books_count ?? 0 }}
-                    </div> --}}
                 </div>
             </div>
         </div>
     </div>
 
+    <section id="featured-works" class="my-5 mx-5">
+        <p class="modern-big-title">The author's writings</p>
+        <div class="grid">
+            @foreach($books as $book)
+                <a href="" style="text-decoration: none;" class="card">
+                    <img src="{{ $book->cover_image ? asset('images/' . $book->cover_image) : asset('images/placeholder.png') }}"
+                        alt="{{ $book->title }}" width="150" height="200" />
+                    <h3>{{ $book->title }}</h3>
+                    <p class="author">{{ $book->author_id }}</p>
+                    <div class="summary">
+                        <p>{{ $book->summary }}</p>
+                    </div>
+                    <div class="price-row">
+                        <span>Giá ebook</span>
+                        <span class="price">{{ $book->price }}<sup>₫</sup></span>
+                    </div>
+                    <div class="price-row">
+                        <span style="font-weight: bolder">Đã bán: {{ $book->volume_sold }}</span>
+                    </div>
+                    <div class="price-row">
+                        <span>Ngày Xuất Bản : {{ $book->published_date }}</span>
+                    </div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </a>
+            @endforeach
+        </div>
+    </section>
 
     <div>
         <footer class="footer">
@@ -798,7 +814,7 @@
                     <p style="color: yellow;">★★★★★</p>
                     <p>TrustScore 5 | 0 reviews</p>
                     <div class="logo">
-                        <img src="./images/logo.png" alt="Logo" />
+                        <img src=" {{asset('images/logo.png') }}" alt="Logo" />
                     </div>
                 </div>
 
