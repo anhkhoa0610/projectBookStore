@@ -26,3 +26,12 @@ Route::get('/categories/all', [IndexController::class, 'categories'])->name('cat
 
 Route::get('/index/category/{id}', [IndexController::class, 'categoryAPI'])
     ->name('index-category-api');
+
+Route::get('/index/all-books', [IndexController::class, 'allBooksAPI'])
+    ->name('index-all-books-api');
+
+Route::get('/index/books-by-date', [IndexController::class, 'booksByDateAPI'])
+    ->name('index-books-by-date');
+
+Route::get('/index/books-by-sold', [IndexController::class, 'booksBySoldAPI'])
+    ->name('index-books-by-sold');

@@ -33,11 +33,29 @@
         </div>
         <div class="nav-links">
             @auth
-                <span class="user-name mx-5">Xin chào <b class="text-primary">{{ Auth::user()->full_name }}</b></span>
-                <form action="{{ route('logout') }}" method="POST" style="display:inline;">
-                    @csrf
-                    <button type="submit" class="btn btn-danger"><b>Log Out</b></button>
-                </form>
+                <div class="dropdown user-dropdown mx-5" style="display: inline-block; position: relative;">
+                    <span class="user-name" style="cursor:pointer;">
+                        Xin chào <b class="text-primary mx-2">{{ Auth::user()->full_name }}</b>
+                        <i class="fas fa-user text-primary"></i>
+                    </span>
+                    <div class="dropdown-menu"
+                        style="display:none; position:absolute; right:0; top:100%; background:#fff; box-shadow:0 2px 8px rgba(0,0,0,0.15); min-width:160px; z-index:100;">
+                        <a class="dropdown-item" href="">Profile</a>
+                        @if(Auth::user()->role === 'admin')
+                            <a class="dropdown-item" href="{{ route('dashboard') }}">Admin dashboard</a>
+                        @endif
+                        <a class="dropdown-item" href="#wish-list">Wishlist</a>
+                        <form action="{{ route('logout') }}" class="dropdown-item ms-4" method="POST">
+                            @csrf
+                            <button type="submit" style="border: none; background: none; cursor: pointer;">
+                                Logout
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <style>
+
+                </style>
             @else
                 <a href="{{ route('login') }}" class="btn btn-primary"><b>Sign In</b></a>
                 <a href="{{ route('user.createUser') }}" class="btn btn-primary"><b>Sign Up</b></a>
@@ -107,26 +125,47 @@
         <p class="modern-big-title">Best Seller</p>
         <div class="grid">
             @foreach($soldBooks as $book)
-                <a href="{{ route('item.detail', $book->book_id) }}" style="text-decoration: none;" class="card">
-                    <img src="{{ $book->cover_image ? asset('images/' . $book->cover_image) : asset('images/placeholder.png') }}"
-                        alt="{{ $book->title }}" width="150" height="200" />
-                    <h3>{{ $book->title }}</h3>
-                    <p class="author">{{ $book->author_id }}</p>
-                    <div class="summary">
-                        <p>{{ $book->summary }}</p>
-                    </div>
-                    <div class="price-row">
-                        <span>Giá ebook</span>
-                        <span class="price">{{ $book->price }}<sup>₫</sup></span>
-                    </div>
-                    <div class="price-row">
-                        <span style="font-weight: bolder">Đã bán: {{ $book->volume_sold }}</span>
-                    </div>
-                    <div class="price-row">
-                        <span>Ngày Xuất Bản : {{ $book->published_date }}</span>
-                    </div>
+                <div class="card">
+                    <a href="{{ route('item.detail', $book->book_id) }}" style="text-decoration: none;">
+                        <span class="badge bg-danger new-badge-animated"
+                            style="position: absolute; top: 10px; left: 10px; z-index: 2;">
+                            Recommended
+                        </span>
+                        <img src="{{ $book->cover_image ? asset('images/' . $book->cover_image) : asset('images/placeholder.png') }}"
+                            alt="{{ $book->title }}" width="150" height="200" />
+                        <h3>{{ $book->title }}</h3>
+                        <p class="author">{{ $book->author->author_name }}</p>
+                        <div class="">
+                            @if($book->reviews->avg('rating'))
+                                <span class="rating">
+                                    @for ($i = 0; $i < floor($book->reviews->avg('rating')); $i++)
+                                        <i class="fas fa-star text-warning"></i>
+
+                                    @endfor
+                                </span>
+                            @else
+                                <span class="rating">No Reviews</span>
+                            @endif
+                        </div>
+                        <div class="summary">
+                            <p>{{ $book->summary }}</p>
+                        </div>
+                        <div>
+                            @foreach ($book->categories as $category)
+                                <span class="badge bg-secondary">{{ $category->category_name }}</span>
+                            @endforeach
+                        </div>
+                        <div class="price-row">
+                            <span>Giá ebook</span>
+                            <span class="price">{{ $book->price }}<sup>₫</sup></span>
+                        </div>
+                        <div class="price-row">
+                            <span style="font-weight: bolder">Đã bán: {{ $book->volume_sold }}</span>
+                        </div>
+
+                    </a>
                     <button class="add-to-cart">Add to Cart</button>
-                </a>
+                </div>
             @endforeach
         </div>
 
@@ -137,26 +176,38 @@
         <p class="modern-big-title">Newly Updated</p>
         <div class="grid">
             @foreach($newBooks as $book)
-                <a href="{{ route('item.detail', $book->book_id) }}" style="text-decoration: none;" class="card">
-                    <img src="{{ $book->cover_image ? asset('images/' . $book->cover_image) : asset('images/placeholder.png') }}"
-                        alt="{{ $book->title }}" width="150" height="200" />
-                    <h3>{{ $book->title }}</h3>
-                    <p class="author">{{ $book->author_id }}</p>
-                    <div class="summary">
-                        <p>{{ $book->summary }}</p>
-                    </div>
-                    <div class="price-row">
-                        <span>Giá ebook</span>
-                        <span class="price">{{ $book->price }}<sup>₫</sup></span>
-                    </div>
-                    <div class="price-row">
-                        <span style="font-weight: bolder">Đã bán: {{ $book->volume_sold }}</span>
-                    </div>
-                    <div class="price-row">
-                        <span>Ngày Xuất Bản : {{ $book->published_date }}</span>
-                    </div>
-                    <button class="add-to-cart">Add to Cart</button>
-                </a>
+                <div style="position: relative;" class="card">
+                    <a style="text-decoration: none" href="{{ route('item.detail', $book->book_id) }}">
+                        <span class="badge bg-success new-badge-animated"
+                            style="position: absolute; top: 10px; left: 10px; z-index: 2;">
+                            New
+                        </span>
+                        <img src="{{ $book->cover_image ? asset('images/' . $book->cover_image) : asset('images/placeholder.png') }}"
+                            alt="{{ $book->title }}" width="150" height="200" />
+                        <h3>{{ $book->title }}</h3>
+                        <p class="author">{{ $book->author->author_name }}</p>
+                        @if($book->reviews->avg('rating'))
+                            <span class="rating">
+                                @for ($i = 0; $i < floor($book->reviews->avg('rating')); $i++)
+                                    <i class="fas fa-star text-warning"></i>
+                                @endfor
+                            </span>
+                        @else
+                            <span class="rating">No Reviews</span>
+                        @endif
+                        <div class="summary">
+                            <p>{{ $book->summary }}</p>
+                        </div>
+                        <div class="price-row">
+                            <span>Giá ebook</span>
+                            <span class="price">{{ $book->price }}<sup>₫</sup></span>
+                        </div>
+                        <div class="price-row">
+                            <span>Ngày Xuất Bản : {{ $book->published_date }}</span>
+                        </div>
+                    </a>
+                    <button class="add-to-cart" onclick="test()">Add to Cart</button>
+                </div>
             @endforeach
 
         </div>
@@ -170,6 +221,7 @@
             <div class="category-box">
                 <div class="category-title">Danh mục theo thể loại sách</div>
                 <ul class="categories-list">
+                    <li onclick="getAllBooks()"><i class="fas fa-book"></i>Tất cả</li>
                     @foreach ($categories as $category)
                         <li onclick="getCategoryByID({{ $category->category_id }})">
                             <i class="fas fa-book"></i>
@@ -181,9 +233,9 @@
             <div class="category-box">
                 <div class="category-title">Danh mục theo xu hướng</div>
                 <ul>
-                    <li><i class="fas fa-book"></i> Sách bán chạy</li>
-                    <li><i class="fas fa-book"></i> Sách mới</li>
-                    <li><i class="fas fa-book"></i> Sách được đánh giá cao</li>
+                    <li onclick="getBooksBySold()"><i class="fas fa-book"></i> Sách bán chạy</li>
+                    <li onclick="getBooksByDate()"><i class="fas fa-book"></i> Sách mới nhất</li>
+                    <li onclick=""><i class="fas fa-book"></i> Sách được đánh giá cao</li>
                 </ul>
             </div>
         </div>
@@ -225,43 +277,65 @@
                     @endforeach
 
                 </div>
-                <div class="paginate mt-5 mx-auto">
+                <!-- <div class="paginate mt-5 mx-auto">
                     {{ $books->links() }}
-                </div>
+                </div> -->
             </div>
 
         </div>
     </div>
 
     @auth
-    <section id="wish-list" class="my-5 mx-5">
-        <p class="modern-big-title">Wish List</p>
-        <div class="wishlist-carousel-container" style="position: relative; max-width: 930px; margin: auto;">
-            <button id="wishlist-left" class="wishlist-carousel-btn"
-                style="position: absolute; left: -40px; top: 40%; z-index: 2;">&#8592;</button>
-            <div class="wishlist-carousel-viewport" style="overflow: hidden;">
-                <div id="wishlist-carousel-track" class="wishlist-carousel-track"
-                    style="display: flex; transition: transform 0.4s;">
-                    <!-- Place your 5+ wishlist cards here -->
-                    @foreach($wishlist as $book)
-                        <a href="{{ route('item.detail', $book->book_id) }}" class="card" style="min-width: 300px; margin: 20px 10px;">
-                            <img src="{{ $book->cover_image ? asset('images/' . $book->cover_image) : asset('images/placeholder.png') }}"
-                                width="150" height="200" />
-                            <h3>{{ $book->title }}</h3>
-                            <p class="author">{{ $book->author->author_name }}</p>
-                            <div class="summary">
-                                <p>{{ $book->summary }}</p>
-                            </div>
-                            <!-- ...other book info... -->
-                        </a>
-                    @endforeach
-                    <!-- Repeat the above <a> for each wishlist item (add as many as you want) -->
+        <section id="wish-list" class="my-5 mx-5">
+            <p class="modern-big-title">Wish List</p>
+            @if(!$wishlist->isEmpty())
+                <div class="wishlist-carousel-container" style="position: relative; max-width: 930px; margin: auto;">
+                    <button id="wishlist-left" class="wishlist-carousel-btn"
+                        style="position: absolute; left: -40px; top: 40%; z-index: 2;">&#8592;</button>
+                    <div class="wishlist-carousel-viewport" style="overflow: hidden;">
+                        <div id="wishlist-carousel-track" class="wishlist-carousel-track"
+                            style="display: flex; transition: transform 0.4s;">
+                            <!-- Place your 5+ wishlist cards here -->
+                            @foreach($wishlist as $book)
+                                <div class="card" style="min-width: 300px; margin: 20px 10px;">
+                                    <a href="{{ route('item.detail', $book->book_id) }}" style="text-decoration: none">
+                                        <img src="{{ $book->cover_image ? asset('uploads/' . $book->cover_image) : asset('images/placeholder.png') }}"
+                                            width="150" height="200" />
+                                        <h3>{{ $book->title }}</h3>
+                                        <p class="author">{{ $book->author->author_name }}</p>
+                                        <div class="summary">
+                                            <p>{{ $book->summary }}</p>
+                                        </div>
+                                        <div class="">
+                                            @if($book->reviews->avg('rating'))
+                                                <span class="rating">
+                                                    @for ($i = 0; $i < floor($book->reviews->avg('rating')); $i++)
+                                                        <i class="fas fa-star text-warning"></i>
+
+                                                    @endfor
+                                                </span>
+                                            @else
+                                                <span class="rating">No Reviews</span>
+                                            @endif
+                                        </div>
+                                        <div class="price-row">
+                                            <span>Giá ebook</span>
+                                            <span class="price">{{ $book->price }}<sup>₫</sup></span>
+                                        </div>
+                                    </a>
+                                    <button class="add-to-cart">Add to Cart</button>
+                                </div>
+                            @endforeach
+                            <!-- Repeat the above <a> for each wishlist item (add as many as you want) -->
+                        </div>
+                    </div>
+                    <button id="wishlist-right" class="wishlist-carousel-btn"
+                        style="position: absolute; right: -50px; top: 40%; z-index: 2;">&#8594;</button>
                 </div>
-            </div>
-            <button id="wishlist-right" class="wishlist-carousel-btn"
-                style="position: absolute; right: -50px; top: 40%; z-index: 2;">&#8594;</button>
-        </div>
-    </section>
+            @else
+                <p class="text-center">Your wish list is empty. Wish some !!</p>
+            @endif
+        </section>
     @endauth
 
     <div>
@@ -320,100 +394,10 @@
                 </div>
         </footer>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js"></script>
+    <script src="{{ asset('js/scripts.js') }}"></script>
 </body>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js"></script>
-<script src="{{ asset('js/scripts.js') }}"></script>
-
-<script>
-    const root = "{{ route('home') }}";
-    console.log({{ $wishlist }});
-
-
-    document.addEventListener("DOMContentLoaded", function () {
-        let index = 0;
-        const slides = document.querySelectorAll(".nav-slide");
-        const slidesContainer = document.querySelector(".nav-slides");
-        const totalSlides = slides.length;
-        function autoSlide() {
-            index = (index + 1) % totalSlides;
-            slidesContainer.style.transform = `translateX(-${index * 100}vw)`;
-        }
-
-        setInterval(autoSlide, 3000);
-    });
-
-
-
-
-    async function getCategoryByID(category_id) {
-        const bookList = document.getElementById('book-list');
-        const url = `/api/index/category/${category_id}`;
-        const res = await fetch(url);
-        const result = await res.json();
-        console.log(result);
-        console.log(result.books[0]);
-
-        if (res.ok) {
-            bookList.innerHTML = '';
-            let string = '';
-            for (let i = 0; i < result.books.length; i++) {
-                const book = result.books[i];
-                console.log(book);
-                string += `<a href="" style="text-decoration: none;" class="card">
-                            <img src="images/placeholder.png"
-                                alt="" width="150" height="200" />
-                            <h3>${book.title}</h3>
-                            <p class="author">${book.author.author_name}</p>
-                            <div class="summary">
-                                <p>${book.summary}</p>
-                            </div>
-                            <div class="price-row">
-                                <span>Giá ebook</span>
-                                <span class="price">${book.price}<sup>₫</sup></span>
-                            </div>
-                            <button class="add-to-cart">Add to Cart</button>
-                        </a>`;
-            };
-            bookList.innerHTML = string;
-            document.querySelector('.paginate').style.display = 'none';
-        }
-    }
-
-</script>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const track = document.getElementById('wishlist-carousel-track');
-        const leftBtn = document.getElementById('wishlist-left');
-        const rightBtn = document.getElementById('wishlist-right');
-        const cards = track.querySelectorAll('.card');
-        const visibleCount = 4;
-        let currentIndex = 0;
-
-        function updateCarousel() {
-            const cardWidth = cards[0].offsetWidth + 20; // card + margin
-            track.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
-            leftBtn.disabled = currentIndex === 0;
-            rightBtn.disabled = currentIndex > cards.length - visibleCount - 0.5;
-        }
-
-        leftBtn.addEventListener('click', function () {
-            if (currentIndex > 0) {
-                currentIndex--;
-                updateCarousel();
-            }
-        });
-
-        rightBtn.addEventListener('click', function () {
-            if (currentIndex < cards.length - visibleCount) {
-                currentIndex++;
-                updateCarousel();
-            }
-        });
-
-        updateCarousel();
-    });
-</script>
 
 </html>

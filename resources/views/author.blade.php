@@ -647,6 +647,16 @@
         #toggle:hover {
             text-decoration: underline;
         }
+
+        .container {
+            max-width: 900px;
+            /* hoặc 100% nếu muốn full width */
+            margin: 0 auto;
+            padding: 24px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+        }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 </head>
@@ -700,7 +710,7 @@
                     <div class="collapse navbar-collapse " id="collapsibleNavbar">
                         <ul class="navbar-nav ">
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Home</a>
+                                <a class="nav-link" href="{{ route('index') }}">Home</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#best-seller">Bán Chạy Nhất</a>
@@ -741,267 +751,56 @@
     </div>
 
 
-
-    <div class="container">
-        <!-- Left side -->
-        <div class="card left cardLeft">
-            <img src="{{ asset('uploads/' . $book->cover_image) }}" alt="Book img" class="main-img" width="280"
-                height="400" />
-
-            <div class="btn-group">
-                <button type="button" class="btn-cart">
-                    <i class="fas fa-shopping-cart"></i> Thêm vào giỏ hàng
-                </button>
-
+    <div class="container-fluid my-5">
+        <div class="row g-0 align-items-center">
+            <div class="col-md-3 text-center py-4">
+                <img src="{{ $author->cover_image ? asset('images/' . $author->cover_image) : asset('images/placeholder.png') }}"
+                    alt="Author Image" class="img-fluid rounded-circle border border-3"
+                    style="width: 200px; height: 200px; object-fit: cover; box-shadow: 0 4px 16px rgba(0,0,0,0.08); background: #f3f4f6;">
             </div>
-
-            <div class="btn-group">
-                <div class="btn-group">
-                    <button id="wishlist-btn" class="btn-cart" style="color: {{ $bookWishList ? '#f0b90b' : '' }};"
-                        data-in-wishlist="{{ $bookWishList ? '1' : '0' }}">
-                        <i class="{{ $bookWishList ? 'fas' : 'far' }} fa-star"></i>
-                        <span
-                            id="wishlist-text">{{ $bookWishList ? 'Remove from wish list' : 'Add to wish list' }}</span>
-                    </button>
-                </div>
-            </div>
-
-            <script>
-                document.addEventListener('DOMContentLoaded', function () {
-                    const btn = document.getElementById('wishlist-btn');
-                    if (!btn) return;
-                    btn.addEventListener('click', function () {
-                        fetch('{{ route('wishlist.toggle') }}', {
-                            method: 'POST',
-                            headers: {
-                                'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({ book_id: {{ $book->book_id }} })
-                        })
-                            .then(res => res.json())
-                            .then(data => {
-                                if (data.status === 'added') {
-                                    btn.style.color = '#f0b90b';
-                                    btn.querySelector('i').className = 'fas fa-star';
-                                    document.getElementById('wishlist-text').textContent = 'Remove from wish list';
-                                    btn.setAttribute('data-in-wishlist', '1');
-                                } else if (data.status === 'removed') {
-                                    btn.style.color = '';
-                                    btn.querySelector('i').className = 'far fa-star';
-                                    document.getElementById('wishlist-text').textContent = 'Add to wish list';
-                                    btn.setAttribute('data-in-wishlist', '0');
-                                }
-                            });
-                    });
-                });
-            </script>
-
-            <div class="details-grid">
-                <strong>Thông tin chi tiết:</strong>
-                <br>
-                <div class="label">Mã sách:</div>
-                <div class="value">{{$book->book_id }}</div>
-                <div class="label">Tên Nhà Cung Cấp:</div>
-                <div class="value">
-                    <p style=" font-weight: bold">{{$book->publisher->publisher_name}}</p>
-                </div>
-                <div class="label">Tác giả:</div>
-                <div class="value">{{ $book->author->author_name }}</div>
-
-            </div>
-        </div>
-        <!-- Right side -->
-        <div class="card right">
-            <div>
-                <h1 class="title">{{ $book->title}}</h1>
-                <div class="info-row">
-                    <div>
-                        <p> Nhà cung cấp:</p>
-                        <p style=" font-weight: bold">{{$book->publisher->publisher_name}}</p>
-                    </div>
-
-                </div>
-                <div class="info-row">
-                    <div>
-                        Tác giả: <strong>{{ $book->author->author_name }}</strong>
-                    </div>
-                </div>
-                <div class="info-row">
-                    Danh mục:
-                    @foreach ($book->categories as $category)
-                        {{ $category->category_name }}/
-                    @endforeach
-
-                </div>
-
-            </div>
-
-
-            <div class="price-row">
-                <div class="price-current" id="price-current">
-                    20000 <span>đ</span>
-                </div>
-                <!-- <div class="price-old" aria-label="Old price 118,000 đồng">118.000</div>
-                <div class="price-discount" aria-label="30 percent discount">-30%</div> -->
-            </div>
-
-            <script>
-                document.addEventListener('DOMContentLoaded', function () {
-                    const input = document.getElementById('quantity-input');
-                    const btnMinus = document.getElementById('decrease-btn');
-                    const btnPlus = document.getElementById('increase-btn');
-                    const priceCurrent = document.getElementById('price-current');
-                    const min = 1;
-                    const max = 99;
-
-                    // Lưu giá gốc (chuyển về số)
-                    const basePrice = document.querySelector('.price-current').textContent.replace(/\D/g, '');
-
-                    // Hàm định dạng lại giá
-                    function formatPrice(price) {
-                        return price.toLocaleString('vi-VN') + ' đ';
-                    }
-
-                    // Hàm cập nhật giá
-                    function updatePrice() {
-                        const quantity = parseInt(input.value, 10);
-                        priceCurrent.textContent = formatPrice(basePrice * quantity);
-                    }
-
-                    btnMinus.addEventListener('click', function () {
-                        let value = parseInt(input.value, 10);
-                        if (value > min) {
-                            input.value = value - 1;
-                            updatePrice();
-                        }
-                    });
-
-                    btnPlus.addEventListener('click', function () {
-                        let value = parseInt(input.value, 10);
-                        if (value < max) {
-                            input.value = value + 1;
-                            updatePrice();
-                        }
-                    });
-
-                    // Khởi tạo giá đúng khi load trang
-                    updatePrice();
-                });
-            </script>
-
-
-            <div class="stock-info">
-                kho sách còn:
-            </div>
-            <div class="stock-info">
-                Đã bán: {{ $book->volume_sold }}
-            </div>
-
-
-            <div class="shipping-info">
-                <div><strong>Thông tin vận chuyển</strong></div>
-                <div class="shipping-address">
-                    @auth
-                        <p>Giao hàng đến: </p>
-                        <p style=" font-weight: bold">{{ Auth::user()->address }}</p>
-                    @else
-                        <span>Vui lòng đăng nhập để xem địa chỉ giao hàng</span>
-                    @endauth
-                </div>
-
-
-                <!-- <div class="related-offers">
-                    <span>Ưu đãi liên quan</span>
-                    <a href="#">Xem thêm <i class="fas fa-chevron-right"></i></a>
-                </div> -->
-
-                <div class="quantity" aria-label="Quantity selector">
-                    <label for="quantity-input">Số lượng:</label>
-                    <div class="quantity-controls">
-                        <button type="button" aria-label="Decrease quantity" id="decrease-btn">−</button>
-                        <input id="quantity-input" type="text" value="1" readonly />
-                        <button type="button" aria-label="Increase quantity" id="increase-btn">+</button>
+            <div class="col-md-8">
+                <div class="card-body px-4 py-4">
+                    <h2 class="card-title mb-3" style="color: #b91c1c; font-weight: 700; font-size: 2.2rem;">
+                        {{ $author->author_name }}
+                    </h2>
+                    <hr>
+                    <div class="mb-3" style="font-size: 1.15rem;">
+                        <span class="fw-bold text-secondary">Birth date:</span>
+                        <span class="text-dark">{{ $author->birth_date }}</span><br>
+                        <span class="fw-bold text-secondary">Hometown:</span>
+                        <span class="text-dark">{{ $author->hometown }}</span><br>
+                        <span class="fw-bold text-secondary">Bio:</span>
+                        <span class="text-dark">{{ $author->bio }}</span>
                     </div>
                 </div>
             </div>
-
-
-            <div class="card">
-                <h2>Mô tả sách:</h2>
-
-                <div id="content">
-                    <p>
-                        {{ $book->description }}
-                    </p>
-                    <div id="fade"></div>
-                </div>
-
-                <button id="toggle">Xem thêm</button>
-            </div>
-
-            <script>
-                const toggleBtn = document.getElementById("toggle");
-                const content = document.getElementById("content");
-                const fade = document.getElementById("fade");
-                let expanded = false;
-
-                toggleBtn.addEventListener("click", () => {
-                    expanded = !expanded;
-                    content.style.maxHeight = expanded ? "1000px" : "130px";
-                    fade.style.display = expanded ? "none" : "block";
-                    toggleBtn.textContent = expanded ? "Thu gọn" : "Xem thêm";
-                });
-            </script>
-
         </div>
     </div>
 
-    <section id="new-book" class="my-5 mx-5">
-        <p class="modern-big-title text-center mb-4">Same Genre</p>
-        <div class="row justify-content-center gx-4 gy-5">
-            @foreach($relatedBooks as $book)
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex align-items-stretch">
-                    <div class="card w-100 shadow-sm d-flex flex-column h-100 position-relative">
-                        <a href="{{ route('item.detail', $book->book_id) }}"
-                            class="stretched-link text-decoration-none text-dark d-flex flex-column h-100">
-                            <img src="{{ $book->cover_image ? asset('images/' . $book->cover_image) : asset('images/placeholder.png') }}"
-                                class="card-img-top" alt="{{ $book->title }}" style="height: 200px; object-fit: cover;" />
-                            <div class="card-body d-flex flex-column flex-grow-1">
-                                <h5 class="card-title text-center">{{ $book->title }}</h5>
-                                <p class="card-subtitle mb-2 text-muted text-center">{{ $book->author_id }}</p>
-                                <p class="card-text" style="flex-grow: 1; font-size: 0.9rem;">
-                                    {{ \Illuminate\Support\Str::limit($book->summary, 100) }}
-                                </p>
-                                <div class="mt-2">
-                                    <div class="d-flex justify-content-between">
-                                        <span>Giá ebook</span>
-                                        <span class="text-danger fw-bold">{{ number_format($book->price) }}₫</span>
-                                    </div>
-                                    <div class="d-flex justify-content-between">
-                                        <span>Đã bán:</span>
-                                        <span>{{ $book->volume_sold }}</span>
-                                    </div>
-                                    <div class="d-flex justify-content-between">
-                                        <span>Xuất bản:</span>
-                                        <span>{{ $book->published_date }}</span>
-                                    </div>
-                                    <div class="d-flex justify-content-between">
-                                        <span>Danh mục:</span>
-                                        <span>
-                                            @foreach ($book->categories as $category)
-                                                {{ $category->category_name }}/
-                                            @endforeach
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                        <div class="card-footer bg-transparent border-0 mt-auto">
-                            <button class="btn btn-primary w-100">Add to Cart</button>
-                        </div>
+    <section id="featured-works" class="my-5 mx-5">
+        <p class="modern-big-title">The author's writings</p>
+        <div class="grid">
+            @foreach($books as $book)
+                <a href="{{ route('item.detail', $book->book_id) }}" style="text-decoration: none;" class="card">
+                    <img src="{{ $book->cover_image ? asset('images/' . $book->cover_image) : asset('images/placeholder.png') }}"
+                        alt="{{ $book->title }}" width="150" height="200" />
+                    <h3>{{ $book->title }}</h3>
+                    <p class="author">{{ $book->author_id }}</p>
+                    <div class="summary">
+                        <p>{{ $book->summary }}</p>
                     </div>
-                </div>
+                    <div class="price-row">
+                        <span>Giá ebook</span>
+                        <span class="price">{{ $book->price }}<sup>₫</sup></span>
+                    </div>
+                    <div class="price-row">
+                        <span style="font-weight: bolder">Đã bán: {{ $book->volume_sold }}</span>
+                    </div>
+                    <div class="price-row">
+                        <span>Ngày Xuất Bản : {{ $book->published_date }}</span>
+                    </div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </a>
             @endforeach
         </div>
     </section>
@@ -1015,7 +814,7 @@
                     <p style="color: yellow;">★★★★★</p>
                     <p>TrustScore 5 | 0 reviews</p>
                     <div class="logo">
-                        <img src="./images/logo.png" alt="Logo" />
+                        <img src=" {{asset('images/logo.png') }}" alt="Logo" />
                     </div>
                 </div>
 
