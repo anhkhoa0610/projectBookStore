@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('repos', function (Blueprint $table) {
+        Schema::create('cart_d_b', function (Blueprint $table) {
             $table->id();
-            $table->string('warehouseLocation');
-         
-            $table->rememberToken();
-            $table->timestamps();
+            $table->integer(('user_id'));
+            $table->integer('book_id');
+            $table->integer('quantity')->default(1);
+         $table->timestamp('created_at')->nullable();
+            
         });
     }
 
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('repos');
+        Schema::dropIfExists('cart_d_b');
     }
 };
