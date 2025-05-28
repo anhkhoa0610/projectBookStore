@@ -19,9 +19,9 @@
             <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 
             <div class="nav-side-menu">
-                <div class="brand">
+                <a href="{{ route('index') }}" class="brand">
                     <img class="brand-logo" src="{{ asset('images/logo.png') }}" alt="">
-                </div>
+                </a>
                 <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
 
                 <div class="menu-list">
