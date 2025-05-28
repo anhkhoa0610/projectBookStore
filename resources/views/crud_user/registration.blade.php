@@ -1,4 +1,4 @@
-@extends('dashboard')
+<!-- @extends('dashboard')
 
 @section('content')
 <section class="vh-100 gradient-custom">
@@ -67,4 +67,4 @@
         </div>
     </div>
 </section>
-@endsection
+@endsection -->
