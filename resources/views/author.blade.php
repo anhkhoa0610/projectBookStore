@@ -647,6 +647,16 @@
         #toggle:hover {
             text-decoration: underline;
         }
+
+        .container {
+            max-width: 900px;
+            /* hoặc 100% nếu muốn full width */
+            margin: 0 auto;
+            padding: 24px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+        }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 </head>
@@ -740,7 +750,43 @@
         </div>
     </div>
 
-    
+
+    <div class="container-fluid my-5">
+        <div class="row g-0 align-items-center">
+            <div class="col-md-3 text-center py-4">
+                <img src="{{ $author->cover_image ? asset('images/' . $author->cover_image) : asset('images/placeholder.png') }}"
+                    alt="Author Image" class="img-fluid rounded-circle border border-3"
+                    style="width: 200px; height: 200px; object-fit: cover; box-shadow: 0 4px 16px rgba(0,0,0,0.08); background: #f3f4f6;">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body px-4 py-4">
+                    <h2 class="card-title mb-3" style="color: #b91c1c; font-weight: 700; font-size: 2.2rem;">
+                        {{ $author->author_name }}
+                    </h2>
+                    <hr>
+                    <div class="mb-3" style="font-size: 1.15rem;">
+                        <span class="fw-bold text-secondary">Tiểu sử:</span>
+                        <span class="text-dark">{{ $author->bio }}</span>
+                    </div>
+                    <!-- <div class="mt-4">
+                        <a href="#" class="btn btn-outline-primary btn-sm rounded-pill me-2">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="btn btn-outline-info btn-sm rounded-pill me-2">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="btn btn-outline-danger btn-sm rounded-pill">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div> -->
+                    {{-- Thêm các trường khác nếu muốn, ví dụ: --}}
+                    {{-- <div class="mt-3">
+                        <span class="fw-bold">Số sách đã xuất bản:</span> {{ $author->books_count ?? 0 }}
+                    </div> --}}
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     <div>

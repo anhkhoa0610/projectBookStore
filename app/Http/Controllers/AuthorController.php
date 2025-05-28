@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Author;
 
 class AuthorController extends Controller
 {
     //
-    public function showAuthorForm()
+    public function showAuthor($id)
     {
-        return view('author');
+        $author = Author::findOrFail($id);
+        return view('author', compact('author'));
     }
 }

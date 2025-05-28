@@ -28,7 +28,7 @@
                                 <input type="file" name="cover_image" class="form-control" accept="image/*">
                                 @if ($author->cover_image)
                                     <div class="mt-2">
-                                        <img src="{{ asset('uploads/' . $author->cover_image) }}" alt="Cover Image" width="100">
+                                        <img src="{{ asset('images/' . $author->cover_image) }}" alt="Cover Image" width="100">
                                     </div>
                                 @endif
                                 @error('cover_image')

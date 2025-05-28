@@ -227,5 +227,5 @@ Route::prefix('reviews')->group(function () {
 });
 
 
-route::get('/author', [AuthorController::class, 'showAuthorForm'])->name('author');
+Route::get('/author/{id}', [AuthorController::class, 'showAuthor'])->name('author.show');
 Route::get('/index', [IndexController::class, 'index'])->name('index');
