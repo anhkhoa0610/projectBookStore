@@ -31,7 +31,7 @@
 
                         <style>
                             .description-cell,
-                            .summary-cell {
+                            .summary-cell, .title-cell {
                                 max-width: 200px;
                                 /* Set maximum width */
                                 max-height: 100px;
@@ -68,6 +68,7 @@
                                 <tr>
                                     <th>Title</th>
                                     <th>Author</th>
+                                    <th>Published Date</th>
                                     <th>Category</th>
                                     <th>Publisher</th>
                                     <th>Description</th>
@@ -81,18 +82,22 @@
                             <tbody>
                                 @foreach($books as $book)
                                     <tr>
-                                        <th>{{ $book->title }}</th>
-                                        <th>{{ $book->author_id }}</th>
-                                        <th>{{ $book->category_id }}</th>
-                                        <th>{{ $book->publisher_id }}</th>
+                                        <th class="title-cell">{{ $book->title }}</th>
+                                        <th>{{ $book->author ? $book->author->author_name : 'Unknown' }}</th>
+                                        <th>{{ $book->published_date }}</th>
+                                        <th style="max-width: 120px">@foreach ($book->categories as $category)
+                                            <span class="badge bg-primary">{{ $category->category_name }}</span>  
+                                        @endforeach
+                                            
+                                        </th>
+                                        <th>{{ $book->publisher->publisher_name }}</th>
                                         <td class="description-cell">{{ $book->description }}</td>
                                         <td>
                                             @if ($book->cover_image)
-                                                <img src="{{ asset('uploads/' . $book->cover_image) }}" alt="Cover Image"
-                                                    width="100">
+                                            <img src="{{ asset('uploads/' . $book->cover_image) }}" alt="Cover Image" class="img-fluid rounded shadow" style="max-height: 220px;">
                                             @else
-                                                No Image
-                                            @endif
+                                            <img src="{{ asset('images/placeholder.png') }}" alt="No Image" class="img-fluid rounded shadow" style="max-height: 220px;">
+                                             @endif
                                         </td>
                                         <th>{{ $book->price }}</th>
                                         <td class="summary-cell">{{ $book->summary }}</td>

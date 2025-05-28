@@ -40,12 +40,37 @@ class Books extends Model
     protected $fillable = [
         'title',
         'summary',
+        'published_date',
         'author_id',
-        'category_id',
         'publisher_id',
         'description',
         'price',
         'cover_image',
         'volume_sold',
     ];
+
+    public function author()
+    {
+        return $this->belongsTo(Author::class, 'author_id');
+    }
+
+    public function publisher()
+    {
+        return $this->belongsTo(Publisher::class, 'publisher_id');
+    }
+
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, 'category_book', 'book_id', 'category_id');
+    }
+
+    public function wishlist()
+    {
+        return $this->belongsToMany(Books::class, 'wishlists', 'user_id', 'book_id');
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class, 'book_id');
+    }
 }

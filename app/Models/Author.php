@@ -14,6 +14,14 @@ class Author extends Model
 
     protected $fillable = [
         'author_name',
+        'birth_date',
+        'hometown',
+        'cover_image',
         'bio',
     ];
+
+    public function books()
+    {
+        return $this->hasMany(Books::class, 'author_id');
+    }
 }

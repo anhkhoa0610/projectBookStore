@@ -155,4 +155,6 @@ class CrudCategoriesController extends Controller
 
         return Redirect('login');
     }
+
+
 }

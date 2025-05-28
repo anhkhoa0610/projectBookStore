@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id('book_id'); // Primary key with auto-increment
             $table->string('title');
             $table->string('summary');
+            $table->date('published_date')->nullable(); // Nullable for optional published date
             $table->integer('author_id');
-            $table->integer('category_id');
             $table->integer('publisher_id');
             $table->text('description');
             $table->double('price', 15, 2); // Double with precision
@@ -24,6 +24,8 @@ return new class extends Migration
             $table->integer('volume_sold')->default(0); // Default value of 0
             $table->timestamps();
         });
+
+        
     }
 
     /**
