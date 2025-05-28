@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Books;
 use App\Models\CategoryBook;
 use App\Models\Repo;
+use App\Models\Wishlists;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use League\CommonMark\Extension\Footnote\Node\FootnoteRef;
@@ -29,6 +30,8 @@ class ItemController extends Controller
             ->take(4)
             ->values();
 
-        return view('item', compact('book', 'relatedBooks'));
+         $bookWishList = Wishlists::where('book_id', $book_id)->exists();
+        //  dd($bookWishList);
+        return view('item', compact('book', 'relatedBooks','bookWishList'));
     }
 }

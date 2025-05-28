@@ -755,6 +755,48 @@
 
             </div>
 
+            <div class="btn-group">
+                <div class="btn-group">
+                    <button id="wishlist-btn" class="btn-cart" style="color: {{ $bookWishList ? '#f0b90b' : '' }};"
+                        data-in-wishlist="{{ $bookWishList ? '1' : '0' }}">
+                        <i class="{{ $bookWishList ? 'fas' : 'far' }} fa-star"></i>
+                        <span
+                            id="wishlist-text">{{ $bookWishList ? 'Remove from wish list' : 'Add to wish list' }}</span>
+                    </button>
+                </div>
+            </div>
+
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    const btn = document.getElementById('wishlist-btn');
+                    if (!btn) return;
+                    btn.addEventListener('click', function () {
+                        fetch('{{ route('wishlist.toggle') }}', {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ book_id: {{ $book->book_id }} })
+                        })
+                            .then(res => res.json())
+                            .then(data => {
+                                if (data.status === 'added') {
+                                    btn.style.color = '#f0b90b';
+                                    btn.querySelector('i').className = 'fas fa-star';
+                                    document.getElementById('wishlist-text').textContent = 'Remove from wish list';
+                                    btn.setAttribute('data-in-wishlist', '1');
+                                } else if (data.status === 'removed') {
+                                    btn.style.color = '';
+                                    btn.querySelector('i').className = 'far fa-star';
+                                    document.getElementById('wishlist-text').textContent = 'Add to wish list';
+                                    btn.setAttribute('data-in-wishlist', '0');
+                                }
+                            });
+                    });
+                });
+            </script>
+
             <div class="details-grid">
                 <strong>Thông tin chi tiết:</strong>
                 <br>
