@@ -9,20 +9,19 @@ use App\Models\Wishlists;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use League\CommonMark\Extension\Footnote\Node\FootnoteRef;
+use App\Models\Review;
 
 class ItemController extends Controller
 {
     public function showItemDetail($book_id)
     {
-        $book = Books::with(['categories', 'publisher', 'author'])->findOrFail($book_id);
+        $book = Books::with(['categories', 'publisher', 'author','reviews','reviews.user'])->findOrFail($book_id);
 
         $relatedBooks = collect();
-        $index = 0;
         foreach ($book->categories as $category) {
-            $index++;
             $categoryWithBooks = Category::with('books')->findOrFail($category->category_id);
             $relatedBooks = $relatedBooks->merge($categoryWithBooks->books);
-       
+
         }
         $relatedBooks = $relatedBooks
             ->where('book_id', '!=', $book_id)
@@ -30,8 +29,14 @@ class ItemController extends Controller
             ->take(4)
             ->values();
 
-         $bookWishList = Wishlists::where('book_id', $book_id)->exists();
-        //  dd($bookWishList);
-        return view('item', compact('book', 'relatedBooks','bookWishList'));
+        $relatedAuthorBooks = Books::where('author_id', $book->author_id)
+            ->where('book_id', '!=', $book_id)
+            ->take(4)
+            ->get();
+
+        $bookWishList = Wishlists::where('book_id', $book_id)->exists();
+
+        return view('item', compact('book', 'relatedBooks', 'bookWishList', 'relatedAuthorBooks'));
+        
     }
 }

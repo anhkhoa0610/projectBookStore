@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\RepoBook;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -25,6 +27,7 @@ class DatabaseSeeder extends Seeder
             ReviewSeeder::class,
             CategoryBookSeeder::class,
             CartDBSeeder::class,
+            RepoBookSeeder::class,
             WishlistSeeder::class
         ]);
     }

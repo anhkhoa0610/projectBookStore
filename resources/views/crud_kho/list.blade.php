@@ -29,10 +29,10 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>BookName</th>
-                    <th>Warehouse Location</th>
-                    <th>Quantity Available</th>
-                    <th>Last Updated</th>
+                    <th>Book Id</th>
+                    <th>Warehouse Id</th>
+                    <th>Quantity</th>
+                    <th>warehouse Location</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -40,11 +40,11 @@
                 @foreach($repos as $repo)
                 <tr>
                     <th>{{ $repo->id }}</th>
-                    <th>{{ $repo->bookName }}</th>
-                    <th>{{ $repo->warehouseLocation}}</th>
-                    <th>{{ $repo->quantityAvailable}}</th>
-                    <th>{{ $repo->lastUpdated }}</th>
+                    <th>{{ $repo->book_id }}</th>
+                    <th>{{ $repo->warehouse_id}}</th>
 
+                    <th>{{ $repo->quantity}}</th>
+                    <th>{{ $repo->repo->warehouseLocation}}</th>
 
                     <td>
                         <a href="{{ route('repo.updateRepo', ['id' => $repo->id]) }}" class="btn btn-success">Edit</a>

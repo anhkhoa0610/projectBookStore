@@ -8,7 +8,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Repo extends Authenticatable
+class Vnpay extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -18,15 +18,20 @@ class Repo extends Authenticatable
      * @var string
      */
     protected $primaryKey = 'id';
+    protected $table = 'vnpay_transactions';
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'warehouseLocation',
-    ];
+   protected $fillable = [
+    'order_id',
+    'amount',
+    'bank_code',
+    'transaction_no',
+    'response_code',
+];
 
 
 }

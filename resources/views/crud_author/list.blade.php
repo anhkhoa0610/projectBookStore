@@ -1,7 +1,7 @@
 @extends('dashboard')
 
 @section('content')
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <div class="container">
 
 
@@ -15,14 +15,15 @@
                 <!-- Search Bar -->
                 <form action="{{ route('authors.list') }}" method="GET" class="mb-3">
                     <div class="input-group">
-                        <input type="text" name="search" class="form-control"
-                            placeholder="Search by Author Name, Hometown"
+                        <input type="text" name="search" class="form-control" placeholder="Search by Author Name, Hometown"
                             value="{{ request('search') }}">
                         <button type="submit" class="btn btn-primary">Search</button>
                     </div>
                 </form>
 
                 <style>
+                    .hometown-cell,
+                    .dob-cell,
                     .name-cell,
                     .id-cell,
                     .bio-cell {
@@ -96,17 +97,19 @@
                                             class="img-fluid rounded shadow" style="max-height: 100px;">
                                     @endif
                                 </td>
-                                <td class="">{{ $author->birth_date }}</td>
-                                <td class="">{{ $author->hometown }}</td>
+                                <td class="dob-cell">{{ $author->birth_date }}</td>
+                                <td class="hometown-cell">{{ $author->hometown }}</td>
                                 <td class="bio-cell">{{ $author->bio }}</td>
                                 <td class="action-cell">
                                     <a href="{{ route('authors.edit', $author->author_id) }}"
                                         class="btn btn-success btn-sm">Edit</a>
-                                    <form action="{{ route('authors.delete', $author->author_id) }}" method="POST"
+                                    <form id="delete-form-{{ $author->author_id }}"
+                                        action="{{ route('authors.delete', $author->author_id) }}" method="POST"
                                         style="display: inline-block;">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                        <button type="button" class="btn btn-danger btn-sm"
+                                            onclick="confirmDelete({{ $author->author_id }})">Delete</button>
                                     </form>
                                     <a href="{{ route('authors.read', $author->author_id) }}"
                                         class="btn btn-info btn-sm">Show</a>
@@ -124,5 +127,21 @@
         </div>
 
     </div>
+    <script>
+        function confirmDelete(authorId) {
+            Swal.fire({
+                title: 'Xác nhận xóa',
+                text: 'Bạn có chắc chắn muốn xóa tác giả này không?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Xóa',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('delete-form-' + authorId).submit();
+                }
+            });
+        }
+    </script>
 
 @endsection

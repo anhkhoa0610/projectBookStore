@@ -18,8 +18,9 @@
 
 <body>
     @if(session('error'))
-        <div class="alert alert-danger">
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
             {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
     <nav class="navbar">
@@ -67,8 +68,13 @@
                 <a href="{{ route('user.createUser') }}" class="btn btn-primary"><b>Sign Up</b></a>
             @endauth
             <div class="cart">
-                <a href="" class="cart-icon">
+                <a href="{{ route('cart.show') }}" class="cart-icon">
                     <i class="fas fa-shopping-cart"></i>
+                    @auth
+                        <sup style="font-size: 20px;  color: #0f718a;" id="cart-count">
+                            
+                        </sup>
+                    @endauth
                 </a>
             </div>
         </div>
@@ -223,7 +229,7 @@
 
     </section>
 
-    <div class="content">
+    <div class="content" id="all-books">
 
         <div class="category-list mt-4">
             <div class="category-box">
@@ -252,7 +258,7 @@
             <div class="container d-flex flex-column align-items-center">
                 <div class="grid" id="book-list">
                     <!-- Card 1 -->
-                    
+
 
                 </div>
                 <!-- <div class="paginate mt-5 mx-auto">
@@ -372,6 +378,21 @@
                 </div>
         </footer>
     </div>
+
+    <!-- Toast Container -->
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 9999">
+        <div id="cart-toast" class="toast align-items-center text-bg-success border-0" role="alert"
+            aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body" id="cart-toast-body">
+                    Book added to cart successfully!
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                    aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+
     <script>
         const userId = {{ Auth::check() ? Auth::id() : 'null' }};
         const addCartApiUrl = "{{ route('index-add-cart-api') }}";
