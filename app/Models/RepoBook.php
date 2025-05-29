@@ -8,10 +8,11 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Repo extends Authenticatable
+class RepoBook extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+       protected $table = 'repo_books';
     /**
      * The primary key associated with the table.
      *
@@ -25,8 +26,15 @@ class Repo extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'warehouseLocation',
+        'book_id',
+        'warehouse_id',
+        'quantity',
+      
+        
     ];
-
+      public function repo()
+    {
+        return $this->belongsTo(Repo::class, 'warehouse_id');
+    }
 
 }
