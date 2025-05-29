@@ -11,7 +11,7 @@ use App\Models\Coupon;
 use App\Models\OrdersDetails;
 class CrudOrdersController extends Controller
 {
-     /**
+    /**
      * Login page
      */
     public function login()
@@ -27,7 +27,7 @@ class CrudOrdersController extends Controller
         $request->validate([
             'email' => 'required',
             'password' => 'required',
-            
+
         ]);
 
         $credentials = $request->only('email', 'password');
@@ -46,7 +46,7 @@ class CrudOrdersController extends Controller
     public function createOrder()
     {
         $dataCoupons = Coupon::all();
-        return view('crud_orders.create',['dataCoupons'=>$dataCoupons]);
+        return view('crud_orders.create', ['dataCoupons' => $dataCoupons]);
     }
 
     /**
@@ -54,15 +54,18 @@ class CrudOrdersController extends Controller
      */
     public function postOrder(Request $request)
     {
-        // $request->validate([
-        //     'name' => 'required',
-        //     'email' => 'required|email|unique:users',
-        //     'password' => 'required|min:6',
-        // ]);
+        $validatedData = $request->validate([
+            'user_id' => 'required|integer|exists:users,id',
+            'order_date' => 'required|date',
+            'status' => 'required|string|max:255',
+            'tracking_number' => 'required|integer',
+            'carrier' => 'required|string|max:255',
+            'coupon_id' => 'nullable|integer|exists:coupons,id',
+        ]);
 
         $data = $request->all();
         $total_price = 0;
-     
+
         Orders::create([
             'user_id' => $data['user_id'],
             'order_date' => $data['order_date'],
@@ -73,13 +76,14 @@ class CrudOrdersController extends Controller
             'total_price' => $total_price,
         ]);
 
-        return redirect("listOrder")->with('status','Registration successful');
+        return redirect("listOrder")->with('status', 'Registration successful');
     }
 
     /**
      * View user detail page
      */
-    public function readOrder(Request $request) {
+    public function readOrder(Request $request)
+    {
         $order_id = $request->get('order_id');
         $order = Orders::find($order_id);
         return view('crud_orders.read', ['order' => $order]);
@@ -88,11 +92,12 @@ class CrudOrdersController extends Controller
     /**
      * Delete user by id
      */
-    public function deleteOrder(Request $request) {
+    public function deleteOrder(Request $request)
+    {
         $order_id = $request->get('order_id');
         $order = Orders::destroy($order_id);
 
-        return redirect("listOrder")->with('status','Delete successfully');
+        return redirect("listOrder")->with('status', 'Delete successfully');
     }
 
     /**
@@ -104,22 +109,22 @@ class CrudOrdersController extends Controller
 
         $order_id = $request->get('order_id');
         $order = Orders::find($order_id);
-        return view('crud_orders.update', ['order' => $order],['dataCoupons'=>$dataCoupons]);
+        return view('crud_orders.update', ['order' => $order], ['dataCoupons' => $dataCoupons]);
     }
-    public static function upDatePrice( $order_id){
+    public static function upDatePrice($order_id)
+    {
         $order = Orders::find($order_id);
-        $odersDetails = OrdersDetails::where('order_id',$order_id)->get();
+        $odersDetails = OrdersDetails::where('order_id', $order_id)->get();
         $total_price = 0;
-        foreach($odersDetails as $orderDetail){
+        foreach ($odersDetails as $orderDetail) {
             $total_price += $orderDetail->price;
         }
-        if(isset($order->coupon_id)){
+        if (isset($order->coupon_id)) {
             $coupon = Coupon::find($order->coupon_id);
             $order->total_price = $total_price - ($total_price * $coupon->discount_amount / 100);
             $order->save();
             return;
-        }
-        else{
+        } else {
             $order->total_price = $total_price;
             $order->save();
             return;
@@ -133,32 +138,33 @@ class CrudOrdersController extends Controller
     {
         $input = $request->all();
 
+        $request->validate([
+            'order_id' => 'required|exists:orders,order_id',
+            'user_id' => 'required|integer|exists:users,id',
+            'order_date' => 'required|date',
+            'status' => 'required|string|max:255',
+            'tracking_number' => 'required|integer',
+            'carrier' => 'required|string|max:255',
+            'coupon_id' => 'nullable|integer|exists:coupons,id',
+        ]);
 
-        // $request->validate([
-        //     'name' => 'required',
-        //     'email' => 'required|email|unique:users,id,'.$input['id'],
-        //     'password' => 'required|min:6',
-        //     'like' => 'required',
-        //     'age' => 'required',
-        // ]);
 
+        $order = Orders::find($input['order_id']);
+        $order->user_id = $input['user_id'];
+        $order->order_date = $input['order_date'];
+        $order->status = $input['status'];
+        $order->tracking_number = $input['tracking_number'];
+        $order->carrier = $input['carrier'];
+        $order->coupon_id = $input['coupon_id'];
+        $order->save();
+        CrudOrdersController::upDatePrice($order->order_id);
 
-       $order = Orders::find($input['order_id']);
-       $order->user_id = $input['user_id'];
-       $order->order_date = $input['order_date'];
-       $order->status = $input['status'];
-       $order->	tracking_number	 = $input['tracking_number'];
-       $order->	carrier	 = $input['carrier'];
-       $order->	coupon_id= $input['coupon_id'];
-       $order->save();
-       CrudOrdersController::upDatePrice($order->order_id);
-
-        return redirect("listOrder")->with('status','Update successfully');
+        return redirect("listOrder")->with('status', 'Update successfully');
     }
 
 
 
-      /**
+    /**
      * List of orders with search functionality
      */
     public function listOrders(Request $request)
@@ -167,9 +173,12 @@ class CrudOrdersController extends Controller
 
         $orders = Orders::when($search, function ($query, $search) {
             $query->where('status', 'like', "%{$search}%")
-                  ->orWhere('tracking_number', 'like', "%{$search}%")
-                  ->orWhere('carrier', 'like', "%{$search}%");
-        })->paginate(10)->appends(['search' => $search]); // Append search query to pagination links
+                ->orWhere('tracking_number', 'like', "%{$search}%")
+                ->orWhere('carrier', 'like', "%{$search}%");
+        })
+            ->orderBy('created_at', 'desc') // Sắp xếp theo đơn mới nhất
+            ->paginate(10)
+            ->appends(['search' => $search]); // Giữ tham số search khi phân trang
 
         return view('crud_orders.list', compact('orders'));
     }
@@ -177,7 +186,8 @@ class CrudOrdersController extends Controller
     /**
      * Sign out
      */
-    public function signOut() {
+    public function signOut()
+    {
         Session::flush();
         Auth::logout();
 

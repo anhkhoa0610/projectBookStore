@@ -1,7 +1,7 @@
 @extends('dashboard')
 
 @section('content')
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <div class="container">
         <div class="row">
             <div class="col-md-12">
@@ -12,7 +12,7 @@
                         </h4>
                     </div>
                     <div class="card-body">
-                        <form action="{{ route('coupon.update', $coupon->id) }}" method="POST">
+                        <form id="update-coupon-form" action="{{ route('coupon.update', $coupon->id) }}" method="POST">
                             @csrf
                             @method('PUT')
                             <div class="mb-3">
@@ -48,7 +48,8 @@
                                 @endif
                             </div>
                             <div>
-                                <button type="submit" class="btn btn-primary">Update Coupon</button>
+                                <button type="button" class="btn btn-primary" onclick="confirmUpdate()">Update
+                                    Coupon</button>
                             </div>
                         </form>
                     </div>
@@ -56,5 +57,20 @@
             </div>
         </div>
     </div>
-
+    <script>
+        function confirmUpdate() {
+            Swal.fire({
+                title: 'Xác nhận cập nhật',
+                text: 'Bạn có chắc chắn muốn cập nhật thông tin tác giả này?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Cập nhật',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('update-coupon-form').submit();
+                }
+            });
+        }
+    </script>
 @endsection

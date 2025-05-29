@@ -26,7 +26,7 @@
 
                             <div class="mb-3">
                                 <label for="title" class="form-label">Title</label>
-                                <input type="text" name="title" class="form-control" maxlength="100" required>
+                                <input type="text" name="title" class="form-control" required>
                                 @error('title')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror

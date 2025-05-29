@@ -10,12 +10,15 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use League\CommonMark\Extension\Footnote\Node\FootnoteRef;
 use App\Models\Review;
+use Illuminate\Support\Facades\Auth;
+
+
 
 class ItemController extends Controller
 {
     public function showItemDetail($book_id)
     {
-        $book = Books::with(['categories', 'publisher', 'author','reviews','reviews.user'])->findOrFail($book_id);
+        $book = Books::with(['categories', 'publisher', 'author', 'reviews.user'])->findOrFail($book_id);
 
         $relatedBooks = collect();
         foreach ($book->categories as $category) {
@@ -34,9 +37,17 @@ class ItemController extends Controller
             ->take(4)
             ->get();
 
-        $bookWishList = Wishlists::where('book_id', $book_id)->exists();
+        $bookWishList = false;
+        if (Auth::check()) {
+            $bookWishList = Wishlists::where('book_id', $book_id)
+                ->where('user_id', Auth::id())
+                ->exists();
+        }
+        $reviews = Review::where('book_id', $book->book_id)
+            ->with('user')
+            ->paginate(4);
 
-        return view('item', compact('book', 'relatedBooks', 'bookWishList', 'relatedAuthorBooks'));
-        
+        return view('item', compact('book', 'relatedBooks', 'bookWishList', 'relatedAuthorBooks', 'reviews'));
+
     }
 }

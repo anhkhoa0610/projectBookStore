@@ -72,7 +72,7 @@
                     <i class="fas fa-shopping-cart"></i>
                     @auth
                         <sup style="font-size: 20px;  color: #0f718a;" id="cart-count">
-                            
+
                         </sup>
                     @endauth
                 </a>
@@ -143,10 +143,10 @@
                             style="position: absolute; top: 10px; left: 10px; z-index: 2;">
                             Recommended
                         </span>
-                        <img src="{{ $book->cover_image ? asset('uploads/' . $book->cover_image) : asset('images/placeholder.png') }}"
-                            alt="{{ $book->title }}" width="150" height="200" />
+                        <img src="{{ asset('uploads/' . $book->cover_image) }}" alt="{{ $book->title }}" width="150"
+                            height="200" onerror="this.onerror=null;this.src='{{ asset('uploads/placeholder.png') }}';" />
                         <h3>{{ $book->title }}</h3>
-                        <p class="author">{{ $book->author->author_name }}</p>
+                        <p class="author">{{ $book->author ? $book->author->author_name : 'Unknown' }}</p>
                         <div class="">
                             @if($book->reviews->avg('rating'))
                                 <span class="rating">
@@ -198,7 +198,7 @@
                         <img src="{{ $book->cover_image ? asset('uploads/' . $book->cover_image) : asset('images/placeholder.png') }}"
                             alt="{{ $book->title }}" width="150" height="200" />
                         <h3>{{ $book->title }}</h3>
-                        <p class="author">{{ $book->author->author_name }}</p>
+                        <p class="author">{{ $book->author ? $book->author->author_name : "Unknown"}}</p>
                         @if($book->reviews->avg('rating'))
                             <span class="rating">
                                 @for ($i = 0; $i < floor($book->reviews->avg('rating')); $i++)
@@ -249,7 +249,7 @@
                 <ul>
                     <li onclick="getBooksBySold()"><i class="fas fa-book"></i> Sách bán chạy</li>
                     <li onclick="getBooksByDate()"><i class="fas fa-book"></i> Sách mới nhất</li>
-                    <li onclick=""><i class="fas fa-book"></i> Sách được đánh giá cao</li>
+                    <li onclick="getBooksByRating()"><i class="fas fa-book"></i> Sách được đánh giá cao</li>
                 </ul>
             </div>
         </div>
@@ -286,7 +286,7 @@
                                         <img src="{{ $book->cover_image ? asset('uploads/' . $book->cover_image) : asset('images/placeholder.png') }}"
                                             width="150" height="200" />
                                         <h3>{{ $book->title }}</h3>
-                                        <p class="author">{{ $book->author->author_name }}</p>
+                                        <p class="author">{{ $book->author ? $book->author->author_name : 'Unknown'}}</p>
                                         <div class="summary">
                                             <p>{{ $book->summary }}</p>
                                         </div>
@@ -380,15 +380,17 @@
     </div>
 
     <!-- Toast Container -->
-    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 9999">
-        <div id="cart-toast" class="toast align-items-center text-bg-success border-0" role="alert"
-            aria-live="assertive" aria-atomic="true">
-            <div class="d-flex">
-                <div class="toast-body" id="cart-toast-body">
-                    Book added to cart successfully!
+    <div id="cart-toast-container" class="position-fixed bottom-0 end-0 p-3" style="z-index: 9999">
+        <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 9999">
+            <div id="cart-toast" class="toast align-items-center text-bg-success border-0" role="alert"
+                aria-live="assertive" aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body" id="cart-toast-body">
+                        Book added to cart successfully!
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                        aria-label="Close"></button>
                 </div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
-                    aria-label="Close"></button>
             </div>
         </div>
     </div>

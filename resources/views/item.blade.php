@@ -1,21 +1,25 @@
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
     <title>Bookshop</title>
-
     <link rel="stylesheet" href="{{ asset('css/index.css') }}">
     <link rel="stylesheet" href="{{ asset('css/item.css') }}">
+     <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- jQuery, Popper.js, Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
-
-       
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 </head>
 
 <body>
@@ -47,8 +51,13 @@
                 <a href="{{ route('user.createUser') }}" class="btn btn-primary"><b>Sign Up</b></a>
             @endauth
             <div class="cart">
-                <a href="" class="cart-icon">
+                <a href="{{ route('cart.show') }}" class="cart-icon">
                     <i class="fas fa-shopping-cart"></i>
+                    @auth
+                        <sup style="font-size: 20px;  color: #0f718a;" id="cart-count">
+                            
+                        </sup>
+                    @endauth
                 </a>
             </div>
         </div>
@@ -56,7 +65,7 @@
 
     <div>
 
-        <body>
+
             <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
                 <div class="container-fluid ">
                     <a class="navbar-brand" href="#"></a>
@@ -83,7 +92,7 @@
                 </div>
             </nav>
 
-        </body>
+        
     </div>
 
 
@@ -116,8 +125,8 @@
                 height="400" />
 
             <div class="btn-group">
-                <button type="button" class="btn-cart">
-                   <a href="{{route('cart.show')}}" style="text-decoration: none;"> <i class="fas fa-shopping-cart"></i> Thêm vào giỏ hàng</a>
+                <button type="button" class="btn-cart add-to-cart" data-book-id="{{ $book->book_id }}"  >
+                   <i class="fas fa-shopping-cart" style="color: aliceblue;" ></i> Thêm vào giỏ hàng
                 </button>
 
             </div>
@@ -175,7 +184,12 @@
                     <p style=" font-weight: bold">{{$book->publisher->publisher_name}}</p>
                 </div>
                 <div class="label">Tác giả:</div>
-                <div class="value">{{ $book->author->author_name }}</div>
+                <div class="value">
+                <a href="{{ route('author.show', $book->author->author_id) }}" >
+                    <span>{{ $book->author->author_name }}</span>
+                </a>
+
+                </div>
                 <div class="label">rating:</div>
 
                 <div class="">
@@ -208,7 +222,7 @@
                         Tác giả: <strong>{{ $book->author->author_name }}</strong>
                     </div>
                 </div>
-                <div class="info-row">
+                <div style="display: flex;" >
                     Danh mục:
                     <div>
                         @foreach ($book->categories as $category)
@@ -223,7 +237,8 @@
 
             <div class="price-row">
                 <div class="price-current" id="price-current">
-                    {{ $book->price }}<span>đ</span>
+                  {{ number_format($book->price, 0, ',', '.') }}<span>đ</span>
+
                 </div>
                 <!-- <div class="price-old" aria-label="Old price 118,000 đồng">118.000</div>
                 <div class="price-discount" aria-label="30 percent discount">-30%</div> -->
@@ -299,14 +314,7 @@
                     <a href="#">Xem thêm <i class="fas fa-chevron-right"></i></a>
                 </div> -->
 
-                <div class="quantity" aria-label="Quantity selector">
-                    <label for="quantity-input">Số lượng:</label>
-                    <div class="quantity-controls">
-                        <button type="button" aria-label="Decrease quantity" id="decrease-btn">−</button>
-                        <input id="quantity-input" type="text" value="1" readonly />
-                        <button type="button" aria-label="Increase quantity" id="increase-btn">+</button>
-                    </div>
-                </div>
+               
             </div>
 
 
@@ -427,9 +435,13 @@
 
             function submitReview(bookId) {
                 const rating = document.getElementById('rating-value').value;
-                const comment = document.getElementById('comment-text').value;
-                const url = "{{ route('reviews.store') }}";
-
+                const comment = document.getElementById('comment-text').value.trim();
+                const url = "{{ route('reviews.storeReview') }}";
+                 if (!comment)
+                  {
+                     alert("Vui lòng nhập nhận xét hợp lệ (không chỉ khoảng trắng).");
+                     return;
+                  }
                 fetch(url, {
                     method: 'POST',
                     headers: {
@@ -462,7 +474,7 @@
         </div>
 
         <div class="review-list">
-            @foreach ($book->reviews->reverse() as $review)
+            @foreach ($reviews->reverse() as $review)
 
                 <div class="review-item">
                     <div class="review-header">
@@ -470,32 +482,186 @@
                         <div>{{ $review->date_review }}</div>
                     </div>
                     <div class="review-stars">
-                        <div class="">
-                            @if($review->rating > 0)
-                                <span class="rating">
-                                    @for ($i = 0; $i < $review->rating; $i++)
-                                        <i class="fas fa-star text-warning"></i>
-                                    @endfor
-                                </span>
+                        <span class="rating">
+                            @if($review->rating>0)
+                                @for ($i = 0; $i < floor($review->rating); $i++)
+                                    <i class="fas fa-star text-warning"></i>
+                                @endfor
                             @else
-                                <span class="rating">No Reviews</span>
-                            @endif
-                        </div>
+                                <span class="rating">Chưa đánh giá</span>
+                            @endif    
+                        </span>
                     </div>
                     <div class="review-content">
-                        
-                        @if( isset(Auth::user()->id) && Auth::user()->id == $review->user_id)
-                        <p>{{ $review->comment }} </p>
-                        <a href="" style="margin-left:10px;" ><i class="fas fa-pen" ></i></a>
-                        <a href=""  style="margin-left:10px;" ><i class="fas fa-trash" ></i></a>
+                        @if(Auth::check() && Auth::user()->id == $review->user_id)
+                            <p>{{ $review->comment }}</p>
+                            <a data-toggle="modal" data-target="#exampleModal-{{ $review->id }}" href="#" style="margin-left:10px;">
+                                <i class="fas fa-pen"></i>
+                            </a>
+                            <a data-toggle="modal" data-target="#deleteModal-{{ $review->id }}" href="#" style="margin-left:10px;">
+                                <i class="fas fa-trash"></i>
+                            </a>
                         @else
-                        <p>{{ $review->comment }} </p>
-                    @endif
+                            <p>{{ $review->comment }}</p>
+                        @endif
                     </div>
                     <div class="review-footer">
-                       
+                        <!-- Modal update-->
+                        <div class="modal fade" id="exampleModal-{{ $review->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Chỉnh sửa đánh giá:</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="review-form-content">
+                                            <div class="stars" id="review-stars-{{ $review->id }}">
+                                                @for ($i = 1; $i <= 5; $i++)
+                                                    <i class="{{ $i <= $review->rating ? 'fas' : 'far' }} fa-star star" data-value="{{ $i }}"></i>
+                                                @endfor
+                                            </div>
+                                            <input type="hidden" name="rating" id="rating-value-update-{{ $review->id }}" value="{{ $review->rating }}">
+                                            <div class="form-group">
+                                                <input type="text"
+                                                    placeholder="Nhập tên sẽ hiển thị khi đánh giá"
+                                                    name="display_name"
+                                                    id="display-name"
+                                                    value="@auth{{ Auth::user()->full_name }}@endauth"
+                                                    @auth readonly @endauth
+                                                >
+                                            </div>
+                                            <textarea id="comment-text-update-{{ $review->id }}">{{ $review->comment }}</textarea>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary" onclick="updateReview({{ $review->id }})">Save changes</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- modal delete -->
+                        <div class="modal fade" id="deleteModal-{{ $review->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Xóa đánh giá:</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Bạn có chắc chắn muốn xóa đánh giá này không?</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                                        <button type="button" class="btn btn-primary" onclick="deleteReview({{ $review->id }})">Yes</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function () {
+                            const stars = document.querySelectorAll('#review-stars-{{ $review->id }} .star');
+                            const ratingInput = document.getElementById('rating-value-update-{{ $review->id }}');
+                            let currentRating = parseInt(ratingInput.value);
+
+                            highlightStars(currentRating);
+
+                            stars.forEach(star => {
+                                star.addEventListener('mouseover', function () {
+                                    const val = parseInt(this.getAttribute('data-value'));
+                                    highlightStars(val);
+                                });
+                                star.addEventListener('mouseout', function () {
+                                    highlightStars(currentRating);
+                                });
+                                star.addEventListener('click', function () {
+                                    currentRating = parseInt(this.getAttribute('data-value'));
+                                    ratingInput.value = currentRating;
+                                    highlightStars(currentRating);
+                                });
+                            });
+
+                            function highlightStars(rating) {
+                                stars.forEach(star => {
+                                    if (parseInt(star.getAttribute('data-value')) <= rating) {
+                                        star.classList.remove('far');
+                                        star.classList.add('fas', 'text-warning');
+                                    } else {
+                                        star.classList.remove('fas', 'text-warning');
+                                        star.classList.add('far');
+                                    }
+                                });
+                            }
+                        });
+
+                        function updateReview(reviewId) {
+                            const rating = document.getElementById(`rating-value-update-${reviewId}`).value;
+                            const comment = document.getElementById(`comment-text-update-${reviewId}`).value.trim();
+                            const url = "{{ route('reviews.updateReview') }}";
+                            if (!comment) {
+                                alert("Vui lòng nhập nhận xét hợp lệ (không chỉ khoảng trắng).");
+                                return;
+                            }
+                           
+                            fetch(url, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json;charset=utf-8',
+                                    'Accept': 'Application/json',
+                                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                },
+                                body: JSON.stringify({
+                                    review_id: reviewId,
+                                    book_id: {{ $book->book_id }},
+                                    rating: rating,
+                                    comment: comment
+                                })
+                            })
+                            .then(res => res.json())
+                            .then(data => {
+                                location.reload();
+                            })
+                            .catch(err => {
+                                console.error(err);
+                            });
+                        }
+
+                        function deleteReview(reviewId) {
+                            const url = "{{ route('reviews.deleteReview') }}";
+                           
+                            fetch(url, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json;charset=utf-8',
+                                    'Accept': 'Application/json',
+                                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                },
+                                body: JSON.stringify({
+                                    review_id: reviewId,
+    
+                                })
+                            })
+                            .then(res => res.json())
+                            .then(data => {
+                                location.reload();
+                            })
+                            .catch(err => {
+                                console.error(err);
+                            });
+                        }
+                    </script>
                 </div>
             @endforeach
+            {{-- Hiển thị nút phân trang --}}
+            <div class="mt-3">
+                {{ $reviews->links() }}
+            </div>
 
         </div>
     </div>
@@ -519,7 +685,7 @@
                             style="position: absolute; top: 10px; left: 10px; z-index: 2;">
                             Recommended
                         </span>
-                        <img src="{{ $book->cover_image ? asset('images/' . $book->cover_image) : asset('images/placeholder.png') }}"
+                        <img src="{{ $book->cover_image ? asset('uploads/' . $book->cover_image) : asset('images/placeholder.png') }}"
                             alt="{{ $book->title }}" width="150" height="200" />
                         <h3>{{ $book->title }}</h3>
                         <p class="author">{{ $book->author->author_name }}</p>
@@ -552,17 +718,19 @@
                         </div>
 
                     </a>
-                    <button class="add-to-cart">Add to Cart</button>
+                      <button class="add-to-cart" data-book-id="{{ $book->book_id }}">Add to
+                        Cart</button>
                 </div>
             @endforeach
         </div>
     </section>
-    <section id="new-book" class="my-5 mx-5">
+
+    <section  class="my-5 mx-5">
         <p class="modern-big-title text-center mb-4">Same Author</p>
         <div class="grid">
             @foreach($relatedAuthorBooks as $book)
                 <div class="card">
-                    <a href="{{ route('item.detail', $book->book_id) }}" style="text-decoration: none;">
+                    <a href="{{ $book->cover_image ? asset('uploads/' . $book->cover_image) : asset('images/placeholder.png') }}">
                         <span class="badge bg-danger new-badge-animated"
                             style="position: absolute; top: 10px; left: 10px; z-index: 2;">
                             Recommended
@@ -600,16 +768,18 @@
                         </div>
 
                     </a>
-                    <button class="add-to-cart">Add to Cart</button>
+                     <button class="add-to-cart" data-book-id="{{ $book->book_id }}">Add to
+                        Cart</button>
                 </div>
             @endforeach
         </div>
     </section>
 
+    
 
-
-
-    <div>
+   
+    
+    
         <footer class="footer">
             <div class="footer-container">
 
@@ -618,7 +788,7 @@
                     <p style="color: yellow;">★★★★★</p>
                     <p>TrustScore 5 | 0 reviews</p>
                     <div class="logo">
-                        <img src="./images/logo.png" alt="Logo" />
+                        <img src="{{ asset('images/logo.png') }}" alt="Logo" />
                     </div>
                 </div>
 
@@ -664,29 +834,99 @@
                     </div>
                 </div>
         </footer>
+
+             <!-- Toast Container -->
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 9999">
+        <div id="cart-toast" class="toast align-items-center text-bg-success border-0" role="alert"
+            aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body" id="cart-toast-body">
+                    Book added to cart successfully!
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                    aria-label="Close"></button>
+            </div>
+        </div>
     </div>
 
+        <script>
+        const userId = {{ Auth::check() ? Auth::id() : 'null' }};
+        const addCartApiUrl = "{{ route('index-add-cart-api') }}";
+        </script>
+    
+        <script>
+        
+            document.addEventListener("DOMContentLoaded", function () {
+                let index = 0;
+                const slides = document.querySelectorAll(".nav-slide");
+                const slidesContainer = document.querySelector(".nav-slides");
+                const totalSlides = slides.length;
+                function autoSlide() {
+                    index = (index + 1) % totalSlides;
+                    slidesContainer.style.transform = `translateX(-${index * 100}vw)`;
+                }
+                attachAddCartListeners()
+        
+                setInterval(autoSlide, 3000);
+            });
 
+            async function addCart(book_id, user_id) { // Assuming you have the user ID available
+                const data = {
+                    user_id: user_id,
+                    book_id: book_id
+                };
+                const url = addCartApiUrl; // Adjust the URL as needed
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json;charset=utf-8',
+                        'Accept': 'Application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                const result = await response.json();
+                console.log(result);
+                if (response.ok) {
+                    showCartToast('Book added to cart successfully!', true);
+                    document.querySelector('#cart-count').textContent = result.cart_count || 0; // Update cart count if available
+                } else {
+                    showCartToast('Book already in your cart!', false);
+                }
+            }
 
+            function attachAddCartListeners() {
+                document.querySelectorAll('.add-to-cart').forEach(btn => {
+                    btn.onclick = function () {
+                        if (!userId || userId === 'null') {
+                            showCartToast('Please log in to add items to your cart.', false);
+                            return;
+                        }
+                        if (btn.disabled) return;
+
+                        btn.disabled = true;
+                        const bookId = this.getAttribute('data-book-id');
+                        addCart(bookId, userId).finally(() => {
+                            setTimeout(() => {
+                                btn.disabled = false;
+                            }, 1000);
+                        });
+                    };
+                });
+            }
+
+            function showCartToast(message, isSuccess = true) {
+                const toastEl = document.getElementById('cart-toast');
+                const toastBody = document.getElementById('cart-toast-body');
+                toastBody.textContent = message;
+                toastEl.classList.remove('text-bg-success', 'text-bg-danger');
+                toastEl.classList.add(isSuccess ? 'text-bg-success' : 'text-bg-danger');
+                const toast = new bootstrap.Toast(toastEl);
+                toast.show();
+            }
+        
+        
+        </script>
 </body>
-<script src="{{ asset('js/scripts.js') }}"></script>
-<script>
-
-    document.addEventListener("DOMContentLoaded", function () {
-        let index = 0;
-        const slides = document.querySelectorAll(".nav-slide");
-        const slidesContainer = document.querySelector(".nav-slides");
-        const totalSlides = slides.length;
-        function autoSlide() {
-            index = (index + 1) % totalSlides;
-            slidesContainer.style.transform = `translateX(-${index * 100}vw)`;
-        }
-
-        setInterval(autoSlide, 3000);
-    });
-
-
-</script>
 
 
 </html>
