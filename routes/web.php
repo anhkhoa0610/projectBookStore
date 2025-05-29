@@ -51,22 +51,21 @@ Route::get('/', function () {
 
 Route::middleware(['checkrole:admin'])->group(function () {
     Route::get('dashboard', action: [IndexController::class, 'dashboard'])->name('dashboard');
-    
+
     // book routes
     Route::get('createBook', [CrudBookController::class, 'createBook'])->name('book.createBook');
     Route::post('createBook', [CrudBookController::class, 'postBook'])->name('book.postBook');
     Route::get('readBook', [CrudBookController::class, 'readBook'])->name('book.readBook');
-    Route::get('deleteBook', [CrudBookController::class, 'deleteBook'])->name('book.deleteBook');
+    Route::delete('deleteBook', [CrudBookController::class, 'deleteBook'])->name('book.deleteBook');
     Route::get('updateBook', [CrudBookController::class, 'updateBook'])->name('book.updateBook');
     Route::post('updateBook', [CrudBookController::class, 'postUpdateBook'])->name('book.postUpdateBook');
     Route::get('listBook', [CrudBookController::class, 'listBook'])->name('book.list');
-    Route::get('signout', [CrudBookController::class, 'signOut'])->name('signout');
-    
+
     // publisher routes
     Route::get('createPublisher', [CrudPublisherController::class, 'createPublisher'])->name('publisher.createPublisher');
     Route::post('createPublisher', [CrudPublisherController::class, 'postPublisher'])->name('publisher.postPublisher');
     Route::get('readPublisher', [CrudPublisherController::class, 'readPublisher'])->name('publisher.readPublisher');
-    Route::get('deletePublisher', [CrudPublisherController::class, 'deletePublisher'])->name('publisher.deletePublisher');
+    Route::delete('deletePublisher', [CrudPublisherController::class, 'deletePublisher'])->name('publisher.deletePublisher');
     Route::get('updatePublisher', [CrudPublisherController::class, 'updatePublisher'])->name('publisher.updatePublisher');
     Route::post('updatePublisher', [CrudPublisherController::class, 'postUpdatePublisher'])->name('publisher.postUpdatePublisher');
     Route::get('listPublisher', [CrudPublisherController::class, 'listPublisher'])->name('publisher.list');

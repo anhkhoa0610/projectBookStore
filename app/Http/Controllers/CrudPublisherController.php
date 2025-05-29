@@ -62,7 +62,7 @@ class CrudPublisherController extends Controller
         //     'password' => 'required|min:6',
         // ]);
         $request->validate([
-            'publisher_name' => 'required|string|max:10',
+            'publisher_name' => 'required|string|max:100|unique:publishers,publisher_name',
             'contact_info' => 'required|string|max:255',
             'address' => 'nullable|string|max:255',
         ]);
@@ -73,6 +73,7 @@ class CrudPublisherController extends Controller
         Publisher::create([
             'publisher_name' => $data['publisher_name'],
             'contact_info' => $data['contact_info'],
+            'address' => $data['address'] ?? '',
         ]);
 
         return redirect("listPublisher")->with('status', 'Registration successful');
@@ -116,12 +117,12 @@ class CrudPublisherController extends Controller
      */
     public function postUpdatePublisher(Request $request)
     {
+        $input = $request->all();
         $request->validate([
-            'publisher_name' => 'required|string|max:10',
+            'publisher_name' => 'required|string|max:100|unique:publishers,publisher_name,' . $input['publisher_id'] . ',publisher_id',
             'contact_info' => 'required|string|max:255',
             'address' => 'nullable|string|max:255',
         ]);
-        $input = $request->all();
 
 
         // $request->validate([
@@ -137,6 +138,7 @@ class CrudPublisherController extends Controller
 
         $publisher->publisher_name = $input['publisher_name'];
         $publisher->contact_info = $input['contact_info'];
+        $publisher->address = $input['address'] ?? '';
         $publisher->save();
 
         return redirect("listPublisher")->with('status', 'Update successfully');
@@ -151,8 +153,8 @@ class CrudPublisherController extends Controller
 
         $publishers = Publisher::when($search, function ($query, $search) {
             $query->where('publisher_name', 'like', "%{$search}%")
-                  ->orWhere('contact_info', 'like', "%{$search}%")
-                  ->orWhere('address', 'like', "%{$search}%");
+                ->orWhere('contact_info', 'like', "%{$search}%")
+                ->orWhere('address', 'like', "%{$search}%");
         })->paginate(10)->appends(['search' => $search]); // Append search query to pagination links
 
         return view('crud_publisher.list', compact('publishers'));
@@ -161,13 +163,7 @@ class CrudPublisherController extends Controller
     /**
      * Sign out
      */
-    public function signOut()
-    {
-        Session::flush();
-        Auth::logout();
 
-        return Redirect('login');
-    }
 
-    
+
 }

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('books', function (Blueprint $table) {
             $table->id('book_id'); // Primary key with auto-increment
             $table->string('title');
-            $table->string('summary');
+            $table->text('summary');
             $table->date('published_date')->nullable(); // Nullable for optional published date
             $table->integer('author_id');
             $table->integer('publisher_id');
