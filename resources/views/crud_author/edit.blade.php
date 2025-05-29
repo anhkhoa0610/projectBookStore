@@ -1,7 +1,7 @@
 @extends('dashboard')
 
 @section('content')
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <div class="container">
         <div class="row">
             <div class="col-md-12">
@@ -12,8 +12,8 @@
                         </h4>
                     </div>
                     <div class="card-body">
-                        <form action="{{ route('authors.update', $author->author_id) }}" method="POST"
-                            enctype="multipart/form-data">
+                        <form id="update-author-form" action="{{ route('authors.update', $author->author_id) }}"
+                            method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
                             <div class="mb-3">
@@ -38,7 +38,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="birth_date" class="form-label">Birth Date</label>
-                                <input type="text" id="birth_date" name="birth_date" class="form-control"
+                                <input type="date" id="birth_date" name="birth_date" class="form-control"
                                     value="{{ $author->birth_date }}" maxlength="255" required>
                                 @if ($errors->has('birth_date'))
                                     <span class="text-danger">{{ $errors->first('birth_date') }}</span>
@@ -61,7 +61,8 @@
                             </div>
 
                             <div>
-                                <button type="submit" class="btn btn-primary">Update Author</button>
+                                <button type="button" class="btn btn-primary" onclick="confirmUpdate()">Update
+                                    Author</button>
                             </div>
                         </form>
                     </div>
@@ -69,5 +70,20 @@
             </div>
         </div>
     </div>
-
+    <script>
+        function confirmUpdate() {
+            Swal.fire({
+                title: 'Xác nhận cập nhật',
+                text: 'Bạn có chắc chắn muốn cập nhật thông tin tác giả này?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Cập nhật',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('update-author-form').submit();
+                }
+            });
+        }
+    </script>
 @endsection
