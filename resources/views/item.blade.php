@@ -885,7 +885,6 @@
                     body: JSON.stringify(data)
                 });
                 const result = await response.json();
-                console.log(result);
                 if (response.ok) {
                     showCartToast('Book added to cart successfully!', true);
                     document.querySelector('#cart-count').textContent = result.cart_count || 0; // Update cart count if available
