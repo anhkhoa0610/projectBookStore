@@ -13,7 +13,7 @@ class VoucherController extends Controller
     {
         // Logic to display a list of vouchers
         $vouchers = Coupon::orderBy('valid_to')->take(6)->get();
-        $soldBooks = Books::with(['author', 'categories'])->orderBy('volume_sold', 'desc')->take(4)->get();
+        $soldBooks = Books::with(['author', 'categories'])->orderBy('volume_sold', 'desc')->take(8)->get();
         return view('voucher', compact('soldBooks', 'vouchers'));
     }
     public function all()
