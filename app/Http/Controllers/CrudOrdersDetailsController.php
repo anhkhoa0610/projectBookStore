@@ -58,12 +58,7 @@ class CrudOrdersDetailsController extends Controller
      */
     public function postOrderDetails(Request $request)
     {
-        // $request->validate([
-        //     'name' => 'required',
-        //     'email' => 'required|email|unique:users',
-        //     'password' => 'required|min:6',
-        // ]);
-      
+        
 
         $data = $request->all();
         $book = Books::find($data['book_id']);
@@ -77,7 +72,7 @@ class CrudOrdersDetailsController extends Controller
 
          CrudOrdersController::upDatePrice($data['order_id']);
 
-        return redirect("listOrderDetailsByIdOrder?order_id=".$data['order_id'])->with('status', 'Registration successful');
+        return redirect("listOrderDetailsByOrderId?order_id=".$data['order_id'])->with('status', 'Registration successful');
     }
 
     /**
@@ -100,7 +95,7 @@ class CrudOrdersDetailsController extends Controller
         CrudOrdersController::upDatePrice($orderDetails->order_id);
         OrdersDetails::destroy($order_detail_id);
        
-        return redirect("listOrderDetailsByIdOrder?order_id=".$orderDetails->order_id)->with('status', 'Delete successfully');
+       return redirect("listOrderDetailsByOrderId?order_id={$orderDetails->order_id}&page=1")->with('status', 'Update successfully');
     }
 
     /**
@@ -138,7 +133,7 @@ class CrudOrdersDetailsController extends Controller
         $orderDetails->price = $input['price'];
         $orderDetails->save();
         CrudOrdersController::upDatePrice($orderDetails->order_id);
-        return redirect("listOrderDetailsByIdOrder?order_id=".$orderDetails->order_id)->with('status', 'Update successfully');
+       return redirect("listOrderDetailsByOrderId?order_id={$orderDetails->order_id}&page=1")->with('status', 'Update successfully');
     }
 
     /**
