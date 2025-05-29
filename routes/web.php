@@ -17,12 +17,9 @@ use App\Http\Controllers\CrudReviewController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\CartController;
-<<<<<<< HEAD
 use App\Http\Controllers\PayController;
 use App\Http\Controllers\PaymentController;
-=======
 use App\Http\Controllers\UserController;
->>>>>>> user_view
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Password;
 use App\Http\Controllers\WishlistsController;
@@ -196,9 +193,6 @@ Route::post('reset-password', function (Illuminate\Http\Request $request) {
         ? redirect()->route('login')->with('success', 'Password reset successfully.')
         : back()->withErrors(['email' => [__($status)]]);
 })->name('password.update');
-<<<<<<< HEAD
-//
-=======
 
 
 Route::prefix('reviews')->group(function () {
@@ -211,7 +205,6 @@ Route::prefix('reviews')->group(function () {
     Route::delete('/{id}', [CrudReviewController::class, 'destroy'])->name('reviews.destroy');
 });
 
->>>>>>> user_view
 
 Route::get('/author/{id}', [AuthorController::class, 'showAuthor'])->name('author.show');
 Route::get('/index', [IndexController::class, 'index'])->name('index');
@@ -221,7 +214,6 @@ Route::get('/cart/add/{id}', [CartController::class, 'addToCart'])->name('cart.a
 Route::get('/itemDetail/{book_id}', [ItemController::class, 'showItemDetail'])->name('item.detail');
 
 Route::post('/api/wishlist/toggle', [WishlistsController::class, 'toggle'])->name('wishlist.toggle');
-<<<<<<< HEAD
 Route::get('/voucher', [VoucherController::class, 'index'])->name('voucher.index');
 Route::get('/api/cart', [App\Http\Controllers\CartController::class, 'cartApi'])->name('cart.api');
 Route::delete('/api/cart/{cart}', [App\Http\Controllers\CartController::class, 'deleteApi'])->name('cart.api.delete');
@@ -231,7 +223,6 @@ Route::post('/vnpay_payment', [PaymentController::class, 'vnpay_payment']);
 
 
 Route::post('/api/reviews', [ReviewController::class, 'store'])->name('reviews.store');
-=======
 
  
 Route::get('/profile', [CrudUserController::class, 'myProfile'])->name('user.profile');
@@ -241,4 +232,3 @@ Route::put('/profile/update', [CrudUserController::class, 'updateProfile'])->nam
 Route::get('/profile/change-password', [CrudUserController::class, 'showChangePasswordForm'])->name('user.showChangePasswordForm');
 Route::put('/profile/change-password', [CrudUserController::class, 'changePassword'])->name('user.changePassword');
 
->>>>>>> user_view
