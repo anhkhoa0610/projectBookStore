@@ -470,7 +470,7 @@
         </div>
 
         <div class="review-list">
-            @foreach ($book->reviews->reverse() as $review)
+            @foreach ($reviews->reverse() as $review)
 
                 <div class="review-item">
                     <div class="review-header">
@@ -650,6 +650,10 @@
                     </script>
                 </div>
             @endforeach
+            {{-- Hiển thị nút phân trang --}}
+            <div class="mt-3">
+                {{ $reviews->links() }}
+            </div>
 
         </div>
     </div>
