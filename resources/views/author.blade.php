@@ -680,18 +680,41 @@
         </div>
         <div class="nav-links">
             @auth
-                <span class="user-name mx-5">Xin chào <b class="text-primary">{{ Auth::user()->full_name }}</b></span>
-                <form action="{{ route('logout') }}" method="POST" style="display:inline;">
-                    @csrf
-                    <button type="submit" class="btn btn-danger"><b>Log Out</b></button>
-                </form>
+                <div class="dropdown user-dropdown mx-5" style="display: inline-block; position: relative;">
+                    <span class="user-name" style="cursor:pointer;">
+                        Xin chào <b class="text-primary mx-2">{{ Auth::user()->full_name }}</b>
+                        <i class="fas fa-user text-primary"></i>
+                    </span>
+                    <div class="dropdown-menu"
+                        style="display:none; position:absolute; right:0; top:100%; background:#fff; box-shadow:0 2px 8px rgba(0,0,0,0.15); min-width:160px; z-index:100;">
+                        <a class="dropdown-item" href="">Profile</a>
+                        @if(Auth::user()->role === 'admin')
+                            <a class="dropdown-item" href="{{ route('dashboard') }}">Admin dashboard</a>
+                        @endif
+                        <a class="dropdown-item" href="#wish-list">Wishlist</a>
+                        <form action="{{ route('logout') }}" class="dropdown-item ms-4" method="POST">
+                            @csrf
+                            <button type="submit" style="border: none; background: none; cursor: pointer;">
+                                Logout
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <style>
+
+                </style>
             @else
                 <a href="{{ route('login') }}" class="btn btn-primary"><b>Sign In</b></a>
                 <a href="{{ route('user.createUser') }}" class="btn btn-primary"><b>Sign Up</b></a>
             @endauth
             <div class="cart">
-                <a href="" class="cart-icon">
+                <a href="{{ route('cart.show') }}" class="cart-icon">
                     <i class="fas fa-shopping-cart"></i>
+                    @auth
+                        <sup style="font-size: 20px;  color: #0f718a;">
+                            {{ \App\Models\Cart::where('user_id', Auth::id())->sum('quantity') }}
+                        </sup>
+                    @endauth
                 </a>
             </div>
         </div>
@@ -702,7 +725,7 @@
         <body>
             <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
                 <div class="container-fluid ">
-                    <a class="navbar-brand" href="#"></a>
+                    <a class="navbar-brand" href="{{ route('index') }}"></a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                         data-bs-target="#collapsibleNavbar">
                         <span class="navbar-toggler-icon"></span>
@@ -732,7 +755,7 @@
 
     <div>
         <div class="nav-slider mt-5">
-            <div class="nav-slides">
+            <a href="{{ route('voucher.index') }}" class="nav-slides">
                 <div class="nav-slide">
                     <div class="slide_img"><img src="{{ asset('images/ngoaivan.png') }}" alt=""></div>
                 </div>
@@ -745,7 +768,7 @@
                 <div class="nav-slide">
                     <div class="slide_img"><img src="{{ asset('images/thuctinh.png') }}" alt=""></div>
                 </div>
-            </div>
+            </a>
 
         </div>
     </div>
@@ -782,7 +805,7 @@
         <div class="grid">
             @foreach($books as $book)
                 <a href="{{ route('item.detail', $book->book_id) }}" style="text-decoration: none;" class="card">
-                    <img src="{{ $book->cover_image ? asset('images/' . $book->cover_image) : asset('images/placeholder.png') }}"
+                    <img src="{{ $book->cover_image ? asset('uploads/' . $book->cover_image) : asset('images/placeholder.png') }}"
                         alt="{{ $book->title }}" width="150" height="200" />
                     <h3>{{ $book->title }}</h3>
                     <p class="author">{{ $book->author_id }}</p>
@@ -866,23 +889,11 @@
 
 </body>
 <script src="{{ asset('js/scripts.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js"></script>
 <script>
-
-    document.addEventListener("DOMContentLoaded", function () {
-        let index = 0;
-        const slides = document.querySelectorAll(".nav-slide");
-        const slidesContainer = document.querySelector(".nav-slides");
-        const totalSlides = slides.length;
-        function autoSlide() {
-            index = (index + 1) % totalSlides;
-            slidesContainer.style.transform = `translateX(-${index * 100}vw)`;
-        }
-
-        setInterval(autoSlide, 3000);
-    });
-
-
+    const userId = {{ Auth::check() ? Auth::id() : 'null' }};
+    const addCartApiUrl = "{{ route('index-add-cart-api') }}";
 </script>
-
 
 </html>
