@@ -92,7 +92,7 @@
         function confirmDelete(order_id) {
             Swal.fire({
                 title: 'Xác nhận xóa',
-                text: 'Bạn có chắc chắn muốn xóa quyển sách này không?',
+                text: 'Bạn có chắc chắn muốn xóa đơn hàng này này không?',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Xóa',
