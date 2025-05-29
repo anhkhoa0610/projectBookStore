@@ -16,6 +16,7 @@ use App\Http\Controllers\CrudReviewController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Password;
 use App\Http\Controllers\WishlistsController;
@@ -201,26 +202,7 @@ Route::post('reset-password', function (Illuminate\Http\Request $request) {
         ? redirect()->route('login')->with('success', 'Password reset successfully.')
         : back()->withErrors(['email' => [__($status)]]);
 })->name('password.update');
-//  Route::controller(CrudUserController::class)->group(function () {
-//     Route::get('/login', 'login')->name('login');
-//     Route::post('/login', 'authUser')->name('auth.login');
-//     Route::post('/logout', 'signOut')->name('logout');
-// });
 
-//  Route::get('/', function () {
-//     return redirect()->route('user.list');
-// });
-
-
-// Route::prefix('reviews')->group(function() {
-//      Route::get('/', [CrudReviewController::class, 'index'])->name('reviews.list');
-//      Route::get('/createUser', [CrudReviewController::class, 'create'])->name('reviews.create');
-//     Route::post('/storeUser', [CrudReviewController::class, 'store'])->name('reviews.store');
-//     Route::get('/{id}', [CrudReviewController::class, 'show'])->name('reviews.show');
-//     Route::get('/{id}/edit', [CrudReviewController::class, 'edit'])->name('reviews.edit');
-//     Route::put('/{id}', [CrudReviewController::class, 'update'])->name('reviews.update');
-//     Route::delete('/{id}', [CrudReviewController::class, 'destroy'])->name('reviews.destroy');
-// });
 
 Route::prefix('reviews')->group(function () {
     Route::get('/', [CrudReviewController::class, 'index'])->name('reviews.list');
@@ -241,3 +223,12 @@ Route::get('/cart/add/{id}', [CartController::class, 'addToCart'])->name('cart.a
 Route::get('/itemDetail/{book_id}', [ItemController::class, 'showItemDetail'])->name('item.detail');
 
 Route::post('/api/wishlist/toggle', [WishlistsController::class, 'toggle'])->name('wishlist.toggle');
+
+ 
+Route::get('/profile', [CrudUserController::class, 'myProfile'])->name('user.profile');
+Route::get('/profile/edit', [CrudUserController::class, 'editProfile'])->name('user.profile.edit');
+Route::put('/profile/update', [CrudUserController::class, 'updateProfile'])->name('user.updateProfile');
+
+Route::get('/profile/change-password', [CrudUserController::class, 'showChangePasswordForm'])->name('user.showChangePasswordForm');
+Route::put('/profile/change-password', [CrudUserController::class, 'changePassword'])->name('user.changePassword');
+
