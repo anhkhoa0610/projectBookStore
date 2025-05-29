@@ -421,13 +421,13 @@ async function addCart(book_id, user_id) { // Assuming you have the user ID avai
 
 function attachAddCartListeners() {
     document.querySelectorAll('.add-to-cart').forEach(btn => {
-        btn.addEventListener('click', function () {
+        btn.onclick = function () {
             if (!userId || userId === 'null') {
                 alert('Please log in to add books to your cart.');
                 return;
             }
             const bookId = this.getAttribute('data-book-id');
             addCart(bookId, userId);
-        });
+        };
     });
 }
