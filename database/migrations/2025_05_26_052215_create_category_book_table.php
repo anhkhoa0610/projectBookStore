@@ -15,8 +15,7 @@ class CreateCategoryBookTable extends Migration
             $table->id();
             $table->integer('category_id');
             $table->integer('book_id');
-            $table->timestamps();   
-                     
+            $table->timestamps();                     
         });
     }
 

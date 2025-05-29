@@ -173,11 +173,15 @@ class CrudBookController extends Controller
             'publisher_id' => 'required|exists:publishers,publisher_id',
             'summary' => 'required|string|max:500',
             'description' => 'required|string|max:500',
-            'published_date' => 'required|date|before:today', // Must be a date before today            'description' => 'required|string|max:255',
+            'published_date' => 'required|date|before:today',
             'price' => 'required|numeric|min:0|max:999999999',
-            'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,svg|max:2048', // Validate cover image
-            // ...other validation rules...
+            'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,svg|max:2048',
+
         ]);
+
+        if ($request->has('updated_at') && $book->updated_at != $request->input('updated_at')) {
+            return redirect()->back()->with('error', 'This book has been updated by another user. Please reload and try again.');
+        }
 
         if ($request->hasFile('cover_image')) {
             if ($book->cover_image && file_exists(public_path('uploads/' . $book->cover_image))) {
@@ -196,6 +200,7 @@ class CrudBookController extends Controller
         $book->summary = $input['summary'];
         $book->author_id = $input['author_id'];
         $book->publisher_id = $input['publisher_id'];
+        $book->published_date = $input['published_date'];
         $book->description = $input['description'];
         $book->price = $input['price'];
         $book->volume_sold = $input['volume_sold'];

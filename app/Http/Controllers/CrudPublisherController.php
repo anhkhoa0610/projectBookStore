@@ -135,15 +135,6 @@ class CrudPublisherController extends Controller
             'address' => 'nullable|string|max:255',
         ]);
 
-
-        // $request->validate([
-        //     'name' => 'required',
-        //     'email' => 'required|email|unique:users,id,'.$input['id'],
-        //     'password' => 'required|min:6',
-        //     'like' => 'required',
-        //     'age' => 'required',
-        // ]);
-
         $publisher = Publisher::find($input['publisher_id']);
 
 
@@ -176,9 +167,7 @@ class CrudPublisherController extends Controller
         return view('crud_publisher.list', compact('publishers'));
     }
 
-    /**
-     * Sign out
-     */
+
 
 
 

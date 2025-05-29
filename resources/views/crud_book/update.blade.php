@@ -24,6 +24,12 @@
                                     </ul>
                                 </div>
                             @endif
+                            @if (session('error'))
+                                <div class="alert alert-danger">
+                                    {{ session('error') }}
+                                </div>
+                            @endif
+                            <input type="hidden" name="updated_at" value="{{ $book->updated_at }}">
                             <div class="mb-3">
                                 <label for="title" class="form-label">Title</label>
                                 <input type="text" name="title" class="form-control" value="{{ $book->title }}" required>
