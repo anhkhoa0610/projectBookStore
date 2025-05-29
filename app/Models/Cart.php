@@ -22,4 +22,8 @@ class Cart extends Model
     {
         return $this->belongsTo(Books::class, 'book_id', 'book_id');
     }
+    public function author()
+    {
+        return $this->belongsTo(Author::class);
+    }
 }

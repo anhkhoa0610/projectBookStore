@@ -85,7 +85,7 @@
                                 <a class="nav-link" href="{{ route('index') }}#new-book">Sách Mới Nhất</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Tài Khoản</a>
+                                <a class="nav-link" href="{{ route('user.profile') }}">Tài Khoản</a>
                             </li>
                         </ul>
                     </div>
@@ -474,7 +474,7 @@
         </div>
 
         <div class="review-list">
-            @foreach ($reviews->reverse() as $review)
+            @foreach ($reviews as $review)
 
                 <div class="review-item">
                     <div class="review-header">

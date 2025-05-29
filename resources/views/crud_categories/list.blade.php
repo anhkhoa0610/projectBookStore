@@ -89,7 +89,7 @@
         function confirmDelete(category_id) {
             Swal.fire({
                 title: 'Xác nhận xóa',
-                text: 'Bạn có chắc chắn muốn xóa quyển sách này không?',
+                text: 'Bạn có chắc chắn muốn xóa danh mục này không?',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Xóa',

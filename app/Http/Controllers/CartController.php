@@ -71,7 +71,14 @@ class CartController extends Controller
             return response()->json(['success' => false, 'message' => 'Không tìm thấy sản phẩm trong giỏ hàng.'], 404);
         }
         $cartItem->delete();
-        return response()->json(['success' => true]);
+
+        // Get updated total quantity
+        $totalQuantity = \App\Models\Cart::where('user_id', $user->id)->sum('quantity');
+
+        return response()->json([
+            'success' => true,
+            'total_quantity' => $totalQuantity
+        ]);
     }
     public function updateQuantity(Request $request, $cart_id)
     {
@@ -84,6 +91,39 @@ class CartController extends Controller
         if ($quantity < 1) $quantity = 1;
         $cartItem->quantity = $quantity;
         $cartItem->save();
-        return response()->json(['success' => true, 'quantity' => $cartItem->quantity]);
+
+        // Get updated total quantity
+        $totalQuantity = Cart::where('user_id', $user->id)->sum('quantity');
+
+        return response()->json([
+            'success' => true,
+            'quantity' => $cartItem->quantity,
+            'total_quantity' => $totalQuantity
+        ]);
+    }
+    public function searchProducts(Request $request)
+    {
+        $sarch = $request->input('q');
+        $products = Books::where('title', 'like', "%{$sarch}%")
+            ->orWhere('author', 'like', "%{$sarch}%")
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'products' => $products
+        ]);
+    }
+    public function searchCartAPI($keyword)
+    {
+        $carts = Cart::with(['book.author']) // Giả sử có quan hệ với book và author
+            ->whereHas('book', function ($query) use ($keyword) {
+                $query->where('title', 'like', '%' . $keyword . '%')
+                    ->orWhereHas('author', function ($q) use ($keyword) {
+                        $q->where('author_name', 'like', '%' . $keyword . '%');
+                    });
+            })
+            ->get();
+
+        return response()->json($carts);
     }
 }
