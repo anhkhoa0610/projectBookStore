@@ -100,8 +100,9 @@
         padding-left: 0px;
         border-left: 3px solid #2e353d;
         border-bottom: 1px solid #23282e;
-        text-align: center;
+        text-align: start;
         padding: 10px;
+        padding-left: 40px;
     }
 
     .nav-side-menu li a {

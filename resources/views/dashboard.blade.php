@@ -29,47 +29,52 @@
                     <ul id="menu-content" class="menu-content collapse out">
                         <li>
                             <a href="{{ route('user.list') }}">
-                                Quản Lý User
+                                <i class="fas fa-tasks me-2"></i>Quản Lý User
                             </a>
                         </li>
                         <li>
                             <a href="{{ route('categories.list') }}">
-                                Quản Lý Danh Mục
+                                <i class="fas fa-tasks me-2"></i>Quản Lý Danh Mục
                             </a>
                         </li>
                         <li>
                             <a href="{{ route('authors.list') }}">
-                                Quản Lý Tác Giả
+                                <i class="fas fa-tasks me-2"></i>Quản Lý Tác Giả
                             </a>
                         </li>
                         <li>
                             <a href="{{ route('book.list') }}">
-                                Quản Lý Sản Phẩm
+                                <i class="fas fa-tasks me-2"></i>Quản Lý Sản Phẩm
                             </a>
                         </li>
                         <li>
                             <a href="{{ route('orders.list') }}">
-                                Quản Lý Đơn Hàng
+                                <i class="fas fa-tasks me-2"></i>Quản Lý Đơn Hàng
                             </a>
                         </li>
                         <li>
                             <a href="{{ route('reviews.list') }}">
-                                </i> Quản Lý Review
+                                <i class="fas fa-tasks me-2"></i> Quản Lý Review
                             </a>
                         </li>
                         <li>
                             <a href="{{ route('repo.list') }}">
-                                </i> Quản Lý Kho
+                                <i class="fas fa-tasks me-2"></i> Quản Lý Kho
                             </a>
                         </li>
                         <li>
                             <a href="{{ route('coupon.list') }}">
-                                Quản Lý Voucher
+                                <i class="fas fa-tasks me-2"></i>Quản Lý Voucher
                             </a>
                         </li>
                         <li>
                             <a href="{{ route('publisher.list') }}">
-                                Quản Lý Nhà Xuất Bản
+                                <i class="fas fa-tasks me-2"></i>Quản Lý Nhà Xuất Bản
+                            </a>
+                        </li>
+                         <li>
+                            <a href="{{ route('logout') }}">
+                                <i class="fas fa-sign-out-alt"></i> Đăng Xuất
                             </a>
                         </li>
 
