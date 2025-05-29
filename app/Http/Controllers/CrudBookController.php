@@ -70,8 +70,10 @@ class CrudBookController extends Controller
             'description' => 'required|string|max:500',
             'published_date' => 'required|date|before:today',
             'price' => 'required|numeric|min:0|max:999999999',
-            'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,svg|max:2048', // Validate cover image
-            // ...other validation rules...
+            'volume_sold' => 'required|integer|min:0|max:999999999', 
+            'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,svg|max:2048', 
+            'categories' => 'required|array|min:1',
+            'categories.*' => 'exists:categories,category_id', 
         ]);
 
         $data = $request->all();
@@ -176,7 +178,9 @@ class CrudBookController extends Controller
             'published_date' => 'required|date|before:today',
             'price' => 'required|numeric|min:0|max:999999999',
             'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,svg|max:2048',
-
+            'volume_sold' => 'required|integer|min:0|max:999999999',
+            'categories' => 'required|array|min:1',
+            'categories.*' => 'exists:categories,category_id', 
         ]);
 
         if ($request->has('updated_at') && $book->updated_at != $request->input('updated_at')) {
