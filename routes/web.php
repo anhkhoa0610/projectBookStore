@@ -209,4 +209,6 @@ Route::get('/pay', [PayController::class, 'ShowPay'])->name('pay.show');
 Route::post('/vnpay_payment', [PaymentController::class, 'vnpay_payment']);
 
 
-Route::post('/api/reviews', [ReviewController::class, 'store'])->name('reviews.store');
+Route::post('/api/reviews', [ReviewController::class, 'storeReview'])->name('reviews.storeReview');
+Route::post('/api/reviews.update', [ReviewController::class, 'updateReview'])->name('reviews.updateReview');
+Route::post('/api/reviews.delete', [ReviewController::class, 'deleteReview'])->name('reviews.deleteReview');

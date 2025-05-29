@@ -1,21 +1,25 @@
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
     <title>Bookshop</title>
-
     <link rel="stylesheet" href="{{ asset('css/index.css') }}">
     <link rel="stylesheet" href="{{ asset('css/item.css') }}">
+     <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- jQuery, Popper.js, Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
-
-       
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 </head>
 
 <body>
@@ -56,7 +60,7 @@
 
     <div>
 
-        <body>
+
             <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
                 <div class="container-fluid ">
                     <a class="navbar-brand" href="#"></a>
@@ -83,7 +87,7 @@
                 </div>
             </nav>
 
-        </body>
+        
     </div>
 
 
@@ -428,8 +432,12 @@
             function submitReview(bookId) {
                 const rating = document.getElementById('rating-value').value;
                 const comment = document.getElementById('comment-text').value;
-                const url = "{{ route('reviews.store') }}";
-
+                const url = "{{ route('reviews.storeReview') }}";
+                 if (!comment)
+                  {
+                     alert("Vui lòng nhập nhận xét hợp lệ (không chỉ khoảng trắng).");
+                     return;
+                  }
                 fetch(url, {
                     method: 'POST',
                     headers: {
@@ -470,30 +478,176 @@
                         <div>{{ $review->date_review }}</div>
                     </div>
                     <div class="review-stars">
-                        <div class="">
-                            @if($review->rating > 0)
-                                <span class="rating">
-                                    @for ($i = 0; $i < $review->rating; $i++)
-                                        <i class="fas fa-star text-warning"></i>
-                                    @endfor
-                                </span>
-                            @else
-                                <span class="rating">No Reviews</span>
-                            @endif
-                        </div>
+                        <span class="rating">
+                            @for ($i = 0; $i < $review->rating; $i++)
+                                <i class="fas fa-star text-warning"></i>
+                            @endfor
+                        </span>
                     </div>
                     <div class="review-content">
-                        
-                        @if( isset(Auth::user()->id) && Auth::user()->id == $review->user_id)
-                        <p>{{ $review->comment }} </p>
-                        <a href="" style="margin-left:10px;" ><i class="fas fa-pen" ></i></a>
-                        <a href=""  style="margin-left:10px;" ><i class="fas fa-trash" ></i></a>
+                        @if(Auth::check() && Auth::user()->id == $review->user_id)
+                            <p>{{ $review->comment }}</p>
+                            <a data-toggle="modal" data-target="#exampleModal-{{ $review->id }}" href="#" style="margin-left:10px;">
+                                <i class="fas fa-pen"></i>
+                            </a>
+                            <a data-toggle="modal" data-target="#deleteModal-{{ $review->id }}" href="#" style="margin-left:10px;">
+                                <i class="fas fa-trash"></i>
+                            </a>
                         @else
-                        <p>{{ $review->comment }} </p>
-                    @endif
+                            <p>{{ $review->comment }}</p>
+                        @endif
                     </div>
                     <div class="review-footer">
-                       
+                        <!-- Modal update-->
+                        <div class="modal fade" id="exampleModal-{{ $review->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Chỉnh sửa đánh giá:</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="review-form-content">
+                                            <div class="stars" id="review-stars-{{ $review->id }}">
+                                                @for ($i = 1; $i <= 5; $i++)
+                                                    <i class="{{ $i <= $review->rating ? 'fas' : 'far' }} fa-star star" data-value="{{ $i }}"></i>
+                                                @endfor
+                                            </div>
+                                            <input type="hidden" name="rating" id="rating-value-update-{{ $review->id }}" value="{{ $review->rating }}">
+                                            <div class="form-group">
+                                                <input type="text"
+                                                    placeholder="Nhập tên sẽ hiển thị khi đánh giá"
+                                                    name="display_name"
+                                                    id="display-name"
+                                                    value="@auth{{ Auth::user()->full_name }}@endauth"
+                                                    @auth readonly @endauth
+                                                >
+                                            </div>
+                                            <textarea id="comment-text-update-{{ $review->id }}">{{ $review->comment }}</textarea>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary" onclick="updateReview({{ $review->id }})">Save changes</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- modal delete -->
+                        <div class="modal fade" id="deleteModal-{{ $review->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Chỉnh sửa đánh giá:</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Bạn có chắc chắn muốn xóa đánh giá này không?</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                                        <button type="button" class="btn btn-primary" onclick="deleteReview({{ $review->id }})">Yes</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function () {
+                            const stars = document.querySelectorAll('#review-stars-{{ $review->id }} .star');
+                            const ratingInput = document.getElementById('rating-value-update-{{ $review->id }}');
+                            let currentRating = parseInt(ratingInput.value);
+
+                            highlightStars(currentRating);
+
+                            stars.forEach(star => {
+                                star.addEventListener('mouseover', function () {
+                                    const val = parseInt(this.getAttribute('data-value'));
+                                    highlightStars(val);
+                                });
+                                star.addEventListener('mouseout', function () {
+                                    highlightStars(currentRating);
+                                });
+                                star.addEventListener('click', function () {
+                                    currentRating = parseInt(this.getAttribute('data-value'));
+                                    ratingInput.value = currentRating;
+                                    highlightStars(currentRating);
+                                });
+                            });
+
+                            function highlightStars(rating) {
+                                stars.forEach(star => {
+                                    if (parseInt(star.getAttribute('data-value')) <= rating) {
+                                        star.classList.remove('far');
+                                        star.classList.add('fas', 'text-warning');
+                                    } else {
+                                        star.classList.remove('fas', 'text-warning');
+                                        star.classList.add('far');
+                                    }
+                                });
+                            }
+                        });
+
+                        function updateReview(reviewId) {
+                            const rating = document.getElementById(`rating-value-update-${reviewId}`).value;
+                            const comment = document.getElementById(`comment-text-update-${reviewId}`).value.trim();
+                            const url = "{{ route('reviews.updateReview') }}";
+                            if (!comment) {
+                                alert("Vui lòng nhập nhận xét hợp lệ (không chỉ khoảng trắng).");
+                                return;
+                            }
+                           
+                            fetch(url, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json;charset=utf-8',
+                                    'Accept': 'Application/json',
+                                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                },
+                                body: JSON.stringify({
+                                    review_id: reviewId,
+                                    book_id: {{ $book->book_id }},
+                                    rating: rating,
+                                    comment: comment
+                                })
+                            })
+                            .then(res => res.json())
+                            .then(data => {
+                                location.reload();
+                            })
+                            .catch(err => {
+                                console.error(err);
+                            });
+                        }
+
+                        function deleteReview(reviewId) {
+                            const url = "{{ route('reviews.deleteReview') }}";
+                           
+                            fetch(url, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json;charset=utf-8',
+                                    'Accept': 'Application/json',
+                                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                },
+                                body: JSON.stringify({
+                                    review_id: reviewId,
+    
+                                })
+                            })
+                            .then(res => res.json())
+                            .then(data => {
+                                location.reload();
+                            })
+                            .catch(err => {
+                                console.error(err);
+                            });
+                        }
+                    </script>
                 </div>
             @endforeach
 
@@ -519,7 +673,7 @@
                             style="position: absolute; top: 10px; left: 10px; z-index: 2;">
                             Recommended
                         </span>
-                        <img src="{{ $book->cover_image ? asset('images/' . $book->cover_image) : asset('images/placeholder.png') }}"
+                        <img src="{{ $book->cover_image ? asset('uploads/' . $book->cover_image) : asset('images/placeholder.png') }}"
                             alt="{{ $book->title }}" width="150" height="200" />
                         <h3>{{ $book->title }}</h3>
                         <p class="author">{{ $book->author->author_name }}</p>
@@ -557,12 +711,13 @@
             @endforeach
         </div>
     </section>
-    <section id="new-book" class="my-5 mx-5">
+
+    <section  class="my-5 mx-5">
         <p class="modern-big-title text-center mb-4">Same Author</p>
         <div class="grid">
             @foreach($relatedAuthorBooks as $book)
                 <div class="card">
-                    <a href="{{ route('item.detail', $book->book_id) }}" style="text-decoration: none;">
+                    <a href="{{ $book->cover_image ? asset('uploads/' . $book->cover_image) : asset('images/placeholder.png') }}">
                         <span class="badge bg-danger new-badge-animated"
                             style="position: absolute; top: 10px; left: 10px; z-index: 2;">
                             Recommended
@@ -605,11 +760,8 @@
             @endforeach
         </div>
     </section>
-
-
-
-
-    <div>
+    
+    
         <footer class="footer">
             <div class="footer-container">
 
@@ -618,7 +770,7 @@
                     <p style="color: yellow;">★★★★★</p>
                     <p>TrustScore 5 | 0 reviews</p>
                     <div class="logo">
-                        <img src="./images/logo.png" alt="Logo" />
+                        <img src="{{ asset('images/logo.png') }}" alt="Logo" />
                     </div>
                 </div>
 
@@ -664,10 +816,7 @@
                     </div>
                 </div>
         </footer>
-    </div>
-
-
-
+    
 </body>
 <script src="{{ asset('js/scripts.js') }}"></script>
 <script>
