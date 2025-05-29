@@ -42,14 +42,15 @@ class CrudAuthorController extends Controller
             'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,svg|max:2048',
             'bio' => 'nullable|string|max:2000',
         ], [
-            'author_name.required' => 'Author name is required.',
-            'birth_date.date' => 'Birth date must be a valid date.',
-            'hometown.string' => 'Hometown must be a string.',
-            'cover_image.image' => 'Cover image must be an image file.',
-            'cover_image.mimes' => 'Cover image must be a file of type: jpeg, png, jpg, svg.',
-            'cover_image.max' => 'Cover image may not be greater than 2MB.',
-            'bio.string' => 'Bio must be a string.',
-            'bio.max' => 'Bio may not be greater than 2000 characters.',
+            'author_name.required' => 'Tên tác giả là bắt buộc.',
+            'author_name.max' => 'Tên tác giả không được vượt quá 255 ký tự.',
+            'birth_date.date' => 'Ngày sinh không hợp lệ.',
+            'birth_date.before_or_equal' => 'Ngày sinh không được vượt quá ngày hiện tại.',
+            'hometown.max' => 'Quê quán không được vượt quá 255 ký tự.',
+            'cover_image.image' => 'Tệp tải lên phải là hình ảnh.',
+            'cover_image.mimes' => 'Ảnh phải có định dạng: jpeg, png, jpg hoặc svg.',
+            'cover_image.max' => 'Ảnh không được lớn hơn 2MB.',
+            'bio.max' => 'Tiểu sử không được vượt quá 2000 ký tự.',
         ]);
 
         // Xử lý ảnh nếu có upload
@@ -90,15 +91,15 @@ class CrudAuthorController extends Controller
             'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,svg|max:2048',
             'bio' => 'nullable|string|max:2000',
         ], [
-            'author_name.required' => 'Author name is required.',
-            'birth_date.date' => 'Birth date must be a valid date.',
-            'birth_date.before_or_equal' => 'Birth date cannot be in the future.',
-            'hometown.string' => 'Hometown must be a string.',
-            'cover_image.image' => 'Cover image must be an image file.',
-            'cover_image.mimes' => 'Cover image must be a file of type: jpeg, png, jpg, svg.',
-            'cover_image.max' => 'Cover image may not be greater than 2MB.',
-            'bio.string' => 'Bio must be a string.',
-            'bio.max' => 'Bio may not be greater than 2000 characters.',
+            'author_name.required' => 'Tên tác giả là bắt buộc.',
+            'author_name.max' => 'Tên tác giả không được vượt quá 255 ký tự.',
+            'birth_date.date' => 'Ngày sinh không hợp lệ.',
+            'birth_date.before_or_equal' => 'Ngày sinh không được lớn hơn ngày hiện tại.',
+            'hometown.max' => 'Quê quán không được vượt quá 255 ký tự.',
+            'cover_image.image' => 'Ảnh bìa phải là tệp hình ảnh.',
+            'cover_image.mimes' => 'Ảnh bìa chỉ chấp nhận các định dạng jpeg, png, jpg, svg.',
+            'cover_image.max' => 'Ảnh bìa không được vượt quá 2MB.',
+            'bio.max' => 'Tiểu sử không được dài quá 2000 ký tự.',
         ]);
 
         $author = Author::findOrFail($id);
