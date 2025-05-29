@@ -222,7 +222,7 @@
                         Tác giả: <strong>{{ $book->author->author_name }}</strong>
                     </div>
                 </div>
-                <div class="info-row">
+                <div style="display: flex;" >
                     Danh mục:
                     <div>
                         @foreach ($book->categories as $category)
