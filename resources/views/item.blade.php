@@ -484,7 +484,7 @@
                     </div>
                     <div class="review-content">
                         
-                        @if(Auth::user()->id == $review->user_id)
+                        @if( isset(Auth::user()->id) && Auth::user()->id == $review->user_id)
                         <p>{{ $review->comment }} </p>
                         <a href="" style="margin-left:10px;" ><i class="fas fa-pen" ></i></a>
                         <a href=""  style="margin-left:10px;" ><i class="fas fa-trash" ></i></a>
