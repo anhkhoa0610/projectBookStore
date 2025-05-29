@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reset Password</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
 </head>
 <style>
     body {
@@ -23,7 +25,7 @@
         border-radius: 8px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         width: 100%;
-        max-width: 300px;
+        width: 400px;
     }
 
     label {
@@ -36,7 +38,7 @@
     input[type="password"] {
         width: 100%;
         padding: 10px;
-        margin-bottom: 15px;
+        /* margin-bottom: 15px; */
         border: 1px solid #ddd;
         border-radius: 4px;
         box-sizing: border-box;
@@ -84,24 +86,41 @@
         @csrf
         <div class="container">
             <h2>Reset Password</h2>
-            <label for="email"><b>Email Address</b></label>
-            <input type="email" placeholder="Enter your email" name="email" required>
-
-            <label for="old-password"><b>Old Password</b></label>
-            <input type="password" placeholder="Enter Old Password" name="old_password" required>
-
-            <label for="new-password"><b>New Password</b></label>
-            <input type="password" placeholder="Enter New Password" name="new_password" required>
-
-            <label for="repeat-password"><b>Repeat New Password</b></label>
-            <input type="password" placeholder="Repeat New Password" name="new_password_confirmation" required>
-
+            <div class="mb-3">
+                <label for="email"><b>Email Address</b></label>
+                <input type="email" placeholder="Enter your email" name="email" required>
+                @error('email')
+                    <div class="text-danger mt-1">{{ $message }}</div>
+                @enderror
+            </div>
+            <div class="mb-3">
+                <label for="old-password"><b>Old Password</b></label>
+                <input type="password" placeholder="Enter Old Password" name="old_password" required>
+                @error('old_password')
+                    <div class="text-danger mt-1">{{ $message }}</div>
+                @enderror
+            </div>
+            <div class="mb-3">
+                <label for="new-password"><b>New Password</b></label>
+                <input type="password" placeholder="Enter New Password" name="new_password" required>
+                @error('new_password')
+                    <div class="text-danger mt-1">{{ $message }}</div>
+                @enderror
+            </div>
+            <div class="mb-3">
+                <label for="repeat-password"><b>Repeat New Password</b></label>
+                <input type="password" placeholder="Repeat New Password" name="new_password_confirmation" required>
+                @error('new_password_confirmation')
+                    <div class="text-danger mt-1">{{ $message }}</div>
+                @enderror
+            </div>
             <button type="submit">Submit</button>
             <div class="psw">
                 <p><a href="{{ route('login') }}">Back to Login</a></p>
             </div>
         </div>
     </form>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
