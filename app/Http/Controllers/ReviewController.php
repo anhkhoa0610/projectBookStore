@@ -11,27 +11,36 @@ class ReviewController extends Controller
 {
     public function storeReview(Request $request)
     {
+        // RÀNG BUỘC DỮ LIỆU
+        $request->validate([
+            'book_id' => 'required|exists:books,book_id',
+            'rating' => 'required|integer|min:1|max:5',
+            'comment' => 'nullable|string|max:1000',
+        ]);
 
-
-        // $request->validate([
-        //     'rating' => 'required|integer|min:1|max:5',
-        //     'comment' => 'required|string'
-        // ]);
-
+        // Tạo đánh giá
         $review = Review::create([
             'book_id' => $request->book_id,
             'user_id' => Auth::user()->id,
             'rating' => $request->rating,
             'comment' => $request->comment,
-            'date_review' => now(),
+            'date_review' => now()->toDateString(), // để đúng kiểu `date` trong DB
         ]);
 
-        return response()->json(['message' => 'Đánh giá thành công', 'review' => $review]);
+        return response()->json([
+            'message' => 'Đánh giá thành công',
+            'review' => $review
+        ]);
     }
 
 
     public function updateReview(Request $request)
     {
+        $request->validate([
+            'review_id' => 'required|exists:reviews,id',
+            'rating' => 'required|integer|min:1|max:5',
+            'comment' => 'nullable|string',
+        ]);
 
         $review = Review::findOrFail($request->review_id);
 
@@ -40,6 +49,7 @@ class ReviewController extends Controller
             'comment' => $request->comment,
             'date_review' => now(),
         ]);
+
         return response()->json(['message' => 'Cập nhật đánh giá thành công', 'review' => $review]);
     }
 

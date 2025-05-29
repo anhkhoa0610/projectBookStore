@@ -49,7 +49,7 @@ class CrudOrdersDetailsController extends Controller
     {
         $order_id = $request->get('order_id');
         $dataBooks = Books::all();
-      
+
         return view('crud_orders_Details.create', ['order_id' => $order_id], ['dataBooks' => $dataBooks]);
     }
 
@@ -58,11 +58,20 @@ class CrudOrdersDetailsController extends Controller
      */
     public function postOrderDetails(Request $request)
     {
-        
+        // RÀNG BUỘC DỮ LIỆU ĐẦU VÀO
+        $request->validate([
+            'order_id' => 'required|exists:orders,order_id',
+            'book_id' => 'required|exists:books,book_id',
+            'quantity' => 'required|integer|min:1',
+        ]);
 
         $data = $request->all();
+
+        // Tính toán giá
         $book = Books::find($data['book_id']);
         $data['price'] = $book->price * $data['quantity'];
+
+        // Tạo chi tiết đơn hàng
         OrdersDetails::create([
             'order_id' => $data['order_id'],
             'book_id' => $data['book_id'],
@@ -70,10 +79,13 @@ class CrudOrdersDetailsController extends Controller
             'price' => $data['price'],
         ]);
 
-         CrudOrdersController::upDatePrice($data['order_id']);
+        // Cập nhật tổng giá trị đơn hàng
+        CrudOrdersController::upDatePrice($data['order_id']);
 
-        return redirect("listOrderDetailsByOrderId?order_id=".$data['order_id'])->with('status', 'Registration successful');
+        return redirect("listOrderDetailsByOrderId?order_id={$data['order_id']}")
+            ->with('status', 'Registration successful');
     }
+
 
     /**
      * View user Details page
@@ -94,8 +106,8 @@ class CrudOrdersDetailsController extends Controller
         $orderDetails = OrdersDetails::find($order_detail_id);
         CrudOrdersController::upDatePrice($orderDetails->order_id);
         OrdersDetails::destroy($order_detail_id);
-       
-       return redirect("listOrderDetailsByOrderId?order_id={$orderDetails->order_id}&page=1")->with('status', 'Update successfully');
+
+        return redirect("listOrderDetailsByOrderId?order_id={$orderDetails->order_id}&page=1")->with('status', 'Update successfully');
     }
 
     /**
@@ -106,7 +118,7 @@ class CrudOrdersDetailsController extends Controller
         $order_detail_id = $request->get('order_detail_id');
         $orderDetails = OrdersDetails::find($order_detail_id);
         $dataBooks = Books::all();
-        return view('crud_orders_details.update', ['orderDetails' => $orderDetails],['dataBooks' => $dataBooks]);
+        return view('crud_orders_details.update', ['orderDetails' => $orderDetails], ['dataBooks' => $dataBooks]);
     }
 
     /**
@@ -116,24 +128,33 @@ class CrudOrdersDetailsController extends Controller
     {
         $input = $request->all();
 
-        // $request->validate([
-        //     'name' => 'required',
-        //     'email' => 'required|email|unique:users,id,'.$input['id'],
-        //     'password' => 'required|min:6',
-        //     'like' => 'required',
-        //     'age' => 'required',
-        // ]);
+        // RÀNG BUỘC DỮ LIỆU
+        $request->validate([
+            'order_detail_id' => 'required|exists:orders_detail,order_detail_id',
+            'order_id' => 'required|exists:orders,order_id',
+            'book_id' => 'required|exists:books,book_id',
+            'quantity' => 'required|integer|min:1',
+        ]);
+
+        // Lấy thông tin chi tiết đơn hàng
         $orderDetails = OrdersDetails::find($input['order_detail_id']);
 
-        $price = Books::find($input['book_id']);
-        $input['price'] = $price->price * $input['quantity'];
+        // Tính giá = đơn giá * số lượng
+        $book = Books::find($input['book_id']);
+        $input['price'] = $book->price * $input['quantity'];
+
+        // Cập nhật dữ liệu
         $orderDetails->order_id = $input['order_id'];
         $orderDetails->book_id = $input['book_id'];
         $orderDetails->quantity = $input['quantity'];
         $orderDetails->price = $input['price'];
         $orderDetails->save();
+
+        // Cập nhật tổng đơn hàng
         CrudOrdersController::upDatePrice($orderDetails->order_id);
-       return redirect("listOrderDetailsByOrderId?order_id={$orderDetails->order_id}&page=1")->with('status', 'Update successfully');
+
+        return redirect("listOrderDetailsByOrderId?order_id={$orderDetails->order_id}&page=1")
+            ->with('status', 'Update successfully');
     }
 
     /**
@@ -156,7 +177,7 @@ class CrudOrdersDetailsController extends Controller
         //     return view('crud_user.list', ['users' => $users]);
         // }
         $order_id = $request->get('order_id');
-        $ordersDetails = OrdersDetails::where('order_id', $order_id)->get(); 
+        $ordersDetails = OrdersDetails::where('order_id', $order_id)->get();
         return view('crud_orders_Details.list', ['ordersDetails' => $ordersDetails]);
         // return redirect("login")->withSuccess('You are not allowed to access');
     }
@@ -166,11 +187,16 @@ class CrudOrdersDetailsController extends Controller
     {
         $search = $request->input('search');
         $order_id = $request->get('order_id');
-        $ordersDetails = OrdersDetails::where('order_id', $order_id)->when($search, function ($query, $search) {
-            $query->where('order_id', 'like', "%{$search}%")
-                  ->orWhere('book_id', 'like', "%{$search}%")
-                  ->orWhere('price', 'like', "%{$search}%");
-        })->paginate(3)->appends(['search' => $search, 'order_id' => $order_id]); // Append search query to pagination links
+
+        $ordersDetails = OrdersDetails::where('order_id', $order_id)
+            ->when($search, function ($query, $search) {
+                $query->where('order_id', 'like', "%{$search}%")
+                    ->orWhere('book_id', 'like', "%{$search}%")
+                    ->orWhere('price', 'like', "%{$search}%");
+            })
+            ->orderBy('created_at', 'desc') // Sắp xếp theo mới nhất
+            ->paginate(3)
+            ->appends(['search' => $search, 'order_id' => $order_id]);
 
         return view('crud_orders_details.list', compact('ordersDetails'));
     }
