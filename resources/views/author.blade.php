@@ -94,7 +94,7 @@
                                 <a class="nav-link" href="{{ route('index') }}#new-book">Sách Mới Nhất</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Tài Khoản</a>
+                                <a class="nav-link" href="{{ route('user.profile') }}">Tài Khoản</a>
                             </li>
                         </ul>
                     </div>
