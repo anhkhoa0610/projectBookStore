@@ -51,8 +51,13 @@
                 <a href="{{ route('user.createUser') }}" class="btn btn-primary"><b>Sign Up</b></a>
             @endauth
             <div class="cart">
-                <a href="" class="cart-icon">
+                <a href="{{ route('cart.show') }}" class="cart-icon">
                     <i class="fas fa-shopping-cart"></i>
+                    @auth
+                        <sup style="font-size: 20px;  color: #0f718a;" id="cart-count">
+                            
+                        </sup>
+                    @endauth
                 </a>
             </div>
         </div>
@@ -120,8 +125,8 @@
                 height="400" />
 
             <div class="btn-group">
-                <button type="button" class="btn-cart">
-                   <a href="{{route('cart.show')}}" style="text-decoration: none;"> <i class="fas fa-shopping-cart"></i> Thêm vào giỏ hàng</a>
+                <button type="button" class="btn-cart add-to-cart" data-book-id="{{ $book->book_id }}"  >
+                   <i class="fas fa-shopping-cart" style="color: aliceblue;" ></i> Thêm vào giỏ hàng
                 </button>
 
             </div>
@@ -179,7 +184,12 @@
                     <p style=" font-weight: bold">{{$book->publisher->publisher_name}}</p>
                 </div>
                 <div class="label">Tác giả:</div>
-                <div class="value">{{ $book->author->author_name }}</div>
+                <div class="value">
+                <a href="{{ route('author.show', $book->author->author_id) }}" >
+                    <span>{{ $book->author->author_name }}</span>
+                </a>
+
+                </div>
                 <div class="label">rating:</div>
 
                 <div class="">
@@ -227,7 +237,8 @@
 
             <div class="price-row">
                 <div class="price-current" id="price-current">
-                    {{ $book->price }}<span>đ</span>
+                  {{ number_format($book->price, 0, ',', '.') }}<span>đ</span>
+
                 </div>
                 <!-- <div class="price-old" aria-label="Old price 118,000 đồng">118.000</div>
                 <div class="price-discount" aria-label="30 percent discount">-30%</div> -->
@@ -303,14 +314,7 @@
                     <a href="#">Xem thêm <i class="fas fa-chevron-right"></i></a>
                 </div> -->
 
-                <div class="quantity" aria-label="Quantity selector">
-                    <label for="quantity-input">Số lượng:</label>
-                    <div class="quantity-controls">
-                        <button type="button" aria-label="Decrease quantity" id="decrease-btn">−</button>
-                        <input id="quantity-input" type="text" value="1" readonly />
-                        <button type="button" aria-label="Increase quantity" id="increase-btn">+</button>
-                    </div>
-                </div>
+               
             </div>
 
 
@@ -431,7 +435,7 @@
 
             function submitReview(bookId) {
                 const rating = document.getElementById('rating-value').value;
-                const comment = document.getElementById('comment-text').value;
+                const comment = document.getElementById('comment-text').value.trim();
                 const url = "{{ route('reviews.storeReview') }}";
                  if (!comment)
                   {
@@ -479,9 +483,13 @@
                     </div>
                     <div class="review-stars">
                         <span class="rating">
-                            @for ($i = 0; $i < $review->rating; $i++)
-                                <i class="fas fa-star text-warning"></i>
-                            @endfor
+                            @if($review->rating>0)
+                                @for ($i = 0; $i < floor($review->rating); $i++)
+                                    <i class="fas fa-star text-warning"></i>
+                                @endfor
+                            @else
+                                <span class="rating">Chưa đánh giá</span>
+                            @endif    
                         </span>
                     </div>
                     <div class="review-content">
@@ -540,7 +548,7 @@
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Chỉnh sửa đánh giá:</h5>
+                                        <h5 class="modal-title" id="exampleModalLabel">Xóa đánh giá:</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
@@ -710,7 +718,8 @@
                         </div>
 
                     </a>
-                    <button class="add-to-cart">Add to Cart</button>
+                      <button class="add-to-cart" data-book-id="{{ $book->book_id }}">Add to
+                        Cart</button>
                 </div>
             @endforeach
         </div>
@@ -759,11 +768,16 @@
                         </div>
 
                     </a>
-                    <button class="add-to-cart">Add to Cart</button>
+                     <button class="add-to-cart" data-book-id="{{ $book->book_id }}">Add to
+                        Cart</button>
                 </div>
             @endforeach
         </div>
     </section>
+
+    
+
+   
     
     
         <footer class="footer">
@@ -820,26 +834,99 @@
                     </div>
                 </div>
         </footer>
+
+             <!-- Toast Container -->
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 9999">
+        <div id="cart-toast" class="toast align-items-center text-bg-success border-0" role="alert"
+            aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body" id="cart-toast-body">
+                    Book added to cart successfully!
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                    aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+
+        <script>
+        const userId = {{ Auth::check() ? Auth::id() : 'null' }};
+        const addCartApiUrl = "{{ route('index-add-cart-api') }}";
+        </script>
     
+        <script>
+        
+            document.addEventListener("DOMContentLoaded", function () {
+                let index = 0;
+                const slides = document.querySelectorAll(".nav-slide");
+                const slidesContainer = document.querySelector(".nav-slides");
+                const totalSlides = slides.length;
+                function autoSlide() {
+                    index = (index + 1) % totalSlides;
+                    slidesContainer.style.transform = `translateX(-${index * 100}vw)`;
+                }
+                attachAddCartListeners()
+        
+                setInterval(autoSlide, 3000);
+            });
+
+            async function addCart(book_id, user_id) { // Assuming you have the user ID available
+                const data = {
+                    user_id: user_id,
+                    book_id: book_id
+                };
+                const url = addCartApiUrl; // Adjust the URL as needed
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json;charset=utf-8',
+                        'Accept': 'Application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                const result = await response.json();
+                console.log(result);
+                if (response.ok) {
+                    showCartToast('Book added to cart successfully!', true);
+                    document.querySelector('#cart-count').textContent = result.cart_count || 0; // Update cart count if available
+                } else {
+                    showCartToast('Book already in your cart!', false);
+                }
+            }
+
+            function attachAddCartListeners() {
+                document.querySelectorAll('.add-to-cart').forEach(btn => {
+                    btn.onclick = function () {
+                        if (!userId || userId === 'null') {
+                            showCartToast('Please log in to add items to your cart.', false);
+                            return;
+                        }
+                        if (btn.disabled) return;
+
+                        btn.disabled = true;
+                        const bookId = this.getAttribute('data-book-id');
+                        addCart(bookId, userId).finally(() => {
+                            setTimeout(() => {
+                                btn.disabled = false;
+                            }, 1000);
+                        });
+                    };
+                });
+            }
+
+            function showCartToast(message, isSuccess = true) {
+                const toastEl = document.getElementById('cart-toast');
+                const toastBody = document.getElementById('cart-toast-body');
+                toastBody.textContent = message;
+                toastEl.classList.remove('text-bg-success', 'text-bg-danger');
+                toastEl.classList.add(isSuccess ? 'text-bg-success' : 'text-bg-danger');
+                const toast = new bootstrap.Toast(toastEl);
+                toast.show();
+            }
+        
+        
+        </script>
 </body>
-<script src="{{ asset('js/scripts.js') }}"></script>
-<script>
-
-    document.addEventListener("DOMContentLoaded", function () {
-        let index = 0;
-        const slides = document.querySelectorAll(".nav-slide");
-        const slidesContainer = document.querySelector(".nav-slides");
-        const totalSlides = slides.length;
-        function autoSlide() {
-            index = (index + 1) % totalSlides;
-            slidesContainer.style.transform = `translateX(-${index * 100}vw)`;
-        }
-
-        setInterval(autoSlide, 3000);
-    });
-
-
-</script>
 
 
 </html>
