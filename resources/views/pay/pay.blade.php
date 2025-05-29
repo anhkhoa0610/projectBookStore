@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <title>Checkout</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
@@ -478,51 +480,22 @@
                         </ul>
                     </div>
                 </form>
-             
-                 <form action="{{ url('/vnpay_payment') }}" method="post">
+
+                <form action="{{ url('/vnpay_payment') }}" method="post">
                     @csrf
                     <input type="hidden" name="total" value="{{$total}}">
-                    <button type="submit" class="btn btn-red check_out"
-                        name="redirect" style="height: 50px;">Thanh toán VNPAY</button>
+                    <button type="submit" class="btn check_out"
+                        name="redirect" style="height: 50px; background-color:rgb(9, 2, 76); color: white; border: none; border-radius: 4px; font-size: 14px; font-weight: 600; cursor: pointer; width: 100%; display: flex; align-items: center; justify-content: center;"><i class="fas fa-credit-card" style="margin-right: 8px;"></i>Thanh Toán Bằng VNPAY</button>
+
                 </form>
-                <button class="btn-yellow" type="button">
-                    MUA TRẢ CHẬM<br />
-                    <span style="color: red; font-size: 16px;">
-                        HOME
-                        CREDIT
-                    </span>
-                </button>
-                <div class="payment-info">
-                    <strong>
-                        ƯU ĐÃI KHI THANH TOÁN
-                        <span class="red-text">
-                            (SỬ DỤNG KHI XÁC NHẬN KHOẢN VAY TRÊN TRANG CỦA TỔ CHỨC TÀI CHÍNH)
-                        </span>
-                        <img src="https://storage.googleapis.com/a1aa/image/7f8538c2-3853-44a9-e3e9-fcbdd0363581.jpg"
-                            alt="HOME PayLater logo in red text" class="logo-small" width="40" height="12" />
-                    </strong>
-                    <div class="offer">
-                        <img src="https://storage.googleapis.com/a1aa/image/e34ac564-6a42-449d-cf7e-e5f7b3403071.jpg"
-                            alt="HOME PayLater small logo" width="20" height="20" />
-                        <p class="offer-text">
-                            Giảm 5% cho đơn hàng từ 55K, tối đa 300K, sử dụng 1 lần/tháng.
-                            Áp dụng cho tất cả Khách hàng.
-                        </p>
-                    </div>
-                    <div class="offer" style="align-items:center;">
-                        <img src="https://storage.googleapis.com/a1aa/image/e34ac564-6a42-449d-cf7e-e5f7b3403071.jpg"
-                            alt="HOME PayLater small logo" width="20" height="20" />
-                        <p class="offer-text">
-                            Giảm 20% cho đơn hàng từ 55K, tối đa 50K, sử dụng 1 lần/tháng.
-                            Chỉ áp dụng cho Khách hàng mới.
-                        </p>
-                        <div class="hot-badge">SIÊU HOT</div>
-                    </div>
-                    <div class="powered">
-                        Powered by
-                        <a href="https://backim.vn" target="_blank" rel="noopener noreferrer">backim</a>
-                    </div>
-                </div>
+                <form action="{{ url('/momo_payment') }}" method="post">
+                    @csrf
+                    <input type="hidden" name="total" value="{{$total}}">
+                    <button type="submit" class="btn check_out"
+                        name="redirect" style="height: 50px; background-color:rgb(76, 2, 46); color: white; border: none; border-radius: 4px; font-size: 14px; font-weight: 600; cursor: pointer; width: 100%; display: flex; align-items: center; justify-content: center;"><i class="fas fa-credit-card" style="margin-right: 8px;"></i>Thanh Toán Bằng MoMo</button>
+
+                </form>
+
             </div>
         </div>
         <div class="right">
@@ -545,11 +518,12 @@
             </div>
             <div class="order-buttons">
                 <a href="{{route('cart.show')}}" style="text-decoration: none; width: 100%;"><button class="btn-green" type="button"><i class="fas fa-pen"></i> Sửa giỏ hàng</button></a>
-                
-                    <button type="submit" class="btn btn-orange check_out"
-                        name="redirect">Đặt Hàng</button>
-           
+
+                <button type="button" class="btn btn-orange check_out" data-bs-toggle="modal" data-bs-target="#myModal">
+                    Đặt Hàng
+                </button>
             </div>
+
             <p class="order-note">
                 - Giá trên chưa bao gồm phí vận chuyển. Phí vận chuyển sẽ được nhân viên báo khi xác nhận đơn
                 hàng.<br />
@@ -559,7 +533,7 @@
         </div>
     </div>
 
-   
+
 </body>
 <script>
     document.addEventListener('click', function() {

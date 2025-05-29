@@ -207,8 +207,10 @@ Route::delete('/api/cart/{cart}', [App\Http\Controllers\CartController::class, '
 Route::patch('/api/cart/{cart}', [App\Http\Controllers\CartController::class, 'updateQuantity'])->name('cart.api.update');
 Route::get('/pay', [PayController::class, 'ShowPay'])->name('pay.show');
 Route::post('/vnpay_payment', [PaymentController::class, 'vnpay_payment']);
-
+Route::post('/momo_payment', [PaymentController::class, 'momo_payment']);
 
 Route::post('/api/reviews', [ReviewController::class, 'storeReview'])->name('reviews.storeReview');
 Route::post('/api/reviews.update', [ReviewController::class, 'updateReview'])->name('reviews.updateReview');
 Route::post('/api/reviews.delete', [ReviewController::class, 'deleteReview'])->name('reviews.deleteReview');
+Route::get('/api/products/search', [CartController::class, 'searchProducts']);
+Route::get('cart/search/{keyword}', [CartController::class, 'searchCartAPI']);

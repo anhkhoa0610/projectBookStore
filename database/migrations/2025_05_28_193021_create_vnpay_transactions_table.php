@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('vnpay_transactions', function (Blueprint $table) {
         $table->id();
-        $table->string('order_id');             // Mã đơn hàng của bạn
+        $table->integer('order_id');             // Mã đơn hàng của bạn
         $table->decimal('amount', 15, 2);           // Số tiền giao dịch (đơn vị VND)
         $table->string('bank_code')->nullable(); 
         $table->string('transaction_no')->nullable(); // Mã giao dịch bên VNPAY
