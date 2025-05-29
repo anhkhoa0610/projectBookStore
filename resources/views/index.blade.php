@@ -47,7 +47,7 @@
                     </span>
                     <div class="dropdown-menu"
                         style="display:none; position:absolute; right:0; top:100%; background:#fff; box-shadow:0 2px 8px rgba(0,0,0,0.15); min-width:160px; z-index:100;">
-                        <a class="dropdown-item" href="">Profile</a>
+                        <a class="dropdown-item" href="{{ route('user.profile') }}">Profile</a>
                         @if(Auth::user()->role === 'admin')
                             <a class="dropdown-item" href="{{ route('dashboard') }}">Admin dashboard</a>
                         @endif
