@@ -54,11 +54,21 @@ class CrudOrdersController extends Controller
      */
     public function postOrder(Request $request)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'user_id' => 'required|integer|exists:users,id',
-            'order_date' => 'required|date',
+            'order_date' => [
+                'required',
+                'date',
+                'before_or_equal:today',
+                function ($attribute, $value, $fail) {
+                    $year = (int) date('Y', strtotime($value));
+                    if ($year < 1900 || $year > now()->year) {
+                        $fail('The ' . $attribute . ' must have a valid year between 1900 and ' . now()->year . '.');
+                    }
+                }
+            ],
             'status' => 'required|string|max:255',
-            'tracking_number' => 'required|integer',
+            'tracking_number' => 'required|integer|min:1',
             'carrier' => 'required|string|max:255',
             'coupon_id' => 'nullable|integer|exists:coupons,id',
         ]);
@@ -141,9 +151,19 @@ class CrudOrdersController extends Controller
         $request->validate([
             'order_id' => 'required|exists:orders,order_id',
             'user_id' => 'required|integer|exists:users,id',
-            'order_date' => 'required|date',
+            'order_date' => [
+                'required',
+                'date',
+                'before_or_equal:today',
+                function ($attribute, $value, $fail) {
+                    $year = (int) date('Y', strtotime($value));
+                    if ($year < 1900 || $year > now()->year) {
+                        $fail('The ' . $attribute . ' must have a valid year between 1900 and ' . now()->year . '.');
+                    }
+                }
+            ],
             'status' => 'required|string|max:255',
-            'tracking_number' => 'required|integer',
+            'tracking_number' => 'required|integer|min:1',
             'carrier' => 'required|string|max:255',
             'coupon_id' => 'nullable|integer|exists:coupons,id',
         ]);

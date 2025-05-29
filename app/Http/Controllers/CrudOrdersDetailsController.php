@@ -62,7 +62,7 @@ class CrudOrdersDetailsController extends Controller
         $request->validate([
             'order_id' => 'required|exists:orders,order_id',
             'book_id' => 'required|exists:books,book_id',
-            'quantity' => 'required|integer|min:1',
+            'quantity' => 'required|integer|min:1|max:100',
         ]);
 
         $data = $request->all();
@@ -133,7 +133,7 @@ class CrudOrdersDetailsController extends Controller
             'order_detail_id' => 'required|exists:orders_detail,order_detail_id',
             'order_id' => 'required|exists:orders,order_id',
             'book_id' => 'required|exists:books,book_id',
-            'quantity' => 'required|integer|min:1',
+            'quantity' => 'required|integer|min:1|max:100',
         ]);
 
         // Lấy thông tin chi tiết đơn hàng

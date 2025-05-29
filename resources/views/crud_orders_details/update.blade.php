@@ -36,6 +36,15 @@
                             <a href="{{ route('orders.listOrderDetailsByOrderId')}}?order_id={{  $orderDetails->order_id }}"
                                 class="btn btn-danger float-end">Back</a>
                         </h4>
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul class="mb-0">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                     </div>
 
                     <div class="card-body">
@@ -67,6 +76,9 @@
                             <div class="form-group mb-3" class="form-label">
                                 <label for="quantity">quantity</label>
                                 <input type="number" rows="3" name="quantity" class="form-control" required>
+                                 @error('quantity')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                             <button data-mdb-button-init data-mdb-ripple-init
                                 class="btn btn-dark btn-outline-light btn-lg px-5" type="submit">Update</button>

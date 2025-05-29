@@ -11,7 +11,7 @@
                 <div class="card">
                     <div class="card-header">
                         <h4>Order view
-                            <a href="{{ route('orders.createOrder') }}" class="btn btn-primary float-end">Add Category</a>
+                            <a href="{{ route('orders.createOrder') }}" class="btn btn-primary float-end">Add new order</a>
                         </h4>
                     </div>
                     <div class="card-body">
