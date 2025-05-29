@@ -173,4 +173,68 @@ class CrudUserController extends Controller
         Auth::logout();
         return redirect()->route('login');
     }
+
+public function myProfile()
+{
+    $user = Auth::user();
+    if (!$user) {
+        return redirect()->route('login')->with('error', 'Please log in to view your profile.');
+    }
+
+    return view('crud_user.profile', compact('user'));
+}
+/**
+ * Update authenticated user's profile
+ */
+public function editProfile()
+{
+    $user = Auth::user();
+    return view('crud_user.edit', compact('user'));
+}
+
+public function updateProfile(Request $request)
+{
+    $user = Auth::user();
+    
+    $validated = $request->validate([
+        'full_name' => 'required|string|max:100',
+        'email' => 'required|email|max:100|unique:users,email,' . $user->id,
+        'phone' => 'required|string|min:10|max:15|unique:users,phone,' . $user->id,
+        'address' => 'required|string',
+        'dob' => 'required|date|before:today',
+        'password' => 'nullable|min:8|confirmed',
+    ]);
+
+    $user->update($validated);
+
+    return redirect()->route('user.profile')->with('status', 'Profile updated successfully');
+}
+ 
+public function changePassword(Request $request): \Illuminate\Http\RedirectResponse
+{
+    $user = Auth::user();
+
+    $validated = $request->validate([
+        'current_password' => ['required', function ($attribute, $value, $fail) use ($user) {
+            if (!Hash::check($value, $user->password)) {
+                $fail('The current password is incorrect.');
+            }
+        }],
+        'new_password' => 'required|min:8|confirmed|different:current_password',
+    ]);
+
+    $user->password = Hash::make($validated['new_password']);
+    $user->save();
+
+    return redirect()->route('user.profile')->with('status', 'Password changed successfully');
+}
+public function editPassword()
+{
+    $user = Auth::user();
+    return view('crud_user.changePassword', compact('user'));
+}
+public function showChangePasswordForm()
+{
+    return view('crud_user.changepassword');
+}
 }
