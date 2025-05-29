@@ -58,7 +58,7 @@ class LoginController extends Controller
             'email' => 'required|email',
             'old_password' => 'required|min:6',
             'new_password' => 'required|min:6|confirmed',
-            'new_password_confirmation' => 'required|min:6',
+            'new_password_confirmation' => 'required|min:6',    
         ], [
             'email.required' => 'Please enter your email.',
             'email.email' => 'The email format is invalid.',
@@ -132,6 +132,7 @@ class LoginController extends Controller
             'phone.digits_between' => 'Phone number must be between 9 and 15 digits.',
             'phone.unique' => 'This phone number is already in use.',
             'address.required' => 'Please enter your address.',
+            'address.string' => 'Address must be a valid string.',
             'dob.required' => 'Please enter your date of birth.',
             'dob.date' => 'Date of birth must be a valid date.',
             'dob.before' => 'Date of birth must be in the past.',
