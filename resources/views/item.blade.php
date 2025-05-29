@@ -474,7 +474,7 @@
         </div>
 
         <div class="review-list">
-            @foreach ($reviews->reverse() as $review)
+            @foreach ($reviews as $review)
 
                 <div class="review-item">
                     <div class="review-header">

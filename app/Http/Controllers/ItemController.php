@@ -44,8 +44,9 @@ class ItemController extends Controller
                 ->exists();
         }
         $reviews = Review::where('book_id', $book->book_id)
+            ->orderByDesc('date_review')
             ->with('user')
-            ->paginate(4);
+            ->paginate(5);
 
         return view('item', compact('book', 'relatedBooks', 'bookWishList', 'relatedAuthorBooks', 'reviews'));
 

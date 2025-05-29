@@ -15,7 +15,7 @@ class ReviewController extends Controller
         $request->validate([
             'book_id' => 'required|exists:books,book_id',
             'rating' => 'required|integer|min:0|max:5',
-            'comment' => 'nullable|string|max:1000',
+            'comment' => 'required|string|max:1000',
         ]);
 
         // Tạo đánh giá
