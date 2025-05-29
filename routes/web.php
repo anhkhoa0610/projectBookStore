@@ -220,4 +220,5 @@ Route::put('/profile/update', [CrudUserController::class, 'updateProfile'])->nam
 
 Route::get('/profile/change-password', [CrudUserController::class, 'showChangePasswordForm'])->name('user.showChangePasswordForm');
 Route::put('/profile/change-password', [CrudUserController::class, 'changePassword'])->name('user.changePassword');
+
 Route::delete('/user/delete-account', [CrudUserController::class, 'deleteAccount'])->name('user.deleteAccount');
