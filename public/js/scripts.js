@@ -415,9 +415,8 @@ async function addCart(book_id, user_id) { // Assuming you have the user ID avai
         showCartToast('Book added to cart successfully!', true);
         document.querySelector('#cart-count').textContent = result.cart_count || 0; // Update cart count if available
     } else {
-        showCartToast('Failed to add book to cart.', false);
+        showCartToast('Book already in your cart!', false);
     }
-
 }
 
 function attachAddCartListeners() {

@@ -6,11 +6,17 @@
         <div class="row">
             <div class="col-md-12">
 
-                @session('status')
+                @if (session('status'))
                     <div class="alert alert-success">
                         {{ session('status') }}
                     </div>
-                @endsession
+                @endif
+
+                @if (session('error'))
+                    <div class="alert alert-danger">
+                        {{ session('error') }}
+                    </div>
+                @endif
 
                 <div class="card">
                     <div class="card-header">
@@ -94,7 +100,10 @@
                                         <th>{{ $book->publisher->publisher_name }}</th>
                                         <td class="description-cell">{{ $book->description }}</td>
                                         <td>
-                                            @if ($book->cover_image)
+                                            @php
+                                                $imagePath = public_path('uploads/' . $book->cover_image);
+                                            @endphp
+                                            @if ($book->cover_image && file_exists($imagePath))
                                                 <img src="{{ asset('uploads/' . $book->cover_image) }}" alt="Cover Image"
                                                     class="img-fluid rounded shadow" style="max-height: 220px;">
                                             @else

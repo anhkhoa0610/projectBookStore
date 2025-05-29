@@ -64,6 +64,8 @@ class CrudBookController extends Controller
                     }
                 }
             ],
+            'author_id' => 'required|exists:authors,author_id',
+            'publisher_id' => 'required|exists:publishers,publisher_id',
             'summary' => 'required|string|max:500',
             'description' => 'required|string|max:500',
             'published_date' => 'required|date|before:today',
@@ -107,6 +109,10 @@ class CrudBookController extends Controller
         $book_id = $request->get('book_id');
         $book = Books::find($book_id);
 
+        if (!$book) {
+            return redirect()->route('book.list')->with('error', 'Book not found.');
+        }
+
         return view('crud_book.read', ['book' => $book]);
     }
 
@@ -114,9 +120,15 @@ class CrudBookController extends Controller
     public function deleteBook(Request $request)
     {
         $book_id = $request->get('book_id');
-        $book = Books::destroy($book_id);
+        $book = Books::find($book_id);
 
-        return redirect("listBook")->with('status', 'Delete successfully');
+        if (!$book) {
+            return redirect()->route('book.list')->with('error', 'Book not found or already deleted.');
+        }
+
+        $book->delete();
+
+        return redirect()->route('book.list')->with('status', 'Delete successfully');
     }
 
 
@@ -124,6 +136,10 @@ class CrudBookController extends Controller
     {
         $book_id = $request->get('book_id');
         $book = Books::find($book_id);
+
+        if (!$book) {
+            return redirect()->route('book.list')->with('error', 'Book not found.');
+        }
 
         $authors = Author::all();
         $publishers = Publisher::all();
@@ -153,6 +169,8 @@ class CrudBookController extends Controller
                     }
                 }
             ],
+            'author_id' => 'required|exists:authors,author_id',
+            'publisher_id' => 'required|exists:publishers,publisher_id',
             'summary' => 'required|string|max:500',
             'description' => 'required|string|max:500',
             'published_date' => 'required|date|before:today', // Must be a date before today            'description' => 'required|string|max:255',
@@ -162,12 +180,10 @@ class CrudBookController extends Controller
         ]);
 
         if ($request->hasFile('cover_image')) {
-            // Delete the old cover image if it exists
             if ($book->cover_image && file_exists(public_path('uploads/' . $book->cover_image))) {
                 unlink(public_path('uploads/' . $book->cover_image));
             }
 
-            // Save the new cover image
             $file = $request->file('cover_image');
             $filename = time() . '_' . $file->getClientOriginalName();
             $file->move(public_path('uploads'), $filename);
@@ -182,7 +198,6 @@ class CrudBookController extends Controller
         $book->publisher_id = $input['publisher_id'];
         $book->description = $input['description'];
         $book->price = $input['price'];
-        // $book->cover_image = $input['cover_image'];
         $book->volume_sold = $input['volume_sold'];
         $book->save();
 
@@ -216,6 +231,11 @@ class CrudBookController extends Controller
             })
             ->paginate(10)
             ->appends(['search' => $search]);
+
+        if ($books->isEmpty() && $books->currentPage() > 1) {
+            return redirect()->route('book.list', ['page' => 1, 'search' => $search])
+                ->with('error', 'No books found on page ' . $books->currentPage() . ', redirected to first page.');
+        }
 
         return view('crud_book.list', compact('books'));
     }

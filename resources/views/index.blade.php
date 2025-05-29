@@ -72,7 +72,7 @@
                     <i class="fas fa-shopping-cart"></i>
                     @auth
                         <sup style="font-size: 20px;  color: #0f718a;" id="cart-count">
-                            
+
                         </sup>
                     @endauth
                 </a>
@@ -143,8 +143,8 @@
                             style="position: absolute; top: 10px; left: 10px; z-index: 2;">
                             Recommended
                         </span>
-                        <img src="{{ $book->cover_image ? asset('uploads/' . $book->cover_image) : asset('images/placeholder.png') }}"
-                            alt="{{ $book->title }}" width="150" height="200" />
+                        <img src="{{ asset('uploads/' . $book->cover_image) }}" alt="{{ $book->title }}" width="150"
+                            height="200" onerror="this.onerror=null;this.src='{{ asset('uploads/placeholder.png') }}';" />
                         <h3>{{ $book->title }}</h3>
                         <p class="author">{{ $book->author->author_name }}</p>
                         <div class="">
