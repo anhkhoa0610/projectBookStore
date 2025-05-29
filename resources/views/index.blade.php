@@ -229,7 +229,7 @@
 
     </section>
 
-    <div class="content">
+    <div class="content" id="all-books">
 
         <div class="category-list mt-4">
             <div class="category-box">

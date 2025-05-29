@@ -210,6 +210,12 @@
                         Cart</button>
                 </div>
             @endforeach
+
+        </div>
+        <div class="d-flex mt-4 justify-content-center">
+            <a href="{{ route('index') }}#all-books" class="btn btn-outline-primary px-4 py-2">
+                See more
+            </a>
         </div>
     </section>
 
