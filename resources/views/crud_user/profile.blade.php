@@ -86,7 +86,6 @@
         </body>
     </div>
 
-
     <div>
         <div class="nav-slider mt-5">
             <div class="nav-slides">
@@ -161,7 +160,6 @@
                     </a>
                 </div>
 
-
             </div>
             <div class="col-md-12 mt-2">
                 <a href="{{ route('user.showChangePasswordForm') }}" class="btn btn-warning">Change Password</a>
@@ -185,7 +183,6 @@
                     </div>
                 </div>
 
-
                 <div class="footer-column">
                     <ul>
                         <li><a href="#">About</a></li>
@@ -199,7 +196,6 @@
                         <li><a href="#">Returns and Refund Policy</a></li>
                     </ul>
                 </div>
-
 
                 <div class="footer-column">
                     <h4 style="text-align: center;">Follow us</h4>
@@ -230,7 +226,6 @@
     </div>
 
 
-
 </body>
 <script src="{{ asset('js/scripts.js') }}"></script>
 <script>
@@ -248,10 +243,6 @@
         setInterval(autoSlide, 3000);
     });
 
-
 </script>
 
-
 </html>
-
-
