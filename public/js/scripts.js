@@ -356,9 +356,9 @@ async function loadVouchers(page = 1) {
         if (pagination) {
             let pagHtml = `<ul class="pagination justify-content-center">`;
             if (result.prev_page_url) {
-                pagHtml += `<li class="page-item"><button class="page-link" onclick="loadVouchers(${result.current_page - 1})">&laquo; Trước</button></li>`;
+                pagHtml += `<li class="page-item"><button class="page-link" onclick="loadVouchers(${result.current_page - 1})">&laquo; Previous</button></li>`;
             } else {
-                pagHtml += `<li class="page-item disabled"><span class="page-link">&laquo; Trước</span></li>`;
+                pagHtml += `<li class="page-item disabled"><span class="page-link">&laquo; Previous</span></li>`;
             }
             let start = Math.max(1, result.current_page - 2);
             let end = Math.min(result.last_page, result.current_page + 2);
@@ -370,9 +370,9 @@ async function loadVouchers(page = 1) {
                 }
             }
             if (result.next_page_url) {
-                pagHtml += `<li class="page-item"><button class="page-link" onclick="loadVouchers(${result.current_page + 1})">Sau &raquo;</button></li>`;
+                pagHtml += `<li class="page-item"><button class="page-link" onclick="loadVouchers(${result.current_page + 1})">Next &raquo;</button></li>`;
             } else {
-                pagHtml += `<li class="page-item disabled"><span class="page-link">Sau &raquo;</span></li>`;
+                pagHtml += `<li class="page-item disabled"><span class="page-link">Next &raquo;</span></li>`;
             }
             pagHtml += `</ul>`;
             pagination.innerHTML = pagHtml;

@@ -88,10 +88,10 @@
                                 <a class="nav-link" href="{{ route('index') }}">Home</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#best-seller">Bán Chạy Nhất</a>
+                                <a class="nav-link" href="{{ route('index') }}#best-seller">Bán Chạy Nhất</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#new-book">Sách Mới Nhất</a>
+                                <a class="nav-link" href="{{ route('index') }}#new-book">Sách Mới Nhất</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#">Tài Khoản</a>
