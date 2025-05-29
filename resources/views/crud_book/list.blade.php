@@ -31,7 +31,8 @@
 
                         <style>
                             .description-cell,
-                            .summary-cell, .title-cell {
+                            .summary-cell,
+                            .title-cell {
                                 max-width: 200px;
                                 /* Set maximum width */
                                 max-height: 100px;
@@ -86,18 +87,20 @@
                                         <th>{{ $book->author ? $book->author->author_name : 'Unknown' }}</th>
                                         <th>{{ $book->published_date }}</th>
                                         <th style="max-width: 120px">@foreach ($book->categories as $category)
-                                            <span class="badge bg-primary">{{ $category->category_name }}</span>  
+                                            <span class="badge bg-primary">{{ $category->category_name }}</span>
                                         @endforeach
-                                            
+
                                         </th>
                                         <th>{{ $book->publisher->publisher_name }}</th>
                                         <td class="description-cell">{{ $book->description }}</td>
                                         <td>
                                             @if ($book->cover_image)
-                                            <img src="{{ asset('uploads/' . $book->cover_image) }}" alt="Cover Image" class="img-fluid rounded shadow" style="max-height: 220px;">
+                                                <img src="{{ asset('uploads/' . $book->cover_image) }}" alt="Cover Image"
+                                                    class="img-fluid rounded shadow" style="max-height: 220px;">
                                             @else
-                                            <img src="{{ asset('images/placeholder.png') }}" alt="No Image" class="img-fluid rounded shadow" style="max-height: 220px;">
-                                             @endif
+                                                <img src="{{ asset('images/placeholder.png') }}" alt="No Image"
+                                                    class="img-fluid rounded shadow" style="max-height: 220px;">
+                                            @endif
                                         </td>
                                         <th>{{ $book->price }}</th>
                                         <td class="summary-cell">{{ $book->summary }}</td>
@@ -111,10 +114,14 @@
                                                 class="btn btn-info">
                                                 <i class="fas fa-eye"></i> <!-- Show Icon -->
                                             </a>
-                                            <a href="{{ route('book.deleteBook', ['book_id' => $book->book_id]) }}"
-                                                class="btn btn-danger">
-                                                <i class="fas fa-trash"></i> <!-- Delete Icon -->
-                                            </a>
+                                            <form id="delete-form-{{ $book->book_id }}" action="{{ route('book.deleteBook') }}"
+                                                method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <input type="hidden" name="book_id" value="{{ $book->book_id }}">
+                                                <button type="button" onclick="confirmDelete({{ $book->book_id }})"
+                                                    class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                                            </form>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -130,5 +137,22 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function confirmDelete(bookId) {
+            Swal.fire({
+                title: 'Xác nhận xóa',
+                text: 'Bạn có chắc chắn muốn xóa quyển sách này không?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Xóa',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('delete-form-' + bookId).submit();
+                }
+            });
+        }
+    </script>
 
 @endsection

@@ -3,7 +3,7 @@
 
 <head>
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Laravel 10.48.0 - CRUD book Example</title>
+    <title>Admin Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- <link href="{{ asset('css/styles.css') }}" rel="stylesheet"> -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
@@ -83,5 +83,5 @@
     </div>
 
 </body>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </html>

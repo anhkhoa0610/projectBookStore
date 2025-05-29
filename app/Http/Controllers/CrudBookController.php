@@ -59,9 +59,8 @@ class CrudBookController extends Controller
                 'required',
                 'string',
                 function ($attribute, $value, $fail) {
-                    // mb_strlen counts multibyte (full-width) and single-byte (half-width) as 1 each
-                    if (mb_strlen($value) >= 50) {
-                        $fail('The ' . $attribute . ' must be less than 10 characters.');
+                    if (mb_strlen($value) >= 100) {
+                        $fail('The ' . $attribute . ' must be less than 100 characters.');
                     }
                 }
             ],
@@ -102,9 +101,7 @@ class CrudBookController extends Controller
         return redirect("listBook")->with('status', 'Registration successful');
     }
 
-    /**
-     * View user detail page
-     */
+
     public function readBook(Request $request)
     {
         $book_id = $request->get('book_id');
@@ -113,9 +110,7 @@ class CrudBookController extends Controller
         return view('crud_book.read', ['book' => $book]);
     }
 
-    /**
-     * Delete user by id
-     */
+
     public function deleteBook(Request $request)
     {
         $book_id = $request->get('book_id');
@@ -124,9 +119,7 @@ class CrudBookController extends Controller
         return redirect("listBook")->with('status', 'Delete successfully');
     }
 
-    /**
-     * Form update user page
-     */
+
     public function updateBook(Request $request)
     {
         $book_id = $request->get('book_id');
@@ -144,9 +137,7 @@ class CrudBookController extends Controller
         ]);
     }
 
-    /**
-     * Submit form update user
-     */
+
     public function postUpdateBook(Request $request)
     {
         $input = $request->all();
@@ -157,8 +148,8 @@ class CrudBookController extends Controller
                 'string',
                 function ($attribute, $value, $fail) {
                     // mb_strlen counts multibyte (full-width) and single-byte (half-width) as 1 each
-                    if (mb_strlen($value) >= 50) {
-                        $fail('The ' . $attribute . ' must be less than 10 characters.');
+                    if (mb_strlen($value) >= 100) {
+                        $fail('The ' . $attribute . ' must be less than 100 characters.');
                     }
                 }
             ],
@@ -232,13 +223,6 @@ class CrudBookController extends Controller
     /**
      * Sign out
      */
-    public function signOut()
-    {
-        Session::flush();
-        Auth::logout();
-
-        return Redirect('login');
-    }
 
 
 }
