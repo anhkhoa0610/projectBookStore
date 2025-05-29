@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Coupon;
+use Illuminate\Validation\Rule;
+use Carbon\Carbon;
 
 class CrudCouponController extends Controller
 {
@@ -16,9 +18,9 @@ class CrudCouponController extends Controller
 
         $coupons = Coupon::when($search, function ($query, $search) {
             $query->where('coupon_code', 'like', "%{$search}%")
-                  ->orWhere('discount_amount', 'like', "%{$search}%")
-                  ->orWhere('valid_from', 'like', "%{$search}%")
-                  ->orWhere('valid_to', 'like', "%{$search}%");
+                ->orWhere('discount_amount', 'like', "%{$search}%")
+                ->orWhere('valid_from', 'like', "%{$search}%")
+                ->orWhere('valid_to', 'like', "%{$search}%");
         })->paginate(10)->appends(['search' => $search]);
         return view('crud_coupon.list', ['coupons' => $coupons]);
     }
@@ -36,14 +38,39 @@ class CrudCouponController extends Controller
      */
     public function postCoupon(Request $request)
     {
+        $request->merge([
+            'coupon_code' => trim($request->coupon_code),
+        ]);
+
         $request->validate([
             'coupon_code' => 'required|string|max:20|unique:coupons',
             'discount_amount' => 'required|numeric|min:0',
             'valid_from' => 'required|date',
             'valid_to' => 'required|date|after_or_equal:valid_from',
+        ], [
+            'coupon_code.required' => 'Mã giảm giá là bắt buộc.',
+            'coupon_code.unique' => 'Mã giảm giá đã tồn tại.',
+            'coupon_code.max' => 'Mã giảm giá không được vượt quá 20 ký tự.',
+            'discount_amount.required' => 'Số tiền giảm giá là bắt buộc.',
+            'discount_amount.numeric' => 'Số tiền giảm giá phải là số.',
+            'discount_amount.min' => 'Số tiền giảm giá không được âm.',
+            'valid_from.required' => 'Ngày bắt đầu là bắt buộc.',
+            'valid_from.date' => 'Ngày bắt đầu không hợp lệ.',
+            'valid_to.required' => 'Ngày kết thúc là bắt buộc.',
+            'valid_to.date' => 'Ngày kết thúc không hợp lệ.',
+            'valid_to.after_or_equal' => 'Ngày kết thúc phải sau hoặc bằng ngày bắt đầu.',
         ]);
 
-        Coupon::create($request->all());
+        if (Carbon::parse($request->valid_to)->lt(today())) {
+            return back()->withErrors(['valid_to' => 'Ngày kết thúc phải từ hôm nay trở đi.']);
+        }
+
+        Coupon::create($request->only([
+            'coupon_code',
+            'discount_amount',
+            'valid_from',
+            'valid_to',
+        ]));
 
         return redirect()->route('coupon.list')->with('status', 'Coupon created successfully!');
     }
@@ -62,15 +89,41 @@ class CrudCouponController extends Controller
      */
     public function updateCoupon(Request $request, $id)
     {
+        $request->merge([
+            'coupon_code' => trim($request->coupon_code),
+        ]);
+
         $request->validate([
-            'coupon_code' => 'required|string|max:20|unique:coupons,coupon_code,' . $id,
+            'coupon_code' => [
+                'required',
+                'string',
+                'max:20',
+                Rule::unique('coupons', 'coupon_code')->ignore($id),
+            ],
             'discount_amount' => 'required|numeric|min:0',
             'valid_from' => 'required|date',
             'valid_to' => 'required|date|after_or_equal:valid_from',
+        ], [
+            'coupon_code.required' => 'Mã giảm giá là bắt buộc.',
+            'coupon_code.unique' => 'Mã giảm giá đã tồn tại.',
+            'coupon_code.max' => 'Mã giảm giá không được vượt quá 20 ký tự.',
+            'discount_amount.required' => 'Số tiền giảm giá là bắt buộc.',
+            'discount_amount.numeric' => 'Số tiền giảm giá phải là số.',
+            'discount_amount.min' => 'Số tiền giảm giá không được âm.',
+            'valid_from.required' => 'Ngày bắt đầu là bắt buộc.',
+            'valid_from.date' => 'Ngày bắt đầu không hợp lệ.',
+            'valid_to.required' => 'Ngày kết thúc là bắt buộc.',
+            'valid_to.date' => 'Ngày kết thúc không hợp lệ.',
+            'valid_to.after_or_equal' => 'Ngày kết thúc phải sau hoặc bằng ngày bắt đầu.',
         ]);
 
         $coupon = Coupon::findOrFail($id);
-        $coupon->update($request->all());
+        $coupon->update($request->only([
+            'coupon_code',
+            'discount_amount',
+            'valid_from',
+            'valid_to',
+        ]));
 
         return redirect()->route('coupon.list')->with('status', 'Coupon updated successfully!');
     }
