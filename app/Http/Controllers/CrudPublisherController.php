@@ -86,6 +86,9 @@ class CrudPublisherController extends Controller
     {
         $publisher_id = $request->get('publisher_id');
         $publisher = Publisher::find($publisher_id);
+        if (!$publisher) {
+            return redirect()->route('publisher.list')->with('error', 'Publisher not found.');
+        }
 
         return view('crud_publisher.read', ['publisher' => $publisher]);
     }
@@ -96,7 +99,11 @@ class CrudPublisherController extends Controller
     public function deletePublisher(Request $request)
     {
         $publisher_id = $request->get('publisher_id');
-        $publisher = Publisher::destroy($publisher_id);
+        $publisher = Publisher::find($publisher_id);
+        if (!$publisher) {
+            return redirect("listPublisher")->with('error', 'Publisher not found');
+        }
+        $publisher->delete();
 
         return redirect("listPublisher")->with('status', 'Delete successfully');
     }
@@ -108,6 +115,10 @@ class CrudPublisherController extends Controller
     {
         $publisher_id = $request->get('publisher_id');
         $publisher = Publisher::find($publisher_id);
+
+        if (!$publisher) {
+            return redirect()->route('publisher.list')->with('error', 'Publisher not found.');
+        }
 
         return view('crud_publisher.update', ['publisher' => $publisher]);
     }
@@ -156,6 +167,11 @@ class CrudPublisherController extends Controller
                 ->orWhere('contact_info', 'like', "%{$search}%")
                 ->orWhere('address', 'like', "%{$search}%");
         })->paginate(10)->appends(['search' => $search]); // Append search query to pagination links
+
+        if ($publishers->isEmpty() && $publishers->currentPage() > 1) {
+            return redirect()->route('publisher.list', ['page' => 1, 'search' => $search])
+                ->with('error', 'No publishers found on page '. $publishers->currentPage().', redirected to first page.');
+        }
 
         return view('crud_publisher.list', compact('publishers'));
     }
