@@ -18,7 +18,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="discount_amount" class="form-label">Discount Amount</label>
-                            <p class="form-control">{{ $coupon->discount_amount }}</p>
+                            <p class="form-control">{{ $coupon->discount_amount * 100}}%</p>
                         </div>
                         <div class="mb-3">
                             <label for="valid_from" class="form-label">Valid From</label>

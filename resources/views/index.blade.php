@@ -17,6 +17,12 @@
 
 
 <body>
+    @if(session('error'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
     <nav class="navbar">
         <a class="logo" href="#">
             <img src="{{ asset('images/rsz_logo.png') }}" alt="">
@@ -62,10 +68,15 @@
                 <a href="{{ route('user.createUser') }}" class="btn btn-primary"><b>Sign Up</b></a>
             @endauth
             <div class="cart">
-                <a href="" class="cart-icon">
+                <a href="{{ route('cart.show') }}" class="cart-icon">
                     <i class="fas fa-shopping-cart"></i>
+                    @auth
+                    <sup style="font-size: 20px;  color: #0f718a;">
+                        {{ \App\Models\Cart::where('user_id', Auth::id())->sum('quantity') }}
+                    </sup>
+                    @endauth
                 </a>
-            </div>
+            </div> 
         </div>
     </nav>
 
@@ -74,7 +85,7 @@
         <body>
             <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
                 <div class="container-fluid ">
-                    <a class="navbar-brand" href="#"></a>
+                    <a class="navbar-brand" href="{{ route('index') }}"></a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                         data-bs-target="#collapsibleNavbar">
                         <span class="navbar-toggler-icon"></span>
@@ -82,7 +93,7 @@
                     <div class="collapse navbar-collapse " id="collapsibleNavbar">
                         <ul class="navbar-nav ">
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Home</a>
+                                <a class="nav-link" href="{{ route('index') }}">Home</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#best-seller">Bán Chạy Nhất</a>
@@ -104,7 +115,7 @@
 
     <div>
         <div class="nav-slider mt-5">
-            <div class="nav-slides">
+            <a href="{{ route('voucher.index') }}" class="nav-slides">
                 <div class="nav-slide">
                     <div class="slide_img"><img src="{{ asset('images/ngoaivan.png') }}" alt=""></div>
                 </div>
@@ -117,7 +128,7 @@
                 <div class="nav-slide">
                     <div class="slide_img"><img src="{{ asset('images/thuctinh.png') }}" alt=""></div>
                 </div>
-            </div>
+            </a>
 
         </div>
     </div>
@@ -132,7 +143,7 @@
                             style="position: absolute; top: 10px; left: 10px; z-index: 2;">
                             Recommended
                         </span>
-                        <img src="{{ $book->cover_image ? asset('images/' . $book->cover_image) : asset('images/placeholder.png') }}"
+                        <img src="{{ $book->cover_image ? asset('uploads/' . $book->cover_image) : asset('images/placeholder.png') }}"
                             alt="{{ $book->title }}" width="150" height="200" />
                         <h3>{{ $book->title }}</h3>
                         <p class="author">{{ $book->author->author_name }}</p>
@@ -184,7 +195,7 @@
                             style="position: absolute; top: 10px; left: 10px; z-index: 2;">
                             New
                         </span>
-                        <img src="{{ $book->cover_image ? asset('images/' . $book->cover_image) : asset('images/placeholder.png') }}"
+                        <img src="{{ $book->cover_image ? asset('uploads/' . $book->cover_image) : asset('images/placeholder.png') }}"
                             alt="{{ $book->title }}" width="150" height="200" />
                         <h3>{{ $book->title }}</h3>
                         <p class="author">{{ $book->author->author_name }}</p>
@@ -247,7 +258,7 @@
             <div class="container d-flex flex-column align-items-center">
                 <div class="grid" id="book-list">
                     <!-- Card 1 -->
-                    
+
 
                 </div>
                 <!-- <div class="paginate mt-5 mx-auto">

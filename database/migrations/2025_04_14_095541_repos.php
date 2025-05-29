@@ -13,12 +13,9 @@ return new class extends Migration
     {
         Schema::create('repos', function (Blueprint $table) {
             $table->id();
-            $table->string('bookName');
+            
             $table->string('warehouseLocation');
-            $table->integer('quantityAvailable');
-            $table->date('lastUpdated');
-            $table->rememberToken();
-            $table->timestamps();
+         
         });
     }
 
