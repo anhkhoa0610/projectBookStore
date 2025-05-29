@@ -70,3 +70,5 @@ class Kernel extends HttpKernel
         'checkrole' => \App\Http\Middleware\CheckRole::class,
     ];
 }
+
+

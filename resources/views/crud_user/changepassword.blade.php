@@ -124,7 +124,7 @@
             </div>
         @endif
 
-        <div class="card shadow rounded p-4">
+        <div class="card shadow rounded p-4 ">
             <h2 class="mb-4">Change password</h2>
             <form action="{{ route('user.changePassword') }}" method="POST">
                 @csrf
@@ -159,7 +159,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-8 offset-md-4">
+                    <div class="d-flex gap-2 mt-5 justify-content-center">
                         <button type="submit" class="btn btn-success">Change Password</button>
                         <a href="{{ route('user.profile') }}" class="btn btn-secondary">Cancel</a>
                     </div>

@@ -176,7 +176,7 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-md-8 offset-md-4">
+                    <div class="d-flex gap-2 mt-5 justify-content-center">
                         <button type="submit" class="btn btn-success">Save Changes</button>
                         <a href="{{ route('user.profile') }}" class="btn btn-secondary">Cancel</a>
                     </div>
