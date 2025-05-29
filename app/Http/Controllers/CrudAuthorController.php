@@ -96,9 +96,9 @@ class CrudAuthorController extends Controller
             'birth_date.date' => 'Ngày sinh không hợp lệ.',
             'birth_date.before_or_equal' => 'Ngày sinh không được lớn hơn ngày hiện tại.',
             'hometown.max' => 'Quê quán không được vượt quá 255 ký tự.',
-            'cover_image.image' => 'Ảnh bìa phải là tệp hình ảnh.',
-            'cover_image.mimes' => 'Ảnh bìa chỉ chấp nhận các định dạng jpeg, png, jpg, svg.',
-            'cover_image.max' => 'Ảnh bìa không được vượt quá 2MB.',
+            'cover_image.image' => 'Ảnh phải là tệp hình ảnh.',
+            'cover_image.mimes' => 'Ảnh chỉ chấp nhận các định dạng jpeg, png, jpg, svg.',
+            'cover_image.max' => 'Ảnh không được vượt quá 2MB.',
             'bio.max' => 'Tiểu sử không được dài quá 2000 ký tự.',
         ]);
 

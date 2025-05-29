@@ -254,6 +254,22 @@
                 </div>
         </footer>
     </div>
+    <!-- Toast Container -->
+    <div id="cart-toast-container" class="position-fixed bottom-0 end-0 p-3" style="z-index: 9999">
+        <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 9999">
+            <div id="cart-toast" class="toast align-items-center text-bg-success border-0" role="alert"
+                aria-live="assertive" aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body" id="cart-toast-body">
+                        Book added to cart successfully!
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                        aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             attachAddCartListeners();

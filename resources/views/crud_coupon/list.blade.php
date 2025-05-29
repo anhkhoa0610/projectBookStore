@@ -102,7 +102,7 @@
         function confirmDelete(couponId) {
             Swal.fire({
                 title: 'Xác nhận xóa',
-                text: 'Bạn có chắc chắn muốn xóa tác giả này không?',
+                text: 'Bạn có chắc chắn muốn xóa Coupon này không?',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Xóa',

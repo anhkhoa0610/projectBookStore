@@ -61,7 +61,7 @@
         function confirmUpdate() {
             Swal.fire({
                 title: 'Xác nhận cập nhật',
-                text: 'Bạn có chắc chắn muốn cập nhật thông tin tác giả này?',
+                text: 'Bạn có chắc chắn muốn cập nhật thông tin Coupon này?',
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonText: 'Cập nhật',
