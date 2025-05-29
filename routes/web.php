@@ -202,17 +202,17 @@ Route::get('/cart/add/{id}', [CartController::class, 'addToCart'])->name('cart.a
 Route::get('/itemDetail/{book_id}', [ItemController::class, 'showItemDetail'])->name('item.detail');
 
 Route::post('/api/wishlist/toggle', [WishlistsController::class, 'toggle'])->name('wishlist.toggle');
-Route::get('/voucher', [VoucherController::class, 'index'])->name('voucher.index');
+// Route::get('/voucher', [VoucherController::class, 'index'])->name('voucher.index');
 Route::get('/api/cart', [App\Http\Controllers\CartController::class, 'cartApi'])->name('cart.api');
 Route::delete('/api/cart/{cart}', [App\Http\Controllers\CartController::class, 'deleteApi'])->name('cart.api.delete');
 Route::patch('/api/cart/{cart}', [App\Http\Controllers\CartController::class, 'updateQuantity'])->name('cart.api.update');
-Route::get('/pay', [PayController::class, 'ShowPay'])->name('pay.show');
-Route::post('/vnpay_payment', [PaymentController::class, 'vnpay_payment']);
+// Route::get('/pay', [PayController::class, 'ShowPay'])->name('pay.show');
+// Route::post('/vnpay_payment', [PaymentController::class, 'vnpay_payment']);
 
 
-Route::post('/api/reviews', [ReviewController::class, 'storeReview'])->name('reviews.storeReview');
-Route::post('/api/reviews.update', [ReviewController::class, 'updateReview'])->name('reviews.updateReview');
-Route::post('/api/reviews.delete', [ReviewController::class, 'deleteReview'])->name('reviews.deleteReview');
+// Route::post('/api/reviews', [ReviewController::class, 'storeReview'])->name('reviews.storeReview');
+// Route::post('/api/reviews.update', [ReviewController::class, 'updateReview'])->name('reviews.updateReview');
+// Route::post('/api/reviews.delete', [ReviewController::class, 'deleteReview'])->name('reviews.deleteReview');
  
 Route::get('/profile', [CrudUserController::class, 'myProfile'])->name('user.profile');
 Route::get('/profile/edit', [CrudUserController::class, 'editProfile'])->name('user.profile.edit');
