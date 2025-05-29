@@ -89,7 +89,7 @@ class IndexController extends Controller
 
     public function addCartAPI(Request $request)
     {
-        
+
         $user_id = $request->user_id;
         $book_id = $request->book_id;
 
@@ -109,8 +109,12 @@ class IndexController extends Controller
                 'quantity' => 1,
             ]);
         }
-
-        return response()->json(['message' => 'Book added to cart successfully']);
+        
+        $cartCount = DB::table('carts')->where('user_id', $user_id)->count();
+        return response()->json([
+            'message' => 'Book added to cart successfully',
+            'cart_count' => $cartCount
+        ]);
     }
 
 }
