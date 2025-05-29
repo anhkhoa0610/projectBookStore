@@ -73,9 +73,12 @@
                             </a>
                         </li>
                          <li>
-                            <a href="{{ route('logout') }}">
-                                <i class="fas fa-sign-out-alt"></i> Đăng Xuất
-                            </a>
+                            <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                                @csrf
+                                <button type="submit" style="margin-left: -15px;" class="btn text-light text-decoration-none">
+                                    <i class="fas fa-sign-out-alt me-2"></i>Đăng Xuất
+                                </button>
+                            </form>
                         </li>
 
                     </ul>
