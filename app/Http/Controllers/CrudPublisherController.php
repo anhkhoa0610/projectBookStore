@@ -137,6 +137,9 @@ class CrudPublisherController extends Controller
 
         $publisher = Publisher::find($input['publisher_id']);
 
+        if ($request->has('updated_at') && $publisher->updated_at != $request->input('updated_at')) {
+            return redirect()->back()->with('error', 'This book has been updated by another user. Please reload and try again.');
+        }
 
         $publisher->publisher_name = $input['publisher_name'];
         $publisher->contact_info = $input['contact_info'];
