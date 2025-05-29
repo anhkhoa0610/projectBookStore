@@ -57,8 +57,8 @@ class LoginController extends Controller
         $request->validate([
             'email' => 'required|email',
             'old_password' => 'required|min:6',
-            'new_password' => 'required|min:6',
-            'new_password_confirmation' => 'required|min:6|confirmed',
+            'new_password' => 'required|min:6|confirmed',
+            'new_password_confirmation' => 'required|min:6',
         ], [
             'email.required' => 'Please enter your email.',
             'email.email' => 'The email format is invalid.',
@@ -69,7 +69,6 @@ class LoginController extends Controller
             'new_password.confirmed' => 'The new password confirmation does not match.',
             'new_password_confirmation.required' => 'Please confirm your new password.',
             'new_password_confirmation.min' => 'The new password confirmation must be at least 6 characters.',
-            'new_password_confirmation.confirmed' => 'The new password confirmation does not match.',
         ]);
 
         $user = User::where('email', $request->email)->first();
