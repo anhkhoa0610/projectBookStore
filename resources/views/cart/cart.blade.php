@@ -630,7 +630,7 @@
                 <a href="{{ route('cart.show') }}" class="cart-icon">
                     <i class="fas fa-shopping-cart"></i>
                     @auth
-                    <sup style="font-size: 20px;  color: #0f718a;">
+                    <sup id="cartCount" style="font-size: 20px;  color: #0f718a;">
                         {{ \App\Models\Cart::where('user_id', Auth::id())->sum('quantity') }}
                     </sup>
                     @endauth
@@ -651,7 +651,7 @@
                     <div class="collapse navbar-collapse " id="collapsibleNavbar">
                         <ul class="navbar-nav ">
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Home</a>
+                                <a class="nav-link" href="{{ route('index') }}">Home</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#best-seller">Bán Chạy Nhất</a>
@@ -679,9 +679,9 @@
             <span>Tổng Tiền</span>
             <span class="amount" id="grandTotal">0</span>
         </div>
-       
-            <button class="order-btn" id="orderBtn" type="button">Đặt Hàng</button>
-      
+
+        <button class="order-btn" id="orderBtn" type="button">Đặt Hàng</button>
+
     </div>
     <div>
         <footer class="footer">
@@ -844,23 +844,29 @@
                         increaseBtn.addEventListener("click", () => {
                             let newQty = Number(quantityInput.value) + 1;
                             fetch(`/api/cart/${cartId}`, {
-                                method: 'PATCH',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                                    'Accept': 'application/json'
-                                },
-                                body: JSON.stringify({ quantity: newQty })
-                            })
-                            .then(res => res.json())
-                            .then(result => {
-                                if (result.success) {
-                                    quantityInput.value = result.quantity;
-                                    updateItemPrice();
-                                } else {
-                                    alert(result.message || 'Cập nhật số lượng thất bại!');
-                                }
-                            });
+                                    method: 'PATCH',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                                        'Accept': 'application/json'
+                                    },
+                                    body: JSON.stringify({
+                                        quantity: newQty
+                                    })
+                                })
+                                .then(res => res.json())
+                                .then(result => {
+                                    if (result.success) {
+                                        quantityInput.value = result.quantity;
+                                        updateItemPrice();
+                                        // Update cart icon quantity
+                                        if (result.total_quantity !== undefined) {
+                                            document.getElementById('cartCount').textContent = result.total_quantity;
+                                        }
+                                    } else {
+                                        alert(result.message || 'Cập nhật số lượng thất bại!');
+                                    }
+                                });
                         });
 
                         decreaseBtn.addEventListener("click", () => {
@@ -868,23 +874,29 @@
                             if (current > 1) {
                                 let newQty = current - 1;
                                 fetch(`/api/cart/${cartId}`, {
-                                    method: 'PATCH',
-                                    headers: {
-                                        'Content-Type': 'application/json',
-                                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                                        'Accept': 'application/json'
-                                    },
-                                    body: JSON.stringify({ quantity: newQty })
-                                })
-                                .then(res => res.json())
-                                .then(result => {
-                                    if (result.success) {
-                                        quantityInput.value = result.quantity;
-                                        updateItemPrice();
-                                    } else {
-                                        alert(result.message || 'Cập nhật số lượng thất bại!');
-                                    }
-                                });
+                                        method: 'PATCH',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                                            'Accept': 'application/json'
+                                        },
+                                        body: JSON.stringify({
+                                            quantity: newQty
+                                        })
+                                    })
+                                    .then(res => res.json())
+                                    .then(result => {
+                                        if (result.success) {
+                                            quantityInput.value = result.quantity;
+                                            updateItemPrice();
+                                            // Update cart icon quantity
+                                            if (result.total_quantity !== undefined) {
+                                                document.getElementById('cartCount').textContent = result.total_quantity;
+                                            }
+                                        } else {
+                                            alert(result.message || 'Cập nhật số lượng thất bại!');
+                                        }
+                                    });
                             }
                         });
 
@@ -922,7 +934,8 @@
                         const cartIds = Array.from(checked).map(cb => cb.closest('.product-row').getAttribute('data-cart-id'));
                         window.location.href = "{{ route('pay.show') }}" + "?cart_ids=" + cartIds.join(',');
                     });
-                  
+
+
 
                     // Add event listeners for delete buttons
                     document.querySelectorAll('.delete-btn').forEach(btn => {
@@ -941,6 +954,10 @@
                                     .then(result => {
                                         if (result.success) {
                                             row.remove();
+                                            // Update cart icon quantity
+                                            if (result.total_quantity !== undefined) {
+                                                document.getElementById('cartCount').textContent = result.total_quantity;
+                                            }
                                             // Optionally update the total
                                             const event = new Event('change');
                                             row.querySelector('.product-checkbox').dispatchEvent(event);
@@ -955,7 +972,56 @@
                 });
         });
     </script>
+    <script>
+        document.getElementById('search-input').addEventListener('input', function() {
+            const keyword = this.value;
+
+            if (keyword.length > 0) {
+                fetch(`/cart/search/${keyword}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const suggestions = document.getElementById('suggestions');
+                        suggestions.innerHTML = ''; // Làm sạch danh sách trước
+
+                        data.forEach(item => {
+                            const li = document.createElement('li');
+                            li.className = 'list-group-item';
+                            li.textContent = item.book.title; // Hoặc item.title nếu bạn có trường này
+                            suggestions.appendChild(li);
+                        });
+                    })
+                    .catch(error => console.error('Error:', error));
+            } else {
+                document.getElementById('suggestions').innerHTML = ''; // Làm sạch nếu không có từ khóa
+            }
+        });
+    </script>
     <script src="{{ asset('js/cart-api.js') }}"></script>
+    <script>
+document.querySelector('.input-search').addEventListener('input', function() {
+    const keyword = this.value.trim();
+    const suggestBox = document.querySelector('.suggest');
+    suggestBox.innerHTML = '';
+    if (keyword.length === 0) return;
+
+    fetch(`/api/products/search?q=${encodeURIComponent(keyword)}`)
+        .then(res => res.json())
+        .then(data => {
+            if (data.success && data.products.length > 0) {
+                suggestBox.innerHTML = data.products.map(product => `
+                    <li class="list-group-item">
+                        <a href="/itemDetail/${product.book_id}" style="text-decoration:none; color:black;">
+                            <b>${product.title}</b>
+                            <span style="color:gray;">${product.author ? ' - ' + product.author.author_name : ''}</span>
+                        </a>
+                    </li>
+                `).join('');
+            } else {
+                suggestBox.innerHTML = '<li class="list-group-item">Không tìm thấy sản phẩm</li>';
+            }
+        });
+});
+</script>
 </body>
 
 </html>
