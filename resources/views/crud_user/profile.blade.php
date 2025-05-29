@@ -4,17 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    </script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
-     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet">
-     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-     <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
 
     <title>Bookshop</title>
 
     <link rel="stylesheet" href="{{ asset('css/index.css') }}">
-   
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 </head>
 
@@ -56,34 +54,32 @@
 
     <div>
 
-        <body>
-            <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-                <div class="container-fluid ">
-                    <a class="navbar-brand" href="#"></a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#collapsibleNavbar">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse " id="collapsibleNavbar">
-                        <ul class="navbar-nav ">
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('index') }}">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#best-seller">Bán Chạy Nhất</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#new-book">Sách Mới Nhất</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Tài Khoản</a>
-                            </li>
-                        </ul>
-                    </div>
+        <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+            <div class="container-fluid ">
+                <a class="navbar-brand" href="#"></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#collapsibleNavbar">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse " id="collapsibleNavbar">
+                    <ul class="navbar-nav ">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('index') }}">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#best-seller">Bán Chạy Nhất</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#new-book">Sách Mới Nhất</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Tài Khoản</a>
+                        </li>
+                    </ul>
                 </div>
-            </nav>
+            </div>
+        </nav>
 
-        </body>
     </div>
 
     <div>
@@ -107,7 +103,7 @@
     </div>
 
     <div class="container mt-5">
-       
+
 
         @if(session('status'))
             <div class="alert alert-success">{{ session('status') }}</div>
@@ -118,7 +114,7 @@
         @endif
 
         <div class="card shadow rounded p-4 w-100">
-             <h2 class="mb-4">My Profile</h2>
+            <h2 class="mb-4">My Profile</h2>
             <div class="row mb-3">
                 <div class="col-md-4 font-weight-bold">Full Name:</div>
                 <div class="col-md-8">{{ $user->full_name }}</div>
@@ -153,22 +149,61 @@
                     @endif
                 </div>
             </div>
-            <div class="row mt-4">
-                <div class="col-md-12">
-                    <a href="{{ route('user.profile.edit') }}" class="btn btn-primary">
-                        Edit Profile
-                    </a>
-                </div>
-
+            <div class="d-flex gap-2 mt-5 justify-content-center">
+                <a href="{{ route('user.profile.edit') }}" class="btn btn-primary">
+                    Edit Profile
+                </a>
+                <a href="{{ route('user.showChangePasswordForm') }}" class="btn btn-warning">
+                    Change Password
+                </a>
+                <!-- <a href="#" class="btn btn-danger" onclick="confirmDelete(event)">
+                    Delete Account
+                </a> -->
+                <a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">
+                    Delete Account
+                </a>
             </div>
-            <div class="col-md-12 mt-2">
-                <a href="{{ route('user.showChangePasswordForm') }}" class="btn btn-warning">Change Password</a>
+            <!-- <form id="delete-account-form" action="{{ route('user.deleteAccount') }}" method="POST"
+                style="display: none;">
+                @csrf
+                @method('DELETE')
+            </form>
+            <script>
+                function confirmDelete(event) {
+                    event.preventDefault();
+                    if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+                        document.getElementById('delete-account-form').submit();
+                    }
+                }
+            </script> -->
+            <!-- Modal -->
+            <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-danger text-white">
+                            <h5 class="modal-title" id="confirmDeleteModalLabel">Confirm Account Deletion</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Are you sure you want to delete your account? This action cannot be undone.
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <form id="delete-account-form" action="{{ route('user.deleteAccount') }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger">Yes, Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
 
         </div>
     </div>
 
-  
+
 
     <div>
         <footer class="footer">
@@ -244,5 +279,10 @@
     });
 
 </script>
+<!-- Bootstrap 5 CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Bootstrap 5 JS Bundle (có cả Popper) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </html>
