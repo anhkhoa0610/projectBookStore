@@ -19,8 +19,7 @@
                                            required>
                                 </div>
                                 <div class="form-group mb-3">
-                                    <input type="text" placeholder="category desc" id="category_desc" class="form-control" name="category_desc"
-                                           required>
+                                   <textarea id="category_desc" class="form-control" name="category_desc"></textarea>
                                 </div>
                                 <button data-mdb-button-init data-mdb-ripple-init class="btn btn-dark btn-outline-light btn-lg px-5" type="submit">Create</button>
 
