@@ -25,7 +25,7 @@
 <body>
 
     <nav class="navbar">
-        <a class="logo" href="#">
+        <a class="logo" href="{{ route('index') }}">
             <img src="{{ asset('images/rsz_logo.png') }}" alt="">
         </a>
         <div class="search-box">
@@ -76,13 +76,13 @@
                     <div class="collapse navbar-collapse " id="collapsibleNavbar">
                         <ul class="navbar-nav ">
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Home</a>
+                                <a class="nav-link" href="{{ route('index') }}">Home</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#best-seller">Bán Chạy Nhất</a>
+                                <a class="nav-link" href="{{ route('index') }}#best-seller">Bán Chạy Nhất</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#new-book">Sách Mới Nhất</a>
+                                <a class="nav-link" href="{{ route('index') }}#new-book">Sách Mới Nhất</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#">Tài Khoản</a>
