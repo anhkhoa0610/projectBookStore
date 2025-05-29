@@ -33,7 +33,7 @@
 
                     <div class="card-header">
                         <h4>update orders detail
-                            <a href="{{ route('orders.listOrderDetailsByOrderId')}}?order_id={{  $orderDetails->order_id }}"
+                            <a href="{{ route('orders.listOrderDetailsById')}}?order_id={{  $orderDetails->order_id }}"
                                 class="btn btn-danger float-end">Back</a>
                         </h4>
                     </div>

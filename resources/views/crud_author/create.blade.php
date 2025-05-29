@@ -16,7 +16,7 @@
                             @csrf
                             <div class="mb-3">
                                 <label for="author_name" class="form-label">Author Name</label>
-                                <input type="text" id="author_name" name="author_name" class="form-control" value="{{ old('author_name') }}" maxlength="255"
+                                <input type="text" id="author_name" name="author_name" class="form-control" maxlength="255"
                                     required>
                                 @if ($errors->has('author_name'))
                                     <span class="text-danger">{{ $errors->first('author_name') }}</span>
@@ -39,14 +39,14 @@
                             </div>
                             <div class="mb-3">
                                 <label for="hometown" class="form-label">Hometown</label>
-                                <input type="text" id="hometown" name="hometown" class="form-control" value="{{ old('hometown') }}" maxlength="255">
+                                <input type="text" id="hometown" name="hometown" class="form-control" maxlength="255">
                                 @if ($errors->has('hometown'))
                                     <span class="text-danger">{{ $errors->first('hometown') }}</span>
                                 @endif
                             </div>
                             <div class="mb-3">
                                 <label for="bio" class="form-label">Bio</label>
-                                <textarea id="bio" name="bio" class="form-control" value="{{ old('bio') }}" rows="4" ></textarea>
+                                <textarea id="bio" name="bio" class="form-control" rows="4"></textarea>
                                 @if ($errors->has('bio'))
                                     <span class="text-danger">{{ $errors->first('bio') }}</span>
                                 @endif

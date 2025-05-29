@@ -78,15 +78,6 @@ class PublisherSeeder extends Seeder
                 'updated_at' => now(),
             ]);
 
-            for( $i = 1; $i <= 10; $i++) {
-                DB::table('publishers')->insert([
-                    'publisher_name' => 'Publisher ' . $i,
-                    'contact_info' => Str::random(10) . '@example.com',
-                    'address' => 'Address ' . $i,
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ]);
-            }
             
     }
 }

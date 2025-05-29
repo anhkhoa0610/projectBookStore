@@ -18,11 +18,11 @@ class OrderSeeder extends Seeder
             DB::table('orders')->insert([
                 'user_id' => rand(1, 5), 
                 'order_date' => now(),
-                'status' =>"thông tin đơn hàng", 
-                'tracking_number' => rand(10, 99),
+                'status' => rand(1, 3), 
+                'tracking_number' => rand(100000, 999999),
                 'carrier' => 'Carrier ' . $i,
                 'coupon_id' => rand(0, 1) ? rand(1, 5) : null,
-                'total_price' => 0, 
+                'total_price' => rand(50, 500) + rand(0, 99) / 100, 
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);

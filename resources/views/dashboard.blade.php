@@ -3,7 +3,7 @@
 
 <head>
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Admin Dashboard</title>
+    <title>Laravel 10.48.0 - CRUD book Example</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- <link href="{{ asset('css/styles.css') }}" rel="stylesheet"> -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
@@ -29,56 +29,48 @@
                     <ul id="menu-content" class="menu-content collapse out">
                         <li>
                             <a href="{{ route('user.list') }}">
-                                <i class="fas fa-tasks me-2"></i>Quản Lý User
+                                Quản Lý User
                             </a>
                         </li>
                         <li>
                             <a href="{{ route('categories.list') }}">
-                                <i class="fas fa-tasks me-2"></i>Quản Lý Danh Mục
+                                Quản Lý Danh Mục
                             </a>
                         </li>
                         <li>
                             <a href="{{ route('authors.list') }}">
-                                <i class="fas fa-tasks me-2"></i>Quản Lý Tác Giả
+                                Quản Lý Tác Giả
                             </a>
                         </li>
                         <li>
                             <a href="{{ route('book.list') }}">
-                                <i class="fas fa-tasks me-2"></i>Quản Lý Sản Phẩm
+                                Quản Lý Sản Phẩm
                             </a>
                         </li>
                         <li>
                             <a href="{{ route('orders.list') }}">
-                                <i class="fas fa-tasks me-2"></i>Quản Lý Đơn Hàng
+                                Quản Lý Đơn Hàng
                             </a>
                         </li>
                         <li>
                             <a href="{{ route('reviews.list') }}">
-                                <i class="fas fa-tasks me-2"></i> Quản Lý Review
+                                </i> Quản Lý Review
                             </a>
                         </li>
                         <li>
                             <a href="{{ route('repo.list') }}">
-                                <i class="fas fa-tasks me-2"></i> Quản Lý Kho
+                                </i> Quản Lý Kho
                             </a>
                         </li>
                         <li>
                             <a href="{{ route('coupon.list') }}">
-                                <i class="fas fa-tasks me-2"></i>Quản Lý Voucher
+                                Quản Lý Voucher
                             </a>
                         </li>
                         <li>
                             <a href="{{ route('publisher.list') }}">
-                                <i class="fas fa-tasks me-2"></i>Quản Lý Nhà Xuất Bản
+                                Quản Lý Nhà Xuất Bản
                             </a>
-                        </li>
-                         <li>
-                            <form action="{{ route('logout') }}" method="POST" class="d-inline">
-                                @csrf
-                                <button type="submit" style="margin-left: -15px;" class="btn text-light text-decoration-none">
-                                    <i class="fas fa-sign-out-alt me-2"></i>Đăng Xuất
-                                </button>
-                            </form>
                         </li>
 
                     </ul>
@@ -91,5 +83,5 @@
     </div>
 
 </body>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </html>

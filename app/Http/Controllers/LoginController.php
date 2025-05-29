@@ -21,30 +21,23 @@ class LoginController extends Controller
     {
         $request->validate([
             'email' => 'required|email',
-            'password' => 'required|min:6',
-        ], [
-            'email.required' => 'Email is required.',
-            'email.email' => 'Invalid email format.',
-            'password.required' => 'Password is required.',
-            'password.min' => 'Password must be at least 6 characters.',
+            'password' => 'required',
         ]);
-
         $credentials = $request->only('email', 'password');
-
-        if (Auth::attempt($credentials)) {
-            // Đăng nhập thành công
-            return redirect()->route('index')->with('success', 'Logged in successfully.');
+        $remember = $request->has('remember');
+        if (Auth::attempt($credentials, $remember)) {
+            return redirect()->intended('index')
+                ->withSuccess('Signed in successfully');
         }
 
-        // Đăng nhập thất bại
-        return back()->withErrors(['login' => 'Invalid email or password.'])->withInput();
+        return back()->withErrors(['email' => 'Invalid login details.']);
     }
 
     // Đăng xuất
     public function logout()
     {
         Auth::logout();
-        return redirect()->route('index')->with('success', 'Logged out successfully.');
+        return back();
     }
 
     public function showResetForm()
@@ -56,20 +49,8 @@ class LoginController extends Controller
     {
         $request->validate([
             'email' => 'required|email',
-            'old_password' => 'required|min:6',
-            'new_password' => 'required|min:6',
-            'new_password_confirmation' => 'required|min:6|confirmed',
-        ], [
-            'email.required' => 'Please enter your email.',
-            'email.email' => 'The email format is invalid.',
-            'old_password.required' => 'Please enter your current password.',
-            'old_password.min' => 'The current password must be at least 6 characters.',
-            'new_password.required' => 'Please enter a new password.',
-            'new_password.min' => 'The new password must be at least 6 characters.',
-            'new_password.confirmed' => 'The new password confirmation does not match.',
-            'new_password_confirmation.required' => 'Please confirm your new password.',
-            'new_password_confirmation.min' => 'The new password confirmation must be at least 6 characters.',
-            'new_password_confirmation.confirmed' => 'The new password confirmation does not match.',
+            'old_password' => 'required',
+            'new_password' => 'required|min:6|confirmed',
         ]);
 
         $user = User::where('email', $request->email)->first();
@@ -93,9 +74,6 @@ class LoginController extends Controller
     {
         $request->validate([
             'email' => 'required|email',
-        ], [
-            'email.required' => 'Email is required.',
-            'email.email' => 'Invalid email format.',
         ]);
 
         $status = Password::sendResetLink(
@@ -112,44 +90,5 @@ class LoginController extends Controller
     public function showRegisterForm()
     {
         return view('login.create');
-    }
-
-    public function postUser(Request $request)
-    {
-        $request->validate([
-            'full_name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-            'phone' => 'required|numeric|digits_between:9,15|unique:users,phone',
-            'address' => 'required|string|max:255',
-            'dob' => 'required|date|before:today',
-            'password' => 'required|min:6|confirmed',
-        ], [
-            'full_name.required' => 'Please enter your full name.',
-            'email.required' => 'Please enter your email address.',
-            'email.email' => 'The email format is invalid.',
-            'email.unique' => 'This email is already in use.',
-            'phone.required' => 'Please enter your phone number.',
-            'phone.numeric' => 'Phone number must contain only numbers.',
-            'phone.digits_between' => 'Phone number must be between 9 and 15 digits.',
-            'phone.unique' => 'This phone number is already in use.',
-            'address.required' => 'Please enter your address.',
-            'dob.required' => 'Please enter your date of birth.',
-            'dob.date' => 'Date of birth must be a valid date.',
-            'dob.before' => 'Date of birth must be in the past.',
-            'password.required' => 'Please enter a password.',
-            'password.min' => 'Password must be at least 6 characters long.',
-            'password.confirmed' => 'Password confirmation does not match.',
-        ]);
-
-        $user = new User();
-        $user->full_name = $request->full_name;
-        $user->email = $request->email;
-        $user->phone = $request->phone;
-        $user->address = $request->address;
-        $user->dob = $request->dob;
-        $user->password = Hash::make($request->password);
-        $user->save();
-
-        return redirect("login")->with('success', 'Registration successful. you can now login.');
     }
 }

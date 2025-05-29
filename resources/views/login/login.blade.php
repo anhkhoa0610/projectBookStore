@@ -5,8 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <style>
     body {
@@ -25,7 +23,7 @@
         border-radius: 8px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         width: 100%;
-        width: 340px;
+        width: 300px;
         /* max-width: 400px; */
     }
 
@@ -77,6 +75,7 @@
 
     .container-2 {
         padding: 5px;
+        margin-top: 15px;
     }
 
     .container h2 {
@@ -103,11 +102,6 @@
         color: #fff;
         text-decoration: none;
     }
-
-    .psw {
-        text-align: center;
-        margin-top: 25px;
-    }
 </style>
 
 <body>
@@ -115,18 +109,15 @@
         @csrf
         <div class="container">
             <h2>Sign In</h2>
-            <div class="mb-3">
+            <div>
                 <label for="email">Email</label>
                 <input type="text" placeholder="Email" id="email" class="form-control" name="email" required autofocus>
-                <!-- @error('email')
-                    <div class="alert alert-danger mt-1">{{ $message }}</div>
-                @enderror -->
                 @if ($errors->has('email'))
                     <span class="text-danger">{{ $errors->first('email') }}</span>
                 @endif
             </div>
 
-            <div class="mb-3">
+            <div class="groupb">
 
                 <label for="password">Password</label>
                 <input type="password" placeholder="Password" id="password" class="form-control" name="password"
@@ -135,12 +126,10 @@
                     <span class="text-danger">{{ $errors->first('password') }}</span>
                 @endif
             </div>
-            @if ($errors->has('login'))
-                <div class="alert alert-danger">
-                    {{ $errors->first('login') }}
-                </div>
-            @endif
 
+            <label>
+                <input type="checkbox" name="remember" id="remember"> Remember me
+            </label>
             <div class="container-2">
                 <span class="psw"> <a href="{{ route('forgot.form') }}">Forgot password?</a></span>
             </div>
@@ -149,12 +138,8 @@
                 <span class="psw psw1"> <a href="{{ route('reset.form') }}">Reset password</a></span>
                 <span class="psw psw2"> <a href="{{ route('register') }}">Create account</a></span>
             </div>
-            <div class="psw">
-                <p><a href="{{ route('index') }}">Back to index <i class="fas fa-arrow-right"></i></a></p>
-            </div>
         </div>
     </form>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

@@ -62,7 +62,7 @@ class CrudPublisherController extends Controller
         //     'password' => 'required|min:6',
         // ]);
         $request->validate([
-            'publisher_name' => 'required|string|max:100|unique:publishers,publisher_name',
+            'publisher_name' => 'required|string|max:10',
             'contact_info' => 'required|string|max:255',
             'address' => 'nullable|string|max:255',
         ]);
@@ -73,7 +73,6 @@ class CrudPublisherController extends Controller
         Publisher::create([
             'publisher_name' => $data['publisher_name'],
             'contact_info' => $data['contact_info'],
-            'address' => $data['address'] ?? '',
         ]);
 
         return redirect("listPublisher")->with('status', 'Registration successful');
@@ -86,9 +85,6 @@ class CrudPublisherController extends Controller
     {
         $publisher_id = $request->get('publisher_id');
         $publisher = Publisher::find($publisher_id);
-        if (!$publisher) {
-            return redirect()->route('publisher.list')->with('error', 'Publisher not found.');
-        }
 
         return view('crud_publisher.read', ['publisher' => $publisher]);
     }
@@ -99,11 +95,7 @@ class CrudPublisherController extends Controller
     public function deletePublisher(Request $request)
     {
         $publisher_id = $request->get('publisher_id');
-        $publisher = Publisher::find($publisher_id);
-        if (!$publisher) {
-            return redirect("listPublisher")->with('error', 'Publisher not found');
-        }
-        $publisher->delete();
+        $publisher = Publisher::destroy($publisher_id);
 
         return redirect("listPublisher")->with('status', 'Delete successfully');
     }
@@ -116,10 +108,6 @@ class CrudPublisherController extends Controller
         $publisher_id = $request->get('publisher_id');
         $publisher = Publisher::find($publisher_id);
 
-        if (!$publisher) {
-            return redirect()->route('publisher.list')->with('error', 'Publisher not found.');
-        }
-
         return view('crud_publisher.update', ['publisher' => $publisher]);
     }
 
@@ -128,22 +116,27 @@ class CrudPublisherController extends Controller
      */
     public function postUpdatePublisher(Request $request)
     {
-        $input = $request->all();
         $request->validate([
-            'publisher_name' => 'required|string|max:100|unique:publishers,publisher_name,' . $input['publisher_id'] . ',publisher_id',
+            'publisher_name' => 'required|string|max:10',
             'contact_info' => 'required|string|max:255',
             'address' => 'nullable|string|max:255',
         ]);
+        $input = $request->all();
+
+
+        // $request->validate([
+        //     'name' => 'required',
+        //     'email' => 'required|email|unique:users,id,'.$input['id'],
+        //     'password' => 'required|min:6',
+        //     'like' => 'required',
+        //     'age' => 'required',
+        // ]);
 
         $publisher = Publisher::find($input['publisher_id']);
 
-        if ($request->has('updated_at') && $publisher->updated_at != $request->input('updated_at')) {
-            return redirect()->back()->with('error', 'This book has been updated by another user. Please reload and try again.');
-        }
 
         $publisher->publisher_name = $input['publisher_name'];
         $publisher->contact_info = $input['contact_info'];
-        $publisher->address = $input['address'] ?? '';
         $publisher->save();
 
         return redirect("listPublisher")->with('status', 'Update successfully');
@@ -158,20 +151,23 @@ class CrudPublisherController extends Controller
 
         $publishers = Publisher::when($search, function ($query, $search) {
             $query->where('publisher_name', 'like', "%{$search}%")
-                ->orWhere('contact_info', 'like', "%{$search}%")
-                ->orWhere('address', 'like', "%{$search}%");
+                  ->orWhere('contact_info', 'like', "%{$search}%")
+                  ->orWhere('address', 'like', "%{$search}%");
         })->paginate(10)->appends(['search' => $search]); // Append search query to pagination links
-
-        if ($publishers->isEmpty() && $publishers->currentPage() > 1) {
-            return redirect()->route('publisher.list', ['page' => 1, 'search' => $search])
-                ->with('error', 'No publishers found on page '. $publishers->currentPage().', redirected to first page.');
-        }
 
         return view('crud_publisher.list', compact('publishers'));
     }
 
+    /**
+     * Sign out
+     */
+    public function signOut()
+    {
+        Session::flush();
+        Auth::logout();
 
+        return Redirect('login');
+    }
 
-
-
+    
 }

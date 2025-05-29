@@ -1,7 +1,7 @@
 @extends('dashboard')
 
 @section('content')
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <div class="container">
 
 
@@ -74,13 +74,11 @@
                                 <td>{{ $coupon->valid_to }}</td>
                                 <td class="action-cell">
                                     <a href="{{ route('coupon.edit', $coupon->id) }}" class="btn btn-success btn-sm">Edit</a>
-                                    <form id="delete-form-{{ $coupon->id }}"
-                                        action="{{ route('coupon.delete', $coupon->id) }}" method="POST"
+                                    <form action="{{ route('coupon.delete', $coupon->id) }}" method="POST"
                                         style="display: inline-block;">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="button" class="btn btn-danger btn-sm"
-                                            onclick="confirmDelete({{ $coupon->id }})">Delete</button>
+                                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                                     </form>
                                     <a href="{{ route('coupon.read', ['id' => $coupon->id]) }}"
                                         class="btn btn-info btn-sm">Show</a>
@@ -98,20 +96,5 @@
         </div>
 
     </div>
-    <script>
-        function confirmDelete(couponId) {
-            Swal.fire({
-                title: 'Xác nhận xóa',
-                text: 'Bạn có chắc chắn muốn xóa tác giả này không?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Xóa',
-                cancelButtonText: 'Hủy'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    document.getElementById('delete-form-' + couponId).submit();
-                }
-            });
-        }
-    </script>
+
 @endsection

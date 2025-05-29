@@ -109,22 +109,12 @@ class IndexController extends Controller
                 'quantity' => 1,
             ]);
         }
-
+        
         $cartCount = DB::table('carts')->where('user_id', $user_id)->count();
         return response()->json([
             'message' => 'Book added to cart successfully',
             'cart_count' => $cartCount
         ]);
-    }
-
-    public function booksByReviewAPI()
-    {
-        $books = Books::with(['author', 'categories'])
-            ->withAvg('reviews', 'rating')
-            ->orderByDesc('reviews_avg_rating')
-            ->paginate(8);
-
-        return response()->json($books);
     }
 
 }
