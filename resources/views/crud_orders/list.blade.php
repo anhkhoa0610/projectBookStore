@@ -23,7 +23,8 @@
                         <form action="{{ route('orders.list') }}" method="GET" class="mb-3">
                             <div class="input-group">
                                 <input type="text" name="search" class="form-control"
-                                    placeholder="Search by carrier or status, or tracking number" value="{{ request('search') }}">
+                                    placeholder="Search by carrier or status, or tracking number"
+                                    value="{{ request('search') }}">
                                 <button type="submit" class="btn btn-primary">Search</button>
                             </div>
                         </form>
@@ -59,8 +60,17 @@
                                                 class="btn btn-success" style="height:30%">Edit</a>
                                             <a href="{{ route('orders.readOrder', ['order_id' => $order->order_id]) }}"
                                                 class="btn btn-info" style="height:30%">Show</a>
-                                            <a href="{{ route('orders.deleteOrder', ['order_id' => $order->order_id]) }}"
-                                                class="btn btn-danger" style="height:30%">Delete</a>
+                                           
+
+                                            <form id="delete-form-{{ $order->order_id }}"
+                                                action="{{ route('orders.deleteOrder') }}" method="get">
+                                                @csrf
+                                                @method('DELETE')
+                                                <input type="hidden" name="category_id" value="{{ $order->order_id }}">
+                                                <button type="button" onclick="confirmDelete({{$order->order_id}})"
+                                                    class="btn btn-danger "><i class="fas fa-trash"></i></button>
+                                            </form>
+
                                             <a href="{{ route('orders.listOrderDetailsByOrderId', ['order_id' => $order->order_id]) }}"
                                                 class="btn btn-info " style="">details</a>
                                         </td>
@@ -78,5 +88,21 @@
             </div>
         </div>
     </div>
+    <script>
+        function confirmDelete(order_id) {
+            Swal.fire({
+                title: 'Xác nhận xóa',
+                text: 'Bạn có chắc chắn muốn xóa quyển sách này không?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Xóa',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('delete-form-' + order_id).submit();
+                }
+            });
+        }
+    </script>
 
 @endsection

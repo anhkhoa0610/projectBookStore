@@ -21,6 +21,9 @@
                     </div>
                     <div class="card-body">
 
+
+                       
+
                         <!-- Search Bar -->
 
                         <form action="{{ route('categories.list') }}" method="GET" class="mb-3">
@@ -54,13 +57,23 @@
                                                 class=" w-100 my-2  btn btn-success">Edit</a>
                                             <a href="{{ route('categories.readCategory', ['category_id' => $category->category_id]) }}"
                                                 class=" w-100 my-2 btn btn-info">Show</a>
-                                            <a href="{{ route('categories.deleteCategory', ['category_id' => $category->category_id]) }}"
-                                                class=" w-100  btn btn-danger">Delete</a>
+                                             <form id="delete-form-{{ $category->category_id }}" action="{{ route('categories.deleteCategory') }}"
+                                                method="get">
+                                                @csrf
+                                                @method('DELETE')
+                                                <input type="hidden" name="category_id" value="{{  $category->category_id }}">
+                                                <button   type="button" onclick="confirmDelete({{$category->category_id}})"
+                                                    class="btn btn-danger w-100 my-2  "><i class="fas fa-trash"></i></button>
+                                            </form>
+                                            
+                                           
                                         </td>
                                     </tr>
                                 @endforeach
                             </tbody>
                         </table>
+
+
 
                         <div class="d-flex justify-content-center">
                             {{ $categories->links() }}
@@ -71,5 +84,22 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function confirmDelete(category_id) {
+            Swal.fire({
+                title: 'Xác nhận xóa',
+                text: 'Bạn có chắc chắn muốn xóa quyển sách này không?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Xóa',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('delete-form-' + category_id).submit();
+                }
+            });
+        }
+    </script>
 
 @endsection

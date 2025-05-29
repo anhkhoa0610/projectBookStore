@@ -59,23 +59,48 @@
                                                 class="btn btn-success">Edit</a>
                                             <a href="{{ route('orders.readOrderDetails', ['order_detail_id' => $orderDetails->order_detail_id]) }}"
                                                 class="btn btn-info">Show</a>
-                                            <a href="{{ route('orders.deleteOrderDetails', ['order_detail_id' => $orderDetails->order_detail_id]) }}"
-                                                class="btn btn-danger">Delete</a>
+
+                                             <form id="delete-form-{{ $orderDetails->order_detail_id }}"
+                                                action="{{ route('orders.deleteOrderDetails') }}" method="get">
+                                                @csrf
+                                                @method('DELETE')
+                                                <input type="hidden" name="order_detail_id" value="{{ $orderDetails->order_detail_id }}">
+                                                <button type="button" onclick="confirmDelete({{$orderDetails->order_detail_id}})"
+                                                    class="btn btn-danger w-100 "><i class="fas fa-trash"></i></button>
+                                            </form>
+                                            
                                         </td>
                                     </tr>
                                 @endforeach
                             </tbody>
                         </table>
-                        
+
                         <div class="d-flex justify-content-center">
                             {{ $ordersDetails->links() }}
                         </div>
-                     
+
 
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        function confirmDelete(order_detail_id) {
+            Swal.fire({
+                title: 'Xác nhận xóa',
+                text: 'Bạn có chắc chắn muốn xóa quyển sách này không?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Xóa',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('delete-form-' + order_detail_id).submit();
+                }
+            });
+        }
+    </script>
 
 @endsection
