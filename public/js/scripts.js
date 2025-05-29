@@ -412,9 +412,10 @@ async function addCart(book_id, user_id) { // Assuming you have the user ID avai
     const result = await response.json();
     console.log(result);
     if (response.ok) {
-        alert('Book added to cart successfully!');
+        showCartToast('Book added to cart successfully!', true);
+        document.querySelector('#cart-count').textContent = result.cart_count || 0; // Update cart count if available
     } else {
-        alert('Failed to add book to cart.');
+        showCartToast('Failed to add book to cart.', false);
     }
 
 }
@@ -423,11 +424,28 @@ function attachAddCartListeners() {
     document.querySelectorAll('.add-to-cart').forEach(btn => {
         btn.onclick = function () {
             if (!userId || userId === 'null') {
-                alert('Please log in to add books to your cart.');
+                showCartToast('Please log in to add items to your cart.', false);
                 return;
             }
+            if (btn.disabled) return;
+
+            btn.disabled = true;
             const bookId = this.getAttribute('data-book-id');
-            addCart(bookId, userId);
+            addCart(bookId, userId).finally(() => {
+                setTimeout(() => {
+                    btn.disabled = false;
+                }, 1000);
+            });
         };
     });
+}
+
+function showCartToast(message, isSuccess = true) {
+    const toastEl = document.getElementById('cart-toast');
+    const toastBody = document.getElementById('cart-toast-body');
+    toastBody.textContent = message;
+    toastEl.classList.remove('text-bg-success', 'text-bg-danger');
+    toastEl.classList.add(isSuccess ? 'text-bg-success' : 'text-bg-danger');
+    const toast = new bootstrap.Toast(toastEl);
+    toast.show();
 }

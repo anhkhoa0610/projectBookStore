@@ -71,12 +71,12 @@
                 <a href="{{ route('cart.show') }}" class="cart-icon">
                     <i class="fas fa-shopping-cart"></i>
                     @auth
-                    <sup style="font-size: 20px;  color: #0f718a;">
-                        {{ \App\Models\Cart::where('user_id', Auth::id())->sum('quantity') }}
-                    </sup>
+                        <sup style="font-size: 20px;  color: #0f718a;" id="cart-count">
+                            
+                        </sup>
                     @endauth
                 </a>
-            </div> 
+            </div>
         </div>
     </nav>
 
@@ -378,6 +378,21 @@
                 </div>
         </footer>
     </div>
+
+    <!-- Toast Container -->
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 9999">
+        <div id="cart-toast" class="toast align-items-center text-bg-success border-0" role="alert"
+            aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body" id="cart-toast-body">
+                    Book added to cart successfully!
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                    aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+
     <script>
         const userId = {{ Auth::check() ? Auth::id() : 'null' }};
         const addCartApiUrl = "{{ route('index-add-cart-api') }}";
