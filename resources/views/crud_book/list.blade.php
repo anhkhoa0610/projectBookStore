@@ -97,7 +97,7 @@
                                         @endforeach
 
                                         </th>
-                                        <th>{{ $book->publisher->publisher_name }}</th>
+                                        <th>{{ $book->publisher ? $book->publisher->publisher_name :'Unknown' }}</th>
                                         <td class="description-cell">{{ $book->description }}</td>
                                         <td>
                                             @php

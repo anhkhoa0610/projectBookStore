@@ -40,3 +40,6 @@ Route::get('/index/books-by-sold', [IndexController::class, 'booksBySoldAPI'])
     ->name('index-books-by-sold');
 
 Route::get('/vouchers', [VoucherController::class, 'all']);
+
+Route::get('/index/books-by-review', [IndexController::class, 'booksByReviewAPI'])
+    ->name('index-books-by-review');

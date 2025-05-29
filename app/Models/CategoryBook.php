@@ -12,6 +12,8 @@ class CategoryBook extends Model
         'category_id',
     ];
 
+    public $timestamps = true;
+
     public function book()
     {
         return $this->belongsTo(Books::class);

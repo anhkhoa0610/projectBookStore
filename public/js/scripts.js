@@ -28,7 +28,7 @@ async function suggestSearch(keyword) {
                             </div>
                             <div class="col-10">
                                 <h5 class="mb-1">${element.title}</h5>
-                                <p class="mb-1">${element.author.author_name}</p>
+                                <p class="mb-1">${element.author ? element.author.author_name : 'Unknown'}</p>
                                 <small>Price: ${element.price}</small>
                             </a>`;
             suggest.append(li);
@@ -71,7 +71,7 @@ async function getCategoryByID(category_id) {
                             <img src="uploads/${book.cover_image}"
                                 alt="" width="150" height="200" />
                             <h3>${book.title}</h3>
-                            <p class="author">${book.author.author_name}</p>
+                            <p class="author">${book.author ? book.author.author_name : 'Unknown'}</p>
                             <div class="categories my-2">
                                 ${categoryBadges}
                             </div>
@@ -154,7 +154,7 @@ async function getAllBooks(page = 1) {
             <img src="uploads/${book.cover_image}"
                 alt="" width="150" height="200" />
             <h3>${book.title}</h3>
-            <p class="author">${book.author.author_name}</p>
+            <p class="author">${book.author ? book.author.author_name : 'Unknown'}</p>
             <div class="categories my-2">
                 ${categoryBadges}
             </div>
@@ -201,7 +201,7 @@ async function getBooksByDate(page = 1) {
             <img src="uploads/${book.cover_image}"
                 alt="" width="150" height="200" />
             <h3>${book.title}</h3>
-            <p class="author">${book.author.author_name}</p>
+            <p class="author">${book.author ? book.author.author_name : 'Unknown'}</p>
             <div class="categories my-2">
                 ${categoryBadges}
             </div>
@@ -248,7 +248,7 @@ async function getBooksBySold(page = 1) {
             <img src="uploads/${book.cover_image}"
                 alt="" width="150" height="200" />
             <h3>${book.title}</h3>
-            <p class="author">${book.author.author_name}</p>
+            <p class="author">${book.author ? book.author.author_name : 'Unknown'}</p>
             <div class="categories my-2">
                 ${categoryBadges}
             </div>
@@ -395,12 +395,12 @@ function showVoucherLoading(count = 9) {
     container.innerHTML = html;
 }
 
-async function addCart(book_id, user_id) { // Assuming you have the user ID available
+async function addCart(book_id, user_id) { 
     const data = {
         user_id: user_id,
         book_id: book_id
     };
-    const url = addCartApiUrl; // Adjust the URL as needed
+    const url = addCartApiUrl; 
     const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -433,18 +433,88 @@ function attachAddCartListeners() {
             addCart(bookId, userId).finally(() => {
                 setTimeout(() => {
                     btn.disabled = false;
-                }, 1000);
+                }, 500);
             });
         };
     });
 }
 
 function showCartToast(message, isSuccess = true) {
-    const toastEl = document.getElementById('cart-toast');
-    const toastBody = document.getElementById('cart-toast-body');
-    toastBody.textContent = message;
-    toastEl.classList.remove('text-bg-success', 'text-bg-danger');
-    toastEl.classList.add(isSuccess ? 'text-bg-success' : 'text-bg-danger');
+    const container = document.getElementById('cart-toast-container');
+    // Create a new toast element
+    const toastEl = document.createElement('div');
+    toastEl.className = `toast align-items-center border-0 mb-2 ${isSuccess ? 'text-bg-success' : 'text-bg-danger'}`;
+    toastEl.setAttribute('role', 'alert');
+    toastEl.setAttribute('aria-live', 'assertive');
+    toastEl.setAttribute('aria-atomic', 'true');
+    toastEl.setAttribute('data-bs-delay', '4000'); // 5 seconds
+
+    toastEl.innerHTML = `
+        <div class="d-flex">
+            <div class="toast-body">${message}</div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    `;
+
+    container.prepend(toastEl);
+
     const toast = new bootstrap.Toast(toastEl);
     toast.show();
+
+    toastEl.addEventListener('hidden.bs.toast', () => {
+        toastEl.remove();
+    });
+}
+
+async function getBooksByRating(page = 1) {
+    const bookList = document.getElementById('book-list');
+    const url = `/api/index/books-by-review?page=${page}`;
+    const res = await fetch(url);
+    const result = await res.json();
+
+    bookList.innerHTML = '';
+    let string = '';
+    for (let i = 0; i < result.data.length; i++) {
+        const book = result.data[i];
+
+        let categoryBadges = '';
+        if (book.categories && book.categories.length > 0) {
+            for (let j = 0; j < book.categories.length; j++) {
+                categoryBadges += `<span class="badge bg-secondary me-1">${book.categories[j].category_name}</span>`;
+            }
+        }
+
+        let ratingStars = '';
+
+        for (let j = 0; j < Math.floor(book.reviews_avg_rating); j++) {
+            ratingStars += `<i class="fas fa-star text-warning"></i>`;
+        }
+
+        if (ratingStars == '') {
+            ratingStars = '<span class="text-muted">No Reviews</span>';
+        }
+
+        string += `<div class="card" style="animation-delay:${0.2 * i}s">
+        <a href="/itemDetail/${book.book_id}" style="text-decoration: none">
+            <img src="uploads/${book.cover_image}"
+                alt="" width="150" height="200" />
+            <h3>${book.title}</h3>
+            <p class="author">${book.author ? book.author.author_name : 'Unknown'}</p>
+            <div class="categories my-2">
+                ${categoryBadges}
+            </div>
+            <div class="rating-row">
+                <span>Rating : ${ratingStars}</span>
+            </div>
+            <div class="summary">
+                <p>${book.summary}</p>
+            </div>
+            </a>
+            <button class="add-to-cart" data-book-id="${book.book_id}">Add to Cart</button>
+        </div>`
+            ;
+    }
+    bookList.innerHTML = string;
+    attachAddCartListeners();
+    renderPagination('getBooksByRating', result);
 }
