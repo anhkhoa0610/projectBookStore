@@ -125,8 +125,8 @@
                 height="400" />
 
             <div class="btn-group">
-                <button type="button" class="btn-cart" data-book-id="{{ $book->book_id }}"  >
-                   <a href="{{route('cart.add',$book->book_id)}}" style="text-decoration: none;"> <i class="fas fa-shopping-cart"></i> Thêm vào giỏ hàng</a>
+                <button type="button" class="btn-cart add-to-cart" data-book-id="{{ $book->book_id }}"  >
+                   <i class="fas fa-shopping-cart" style="color: aliceblue;" ></i> Thêm vào giỏ hàng
                 </button>
 
             </div>
@@ -718,7 +718,8 @@
                         </div>
 
                     </a>
-                    <button class="add-to-cart">Add to Cart</button>
+                      <button class="add-to-cart" data-book-id="{{ $book->book_id }}">Add to
+                        Cart</button>
                 </div>
             @endforeach
         </div>
@@ -767,30 +768,16 @@
                         </div>
 
                     </a>
-                    <button class="add-to-cart">Add to Cart</button>
+                     <button class="add-to-cart" data-book-id="{{ $book->book_id }}">Add to
+                        Cart</button>
                 </div>
             @endforeach
         </div>
     </section>
 
-         <!-- Toast Container -->
-    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 9999">
-        <div id="cart-toast" class="toast align-items-center text-bg-success border-0" role="alert"
-            aria-live="assertive" aria-atomic="true">
-            <div class="d-flex">
-                <div class="toast-body" id="cart-toast-body">
-                    Book added to cart successfully!
-                </div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
-                    aria-label="Close"></button>
-            </div>
-        </div>
-    </div>
+    
 
-    <script>
-        const userId = {{ Auth::check() ? Auth::id() : 'null' }};
-        const addCartApiUrl = "{{ route('index-add-cart-api') }}";
-    </script>
+   
     
     
         <footer class="footer">
@@ -847,8 +834,26 @@
                     </div>
                 </div>
         </footer>
+
+             <!-- Toast Container -->
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 9999">
+        <div id="cart-toast" class="toast align-items-center text-bg-success border-0" role="alert"
+            aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body" id="cart-toast-body">
+                    Book added to cart successfully!
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                    aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+
+        <script>
+        const userId = {{ Auth::check() ? Auth::id() : 'null' }};
+        const addCartApiUrl = "{{ route('index-add-cart-api') }}";
+        </script>
     
-        <script src="{{ asset('js/scripts.js') }}"></script>
         <script>
         
             document.addEventListener("DOMContentLoaded", function () {
@@ -860,9 +865,64 @@
                     index = (index + 1) % totalSlides;
                     slidesContainer.style.transform = `translateX(-${index * 100}vw)`;
                 }
+                attachAddCartListeners()
         
                 setInterval(autoSlide, 3000);
             });
+
+            async function addCart(book_id, user_id) { // Assuming you have the user ID available
+                const data = {
+                    user_id: user_id,
+                    book_id: book_id
+                };
+                const url = addCartApiUrl; // Adjust the URL as needed
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json;charset=utf-8',
+                        'Accept': 'Application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                const result = await response.json();
+                console.log(result);
+                if (response.ok) {
+                    showCartToast('Book added to cart successfully!', true);
+                    document.querySelector('#cart-count').textContent = result.cart_count || 0; // Update cart count if available
+                } else {
+                    showCartToast('Book already in your cart!', false);
+                }
+            }
+
+            function attachAddCartListeners() {
+                document.querySelectorAll('.add-to-cart').forEach(btn => {
+                    btn.onclick = function () {
+                        if (!userId || userId === 'null') {
+                            showCartToast('Please log in to add items to your cart.', false);
+                            return;
+                        }
+                        if (btn.disabled) return;
+
+                        btn.disabled = true;
+                        const bookId = this.getAttribute('data-book-id');
+                        addCart(bookId, userId).finally(() => {
+                            setTimeout(() => {
+                                btn.disabled = false;
+                            }, 1000);
+                        });
+                    };
+                });
+            }
+
+            function showCartToast(message, isSuccess = true) {
+                const toastEl = document.getElementById('cart-toast');
+                const toastBody = document.getElementById('cart-toast-body');
+                toastBody.textContent = message;
+                toastEl.classList.remove('text-bg-success', 'text-bg-danger');
+                toastEl.classList.add(isSuccess ? 'text-bg-success' : 'text-bg-danger');
+                const toast = new bootstrap.Toast(toastEl);
+                toast.show();
+            }
         
         
         </script>
