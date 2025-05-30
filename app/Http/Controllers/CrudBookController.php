@@ -160,6 +160,10 @@ class CrudBookController extends Controller
     {
         $input = $request->all();
         $book = Books::find($input['book_id']);
+
+        if (!$book) {
+            return redirect()->route('book.list')->with('error', 'Book not found.');
+        }
         $request->validate([
             'title' => [
                 'required',
