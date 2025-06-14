@@ -4,7 +4,11 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <div class="container">
 
-
+        @session('status')
+            <div class="alert alert-success">
+                {{ session('status') }}
+            </div>
+        @endsession
         <div class="card">
             <div class="card-header">
                 <h4>Coupon List
@@ -74,9 +78,8 @@
                                 <td>{{ $coupon->valid_to }}</td>
                                 <td class="action-cell">
                                     <a href="{{ route('coupon.edit', $coupon->id) }}" class="btn btn-success btn-sm">Edit</a>
-                                    <form id="delete-form-{{ $coupon->id }}"
-                                        action="{{ route('coupon.delete', $coupon->id) }}" method="POST"
-                                        style="display: inline-block;">
+                                    <form id="delete-form-{{ $coupon->id }}" action="{{ route('coupon.delete', $coupon->id) }}"
+                                        method="POST" style="display: inline-block;">
                                         @csrf
                                         @method('DELETE')
                                         <button type="button" class="btn btn-danger btn-sm"

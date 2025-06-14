@@ -4,7 +4,11 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <div class="container">
 
-
+        @session('status')
+            <div class="alert alert-success">
+                {{ session('status') }}
+            </div>
+        @endsession
         <div class="card">
             <div class="card-header">
                 <h4>Author List
