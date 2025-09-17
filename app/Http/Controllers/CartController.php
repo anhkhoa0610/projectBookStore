@@ -57,7 +57,7 @@ class CartController extends Controller
         if (!$user) {
             return response()->json(['success' => false, 'message' => 'Bạn cần đăng nhập.'], 401);
         }
-        $cartItems = \App\Models\Cart::with('book')->where('user_id', $user->id)->get();
+        $cartItems = Cart::with('book')->where('user_id', $user->id)->get();
         return response()->json([
             'success' => true,
             'cart' => $cartItems
